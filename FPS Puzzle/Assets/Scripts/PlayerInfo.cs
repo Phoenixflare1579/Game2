@@ -20,7 +20,13 @@ public class PlayerInfo : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
-        // Handle messages sent to this object over the network (if needed)
+        if (flag == "HP")
+        {
+            if (!IsLocalPlayer)
+            {
+                HP = int.Parse(value);
+            }
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -28,8 +34,6 @@ public class PlayerInfo : NetworkComponent
         while (true)
         {
             yield return new WaitForSeconds(0.1f);
-
-            // Additional logic that needs to run in slower intervals on the server
         }
     }
 
@@ -50,7 +54,7 @@ public class PlayerInfo : NetworkComponent
         if (collision.gameObject.tag == "Projectile")
         {
             HP -= 1;
-            
+            SendUpdate("HP", HP.ToString());
         }
     }
 }

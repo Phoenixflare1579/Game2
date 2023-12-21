@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 using NETWORK_ENGINE;
 
 public class PlayerMove : NetworkComponent
@@ -14,6 +13,7 @@ public class PlayerMove : NetworkComponent
     public Vector2 lastDirection;
     public bool canJump = true;
     public bool lastJump = false;
+
     void Start()
     {
         MyInput = GetComponent<PlayerInput>();
@@ -29,30 +29,22 @@ public class PlayerMove : NetworkComponent
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector3(lastDirection.x, 0, lastDirection.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
-        if (lastJump)
+        if (IsLocalPlayer)
         {
-            rb.velocity += new Vector3(0, 3, 0);
-            lastJump = false;
-            canJump = false;
-        }
-        if (rb.velocity.magnitude >= 3f && rb.velocity.magnitude < 6f) 
-        {
-            Time.timeScale = 1f;
-        }
-        else if (rb.velocity.magnitude >= 6f)
-        {
-            Time.timeScale = 1.4f;
-        }
-        else
-        {
-            Time.timeScale = 0.1f;
-        }
+            rb.velocity = new Vector3(lastDirection.x, 0, lastDirection.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
 
+            if (lastJump)
+            {
+                rb.velocity += new Vector3(0, 3, 0);
+                lastJump = false;
+                canJump = false;
+            }
+            SendUpdate("Move", $"{lastDirection.x},{lastDirection.y},{lastJump},{canJump}");
+        }
     }
+
     public void Move(InputAction.CallbackContext c)
     {
         if (c.performed)
@@ -64,34 +56,33 @@ public class PlayerMove : NetworkComponent
             lastDirection = Vector2.zero;
         }
     }
-    public void Jump(InputAction.CallbackContext c)
+
+    public override void HandleMessage(string flag, string value)
     {
-        if (c.performed && canJump == true)
+        if (flag == "Move" && !IsLocalPlayer)
         {
-            lastJump = true;
+            string[] data = value.Split(',');
+            if (data.Length == 4)
+            {
+                lastDirection = new Vector2(float.Parse(data[0]), float.Parse(data[1]));
+                lastJump = bool.Parse(data[2]);
+                canJump = bool.Parse(data[3]);
+            }
         }
     }
-    public void Sprint(InputAction.CallbackContext c)
-    {
-        if (c.performed == true)
-        {
-            speed *= 2;
-        }
-        else if (c.canceled == true)
-        {
-            speed /= 2;
-        }
-    }
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-        {
-            canJump = true;
-        }
-    }
-    public override void HandleMessage(string flag, string value) { }
+
     public override void NetworkedStart()
-    { }
+    {
+    }
+
     public override IEnumerator SlowUpdate()
-    { yield return new WaitForSeconds(.1f); }
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        if (IsLocalPlayer)
+        {
+            SendUpdate("Move", $"{lastDirection.x},{lastDirection.y},{lastJump},{canJump}");
+        }
+    }
 }
+
