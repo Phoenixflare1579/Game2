@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using NETWORK_ENGINE;
 
-public class PlayerInfo : MonoBehaviour
+public class PlayerInfo : NetworkComponent
 {
     int MaxHP;
     int HP;
@@ -30,4 +31,9 @@ public class PlayerInfo : MonoBehaviour
             HP -= 1;
         }
     }
+    public override void HandleMessage(string flag, string value) { }
+    public override void NetworkedStart()
+    { }
+    public override IEnumerator SlowUpdate()
+    { yield return new WaitForSeconds(.1f); }
 }

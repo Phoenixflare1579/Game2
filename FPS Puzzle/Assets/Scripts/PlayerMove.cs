@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
+using NETWORK_ENGINE;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : NetworkComponent
 {
     public PlayerInput MyInput;
     public InputActionAsset MyMap;
@@ -88,4 +89,9 @@ public class PlayerMove : MonoBehaviour
             canJump = true;
         }
     }
+    public override void HandleMessage(string flag, string value) { }
+    public override void NetworkedStart()
+    { }
+    public override IEnumerator SlowUpdate()
+    { yield return new WaitForSeconds(.1f); }
 }
