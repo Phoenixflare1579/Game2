@@ -8,17 +8,36 @@ public class PlayerInfo : NetworkComponent
 {
     int MaxHP;
     int HP;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void NetworkedStart()
     {
-        MaxHP = 3;
-        HP = MaxHP;
+        if (IsServer)
+        {
+            MaxHP = 3;
+            HP = MaxHP;
+        }
     }
 
-    // Update is called once per frame
+    public override void HandleMessage(string flag, string value)
+    {
+        // Handle messages sent to this object over the network (if needed)
+    }
+
+    public override IEnumerator SlowUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            // Additional logic that needs to run in slower intervals on the server
+        }
+    }
+
     void Update()
     {
-        if (HP == 0)
+        if (!IsLocalPlayer) return;
+
+        if (HP <= 0)
         {
             SceneManager.LoadScene("Game Over");
         }
@@ -26,14 +45,12 @@ public class PlayerInfo : NetworkComponent
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Projectile") 
+        if (!IsServer) return;
+
+        if (collision.gameObject.tag == "Projectile")
         {
             HP -= 1;
+            
         }
     }
-    public override void HandleMessage(string flag, string value) { }
-    public override void NetworkedStart()
-    { }
-    public override IEnumerator SlowUpdate()
-    { yield return new WaitForSeconds(.1f); }
 }
