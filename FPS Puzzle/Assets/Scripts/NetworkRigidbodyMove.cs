@@ -17,6 +17,7 @@ public class NetworkRigidbodyMove : NetworkComponent
     public bool useAdapt = false;
     public Vector3 adaptVelocity;
     public float speed = 8f;
+    public bool sprint = false;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -25,6 +26,10 @@ public class NetworkRigidbodyMove : NetworkComponent
             {
                 string[] tmp = value.Split(',');
                 LastInput = new Vector2(int.Parse(tmp[0]), int.Parse(tmp[1]));
+            }
+            if (flag == "Sprint")
+            {
+                sprint = bool.Parse(value);
             }
         }
         if (flag == "Pos")
@@ -92,6 +97,20 @@ public class NetworkRigidbodyMove : NetworkComponent
             SendCommand("Move", "0,0");
         }
     }
+    public void Sprint(InputAction.CallbackContext c)
+    {
+        if (c.started || c.performed)
+        {
+            if (IsLocalPlayer)
+            {
+                SendCommand("Sprint", true.ToString());
+            }
+        }
+        else if (c.canceled)
+        {
+            SendCommand("Sprint", false.ToString());
+        }
+    }
     public override void NetworkedStart()
     {
 
@@ -147,6 +166,14 @@ public class NetworkRigidbodyMove : NetworkComponent
     {
         if (IsServer)
         {
+            if (sprint)
+            {
+                speed = 14f;
+            }
+            else 
+            {
+                speed = 8f;
+            }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed;
             rb.velocity = tv;
         }
