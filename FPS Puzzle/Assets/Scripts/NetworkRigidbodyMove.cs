@@ -8,7 +8,7 @@ public class NetworkRigidbodyMove : NetworkComponent
 {
     Vector2 LastInput;
     public float threshhold = 0.1f;
-    public float ethreshhold = 2f;
+    public float ethreshhold = 3f;
     public Vector3 LastPosition;
     public Vector3 LastRotation;
     public Vector3 LastVelocity;
@@ -16,7 +16,7 @@ public class NetworkRigidbodyMove : NetworkComponent
     Rigidbody rb;
     public bool useAdapt = false;
     public Vector3 adaptVelocity;
-    public float speed = 8f;
+    public float speed = 6f;
     public bool sprint = false;
     public override void HandleMessage(string flag, string value)
     {
@@ -122,26 +122,17 @@ public class NetworkRigidbodyMove : NetworkComponent
         {
             if (IsServer)
             {
-                if ((rb.position - LastPosition).magnitude > threshhold)
-                {
                     SendUpdate("Pos", rb.position.ToString());
                     LastPosition = rb.position;
-                }
-                if ((rb.velocity - LastVelocity).magnitude > threshhold)
-                {
+               
                     SendUpdate("Vel", rb.velocity.ToString());
                     LastVelocity = rb.velocity;
-                }
-                if ((rb.rotation.eulerAngles - LastRotation).magnitude > threshhold)
-                {
+               
                     SendUpdate("Rot", rb.rotation.ToString());
                     LastRotation = rb.rotation.eulerAngles;
-                }
-                if ((rb.angularVelocity - LastAngVelocity).magnitude > threshhold)
-                {
+               
                     SendUpdate("AVel", rb.angularVelocity.ToString());
                     LastAngVelocity = rb.angularVelocity;
-                }
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
@@ -151,7 +142,7 @@ public class NetworkRigidbodyMove : NetworkComponent
                     IsDirty = false;
                 }
             }
-            yield return new WaitForSeconds(MyId.UpdateFrequency);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -168,11 +159,11 @@ public class NetworkRigidbodyMove : NetworkComponent
         {
             if (sprint)
             {
-                speed = 14f;
+                speed = 8f;
             }
             else 
             {
-                speed = 8f;
+                speed = 6f;
             }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed;
             rb.velocity = tv;
@@ -185,7 +176,7 @@ public class NetworkRigidbodyMove : NetworkComponent
         if (IsLocalPlayer)
         {
             Vector3 offset = new Vector3(0, 5, -5);
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 16 * Time.deltaTime);
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
             Camera.main.transform.LookAt(this.transform.position);
         }
     }
