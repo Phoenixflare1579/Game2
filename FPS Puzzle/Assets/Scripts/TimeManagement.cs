@@ -4,14 +4,15 @@ using UnityEngine;
 using NETWORK_ENGINE;
 public class TimeManagement : NetworkComponent
 {
-    GameObject[] players;
+    public GameObject[] players;
+    public float temp;
     public override void HandleMessage(string flag, string value)
     {
         if (flag == "Time")
         {
             if(IsClient)
             {
-                Time.timeScale = float.Parse(value) / 10;
+                Time.timeScale = float.Parse(value);
             }
         }
     }
@@ -30,7 +31,7 @@ public class TimeManagement : NetworkComponent
                 players = GameObject.FindGameObjectsWithTag("Player");
                 if (players.Length > 0) 
                 {
-                    float temp = players[0].GetComponent<Rigidbody>().velocity.magnitude;
+                    temp = players[0].GetComponent<Rigidbody>().velocity.magnitude;
                     for(int i = 0; i < players.Length; i++) 
                     {
                         if (players[i].GetComponent<Rigidbody>().velocity.magnitude > temp) 
@@ -47,10 +48,14 @@ public class TimeManagement : NetworkComponent
                         temp = 1;
                         Time.timeScale = temp / 10;
                     }
-                    SendUpdate("Time", temp.ToString());
+                    SendUpdate("Time", Time.timeScale.ToString());
+                }
+                if (IsDirty)
+                {
+                    SendUpdate("Time", Time.timeScale.ToString());
                 }
             }
-            yield return new WaitForSeconds(MyId.UpdateFrequency);
+            yield return new WaitForSecondsRealtime(MyId.UpdateFrequency);
         }
     }
 

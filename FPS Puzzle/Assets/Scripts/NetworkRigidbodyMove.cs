@@ -142,7 +142,7 @@ public class NetworkRigidbodyMove : NetworkComponent
                     IsDirty = false;
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
     }
 

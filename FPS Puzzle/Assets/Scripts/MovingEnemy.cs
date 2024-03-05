@@ -31,7 +31,7 @@ public class MovingEnemy : NetworkComponent
 
     public override IEnumerator SlowUpdate()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.1f);
     }
 
     void Start()
