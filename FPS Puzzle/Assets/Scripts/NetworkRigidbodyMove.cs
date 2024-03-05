@@ -16,7 +16,7 @@ public class NetworkRigidbodyMove : NetworkComponent
     Rigidbody rb;
     public bool useAdapt = false;
     public Vector3 adaptVelocity;
-    public float speed = 6f;
+    public float speed = 10f;
     public bool sprint = false;
     public override void HandleMessage(string flag, string value)
     {
@@ -159,11 +159,11 @@ public class NetworkRigidbodyMove : NetworkComponent
         {
             if (sprint)
             {
-                speed = 8f;
+                speed = 12f;
             }
             else 
             {
-                speed = 6f;
+                speed = 10f;
             }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed;
             rb.velocity = tv;
