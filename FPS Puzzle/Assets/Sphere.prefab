@@ -153,6 +153,7 @@ MonoBehaviour:
   adaptVelocity: {x: 0, y: 0, z: 0}
   speed: 8
   sprint: 0
+  jump: 1
 --- !u!114 &8525971631788679970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +204,19 @@ MonoBehaviour:
     m_ActionId: cd0b1c42-d6ab-41f2-9454-92fe042e78e7
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7750836064717919335}
+        m_TargetAssemblyTypeName: NetworkRigidbodyMove, Assembly-CSharp
+        m_MethodName: Jump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 06a11235-6d5e-4b4b-a039-a7bae2fe19e7
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
