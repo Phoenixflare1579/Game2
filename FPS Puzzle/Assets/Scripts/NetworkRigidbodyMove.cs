@@ -18,6 +18,7 @@ public class NetworkRigidbodyMove : NetworkComponent
     public Vector3 adaptVelocity;
     public float speed = 10f;
     public bool sprint = false;
+    public bool jump = true;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -30,6 +31,23 @@ public class NetworkRigidbodyMove : NetworkComponent
             if (flag == "Sprint")
             {
                 sprint = bool.Parse(value);
+            }
+            if (flag == "Jump")
+            {
+                jump = bool.Parse(value);
+                rb.velocity += new Vector3(0, 5, 0);
+            }
+        }
+        if (flag == "Jump")
+        {
+            if (IsServer)
+            {
+                jump = bool.Parse(value);
+                rb.velocity += new Vector3(0, 5, 0);
+            }
+            if (IsLocalPlayer)
+            {
+                jump = bool.Parse(value);
             }
         }
         if (flag == "Pos")
@@ -111,6 +129,17 @@ public class NetworkRigidbodyMove : NetworkComponent
             SendCommand("Sprint", false.ToString());
         }
     }
+    public void Jump(InputAction.CallbackContext c)
+    {
+        if (c.started && jump == true)
+        {
+            if (IsLocalPlayer) 
+            {
+                jump = false;
+                SendCommand("Jump", jump.ToString());
+            }
+        }
+    }
     public override void NetworkedStart()
     {
 
@@ -165,7 +194,7 @@ public class NetworkRigidbodyMove : NetworkComponent
             {
                 speed = 10f;
             }
-            Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed;
+            Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y ,0);
             rb.velocity = tv;
         }
         if (IsClient)
@@ -178,6 +207,17 @@ public class NetworkRigidbodyMove : NetworkComponent
             Vector3 offset = new Vector3(0, 5, -5);
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
             Camera.main.transform.LookAt(this.transform.position);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(IsServer)
+        {
+            if(!jump && collision.gameObject.tag == "Floor")
+            {
+                jump = true;
+                SendUpdate("Jump",jump.ToString());
+            }
         }
     }
 }
