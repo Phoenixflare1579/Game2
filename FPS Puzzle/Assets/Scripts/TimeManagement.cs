@@ -39,9 +39,13 @@ public class TimeManagement : NetworkComponent
                             temp = players[i].GetComponent<Rigidbody>().velocity.magnitude;
                         }
                     }
-                    if (temp >= 0)
+                    if (temp > 0)
                     {
                         Time.timeScale = temp / 10;
+                    }
+                    else if (temp < 0)
+                    {
+                        Time.timeScale = -temp / 10;
                     }
                     else
                     {
@@ -57,17 +61,5 @@ public class TimeManagement : NetworkComponent
             }
             yield return new WaitForSecondsRealtime(MyId.UpdateFrequency);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
