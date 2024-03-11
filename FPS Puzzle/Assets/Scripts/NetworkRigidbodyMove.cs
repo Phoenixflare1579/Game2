@@ -32,11 +32,6 @@ public class NetworkRigidbodyMove : NetworkComponent
             {
                 sprint = bool.Parse(value);
             }
-            if (flag == "Jump")
-            {
-                jump = bool.Parse(value);
-                rb.velocity += new Vector3(0, 5, 0);
-            }
         }
         if (flag == "Jump")
         {
@@ -213,7 +208,7 @@ public class NetworkRigidbodyMove : NetworkComponent
     {
         if (IsServer)
         {
-            if (!jump && collision.gameObject.tag == "Floor")
+            if (collision.gameObject.tag == "Floor")
             {
                 jump = true;
                 SendUpdate("Jump", jump.ToString());
