@@ -24,7 +24,7 @@ public class MovingEnemy : NetworkComponent
 
         if (IsServer)
         {
-            rb.velocity = new Vector3(1, 0, 0) * direction;
+            rb.velocity = new Vector3(4, 0, 0) * direction;
             StartCoroutine(ChangeDirectionCoroutine());
         }
     }
@@ -48,7 +48,7 @@ public class MovingEnemy : NetworkComponent
             if (IsServer)
             {
                 direction *= -1;
-                rb.velocity = new Vector3(1, 0, 0) * direction;
+                rb.velocity = new Vector3(4, 0, 0) * direction;
                 SendUpdate("Pos", rb.position.ToString());
                 LastPosition = rb.position;
 
