@@ -19,6 +19,10 @@ public class NetworkRigidbodyMove : NetworkComponent
     public float speed = 10f;
     public bool sprint = false;
     public bool jump = true;
+    public GameObject equipped;
+    public bool isWeapon = false;
+    bool fire = false;
+    bool crouch = false;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -31,6 +35,10 @@ public class NetworkRigidbodyMove : NetworkComponent
             if (flag == "Sprint")
             {
                 sprint = bool.Parse(value);
+            }
+            if (flag == "Crouch")
+            {
+                crouch = bool.Parse(value);
             }
         }
         if (flag == "Jump")
@@ -124,6 +132,7 @@ public class NetworkRigidbodyMove : NetworkComponent
             SendCommand("Sprint", false.ToString());
         }
     }
+
     public void Jump(InputAction.CallbackContext c)
     {
         if (c.started && jump == true)
@@ -135,6 +144,24 @@ public class NetworkRigidbodyMove : NetworkComponent
             }
         }
     }
+
+    public void Crouch(InputAction.CallbackContext c)
+    {
+        if (c.started || c.performed)
+        {
+            if (IsLocalPlayer)
+            {
+                crouch = true;
+                SendCommand("Crouch", crouch.ToString());
+            }
+        }
+        else if (c.canceled)
+        {
+            crouch = false;
+            SendCommand("Crouch", crouch.ToString());
+        }
+    }
+
     public override void NetworkedStart()
     {
 
@@ -199,9 +226,16 @@ public class NetworkRigidbodyMove : NetworkComponent
         }
         if (IsLocalPlayer)
         {
-            Vector3 offset = new Vector3(0, 5, -5);
+            Vector3 offset;
+            if (!crouch)
+            {
+                offset = new Vector3(0, 1, 0);
+            }
+            else
+            {
+                offset = new Vector3(0, 0, 0);
+            }
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
-            Camera.main.transform.LookAt(this.transform.position);
         }
     }
     private void OnCollisionEnter(Collision collision)
