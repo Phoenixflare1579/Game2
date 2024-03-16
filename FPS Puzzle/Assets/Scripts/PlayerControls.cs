@@ -4,7 +4,7 @@ using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
 
-public class NetworkRigidbodyMove : NetworkComponent
+public class PlayerControls : NetworkComponent
 {
     Vector2 LastInput;
     public float threshhold = 0.1f;
@@ -77,7 +77,7 @@ public class NetworkRigidbodyMove : NetworkComponent
             {
                 if(equipped.name.Contains("gun"))
                 {
-                    MyCore.NetCreateObject(0, MyId.Owner, this.transform.forward, this.transform.rotation);
+                    MyCore.NetCreateObject(0, MyId.Owner, LastPosition + this.transform.forward * 2, this.transform.rotation);
                 }
             }
         }
