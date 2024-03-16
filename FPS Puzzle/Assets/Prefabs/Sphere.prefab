@@ -203,7 +203,19 @@ MonoBehaviour:
     m_ActionId: a0c931de-5aa0-4c42-8c1f-a6966f2c34cd
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4089062025770088481}
+        m_TargetAssemblyTypeName: NetworkRigidbodyMove, Assembly-CSharp
+        m_MethodName: Fire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: cd0b1c42-d6ab-41f2-9454-92fe042e78e7
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:

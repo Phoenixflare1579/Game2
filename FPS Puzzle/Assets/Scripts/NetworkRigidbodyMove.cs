@@ -21,7 +21,6 @@ public class NetworkRigidbodyMove : NetworkComponent
     public bool jump = true;
     public GameObject equipped;
     public bool isWeapon = false;
-    bool fire = false;
     bool crouch = false;
     public override void HandleMessage(string flag, string value)
     {
@@ -70,6 +69,23 @@ public class NetworkRigidbodyMove : NetworkComponent
                 {
                     adaptVelocity = Vector3.zero;
                 }
+            }
+        }
+        if (flag == "Fire")
+        {
+            if(IsServer)
+            {
+                if(equipped.name.Contains("gun"))
+                {
+                    MyCore.NetCreateObject(0, MyId.Owner, this.transform.forward, this.transform.rotation);
+                }
+            }
+        }
+        if (flag == "Weapon")
+        {
+            if(IsLocalPlayer)
+            {
+                isWeapon = bool.Parse(value);
             }
         }
         if (flag == "Vel")
@@ -162,6 +178,17 @@ public class NetworkRigidbodyMove : NetworkComponent
         }
     }
 
+    public void Fire(InputAction.CallbackContext c)
+    {
+        if(c.started && isWeapon)
+        {
+            if (IsLocalPlayer)
+            {
+                SendCommand("Fire", string.Empty);
+            }
+        }
+    }
+
     public override void NetworkedStart()
     {
 
@@ -184,12 +211,25 @@ public class NetworkRigidbodyMove : NetworkComponent
 
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
+
+                equipped = this.transform.GetChild(0).GetChild(0).gameObject;
+                if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
+                {
+                    isWeapon = true;
+                    SendUpdate("Weapon", isWeapon.ToString());
+                }
+                else
+                {
+                    isWeapon = false;
+                    SendUpdate("Weapon", isWeapon.ToString());
+                }
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
                     SendUpdate("Rot", rb.rotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
+
                     IsDirty = false;
                 }
             }
