@@ -9,10 +9,16 @@ public class PlayerInfo : Info
     public bool isReady = false;
     public override void NetworkedStart()
     {
+        
         if (IsServer)
         {
             MaxHP = 3;
             HP = MaxHP;
+            SendUpdate("HP", HP.ToString());
+        }
+        if (IsLocalPlayer)
+        {
+            MaxHP = 3;
         }
     }
 
@@ -30,6 +36,18 @@ public class PlayerInfo : Info
                 isReady = bool.Parse(value);
             }
         }
+        if (flag == "HP")//testing for if HandleMessage works for child classes.
+        {
+            if (IsServer)
+            {
+                HP = int.Parse(value);
+                SendUpdate("HP", HP.ToString());
+            }
+            if (IsLocalPlayer)
+            {
+                HP = int.Parse(value);
+            }
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -42,9 +60,10 @@ public class PlayerInfo : Info
                 {
                     this.gameObject.SetActive(false);
                     HP = MaxHP;
+                    SendUpdate("HP", HP.ToString());
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
     }
 

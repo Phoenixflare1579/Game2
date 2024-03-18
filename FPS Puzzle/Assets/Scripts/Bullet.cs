@@ -83,10 +83,6 @@ public class Bullet : NetworkComponent
     {
         if (IsServer)
         {
-            if (collision.gameObject.GetComponent<Info>() != null)
-            {
-                collision.gameObject.GetComponent<Info>().SendMessage("HP", (collision.gameObject.GetComponent<Info>().HP - 1).ToString());
-            }
             MyCore.NetDestroyObject(MyId.NetId);
         }
     }

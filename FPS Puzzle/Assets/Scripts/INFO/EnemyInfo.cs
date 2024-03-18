@@ -35,7 +35,7 @@ public class EnemyInfo : Info
                     MyCore.NetDestroyObject(this.MyId.NetId);
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
     }
 

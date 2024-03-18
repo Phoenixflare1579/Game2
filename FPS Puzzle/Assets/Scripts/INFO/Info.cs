@@ -30,7 +30,7 @@ public class Info : NetworkComponent //new parent class for players and enemies 
 
     public override IEnumerator SlowUpdate()
     {
-        yield return new WaitForSeconds(0.1f); 
+        yield return new WaitForSecondsRealtime(0.1f); 
     }
 
     // Start is called before the first frame update
