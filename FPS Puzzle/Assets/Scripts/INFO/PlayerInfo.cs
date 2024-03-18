@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using NETWORK_ENGINE;
 
-public class PlayerInfo : NetworkComponent
+public class PlayerInfo : Info
 {
-    int MaxHP;
-    int HP;
-
+    public bool isReady = false;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -20,11 +18,16 @@ public class PlayerInfo : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
-        if (flag == "HP")
+        if (flag == "R")
         {
-            if (!IsLocalPlayer)
+            if (IsServer)
             {
-                HP = int.Parse(value);
+                isReady = bool.Parse(value);
+                SendUpdate("R", isReady.ToString());
+            }
+            if (IsLocalPlayer)
+            {
+                isReady = bool.Parse(value);
             }
         }
     }
@@ -33,6 +36,14 @@ public class PlayerInfo : NetworkComponent
     {
         while (true)
         {
+            if (IsServer) 
+            { 
+                if(HP <= 0)
+                {
+                    this.gameObject.SetActive(false);
+                    HP = MaxHP;
+                }
+            }
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -55,6 +66,13 @@ public class PlayerInfo : NetworkComponent
         {
             HP -= 1;
             SendUpdate("HP", HP.ToString());
+        }
+    }
+    public void ReadyUp()
+    {
+        if(IsLocalPlayer)
+        {
+            SendCommand("R", true.ToString());
         }
     }
 }

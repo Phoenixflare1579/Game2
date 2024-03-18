@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -487,7 +487,7 @@ MonoBehaviour:
   DisconnectScreen: {fileID: 0}
   ObjectCounter: 0
   SpawnPrefab:
-  - {fileID: 7163919080898212165, guid: 203be4040b56eb14eae4c4a823aaae98, type: 3}
+  - {fileID: 4087463842006351612, guid: 203be4040b56eb14eae4c4a823aaae98, type: 3}
   - {fileID: 5761343508754786792, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
   - {fileID: 7541430627782592061, guid: 184070adb9b061e498e533eafa811394, type: 3}
   NetworkPlayerManager: {fileID: 1027907031781207940, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
