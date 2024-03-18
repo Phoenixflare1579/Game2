@@ -56,11 +56,10 @@ public class PlayerInfo : Info
         {
             if (IsServer) 
             { 
-                if(HP <= 0)
+                if (IsDirty)
                 {
-                    this.gameObject.SetActive(false);
-                    HP = MaxHP;
                     SendUpdate("HP", HP.ToString());
+                    SendUpdate("R", isReady.ToString());
                 }
             }
             yield return new WaitForSecondsRealtime(0.1f);
@@ -73,7 +72,9 @@ public class PlayerInfo : Info
 
         if (HP <= 0)
         {
-            SceneManager.LoadScene("Game Over");
+            this.gameObject.SetActive(false);
+            HP = MaxHP;
+            SendUpdate("HP", HP.ToString());
         }
     }
 
