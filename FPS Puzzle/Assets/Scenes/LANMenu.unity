@@ -490,7 +490,7 @@ MonoBehaviour:
   - {fileID: 4087463842006351612, guid: 203be4040b56eb14eae4c4a823aaae98, type: 3}
   - {fileID: 5761343508754786792, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
   - {fileID: 7541430627782592061, guid: 184070adb9b061e498e533eafa811394, type: 3}
-  NetworkPlayerManager: {fileID: 1027907031781207940, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
+  NetworkPlayerManager: {fileID: 927839952755543899, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &408156394
 Transform:
