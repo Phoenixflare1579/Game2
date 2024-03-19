@@ -20,7 +20,7 @@ public class TimeManagement : NetworkComponent
 
     public override void NetworkedStart()
     {
-        
+        MyCore.MaxConnections = 4;
     }
 
     public override IEnumerator SlowUpdate()

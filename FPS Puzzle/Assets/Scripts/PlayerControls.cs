@@ -252,6 +252,10 @@ public class PlayerControls : NetworkComponent
             {
                 speed = 12f;
             }
+            else if (crouch)
+            {
+                speed = 6f;
+            }
             else
             {
                 speed = 10f;
