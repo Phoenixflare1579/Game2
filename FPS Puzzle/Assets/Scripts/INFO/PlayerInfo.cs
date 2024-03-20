@@ -7,6 +7,7 @@ using NETWORK_ENGINE;
 public class PlayerInfo : Info
 {
     public bool isReady = false;
+    public GameObject Respawn;
     public override void NetworkedStart()
     {
         
@@ -15,6 +16,7 @@ public class PlayerInfo : Info
             MaxHP = 3;
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
+            Respawn = GameObject.FindGameObjectWithTag("Respawn");
         }
         if (IsLocalPlayer)
         {
@@ -68,13 +70,18 @@ public class PlayerInfo : Info
 
     void Update()
     {
-        if (!IsLocalPlayer) return;
-
         if (HP <= 0)
         {
-            this.gameObject.SetActive(false);
-            HP = MaxHP;
-            SendUpdate("HP", HP.ToString());
+            if (IsClient)
+            {
+               //this.gameObject.SetActive(false);
+            }
+            if (IsServer)
+            {
+                HP = MaxHP;
+                SendUpdate("HP", HP.ToString());
+                this.gameObject.transform.position = Respawn.transform.position + new Vector3 (0,2,0);
+            }
         }
     }
 

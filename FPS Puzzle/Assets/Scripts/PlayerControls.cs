@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
-using JetBrains.Rider.Unity.Editor;
 
 public class PlayerControls : NetworkComponent
 {
