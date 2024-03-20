@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
+using JetBrains.Rider.Unity.Editor;
 
 public class PlayerControls : NetworkComponent
 {
@@ -78,6 +79,10 @@ public class PlayerControls : NetworkComponent
                 if(equipped.name.Contains("gun"))
                 {
                     MyCore.NetCreateObject(0, MyId.Owner, LastPosition + this.transform.forward * 2, this.transform.rotation);
+                }
+                else if (equipped.name.Contains("sword"))
+                {
+                    
                 }
             }
         }
@@ -213,6 +218,7 @@ public class PlayerControls : NetworkComponent
                 LastAngVelocity = rb.angularVelocity;
 
                 equipped = this.transform.GetChild(0).GetChild(0).gameObject;
+                equipped.GetComponent<Rigidbody>().isKinematic = true;
                 if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
                 {
                     isWeapon = true;
