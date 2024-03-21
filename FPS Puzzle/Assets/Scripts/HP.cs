@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class HP : MonoBehaviour
 {
-    Slider slider;
-    TextMeshProUGUI text;
-    PlayerInfo player;
+    public Slider slider;
+    public TextMeshProUGUI text;
+    public PlayerInfo player;
     // Start is called before the first frame update
     void Start()
     {
         slider = GetComponent<Slider>();
-        text = GetComponent<TextMeshProUGUI>();
+        text = this.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         player = this.transform.parent.transform.parent.GetComponent<PlayerInfo>();
     }
 

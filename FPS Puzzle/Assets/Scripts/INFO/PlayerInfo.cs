@@ -89,7 +89,7 @@ public class PlayerInfo : Info
     {
         if (!IsServer) return;
 
-        if (collision.gameObject.tag == "Projectile")
+        if (collision.gameObject.tag == "Projectile" || collision.gameObject.tag == "Enemy")
         {
             HP -= 1;
             SendUpdate("HP", HP.ToString());

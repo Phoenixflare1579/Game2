@@ -39,6 +39,17 @@ public class EnemyInfo : Info
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!IsServer) return;
+
+        if (collision.gameObject.tag == "Projectile")
+        {
+            HP -= 1;
+            SendUpdate("HP", HP.ToString());
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
