@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 
+[RequireComponent(typeof(NetworkRigidbody))]
 public class Bullet : NetworkComponent
 {
     Vector2 LastInput;
@@ -10,8 +11,9 @@ public class Bullet : NetworkComponent
     public float ethreshhold = 3f;
     public Vector3 LastPosition;
     public Vector3 LastVelocity;
-    public bool useAdapt = false;
+    public bool useAdapt = true;
     public Vector3 adaptVelocity;
+    public Vector3 LastAngVelocity;
     Rigidbody rb;
     public override void HandleMessage(string flag, string value)
     {
@@ -31,6 +33,20 @@ public class Bullet : NetworkComponent
                 else
                 {
                     adaptVelocity = Vector3.zero;
+                }
+            }
+        }
+        Debug.Log(LastPosition);
+        Debug.Log(rb.position);
+        Debug.Log(adaptVelocity);
+        if (flag == "Vel")
+        {
+            if (IsClient)
+            {
+                LastVelocity = NetworkCore.Vector3FromString(value);
+                if (useAdapt)
+                {
+                    LastAngVelocity = adaptVelocity;
                 }
             }
         }

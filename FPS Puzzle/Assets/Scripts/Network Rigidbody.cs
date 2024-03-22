@@ -16,6 +16,14 @@ public class NetworkRigidbody : NetworkComponent
     public bool useAdapt = false;
     public Vector3 adaptVelocity;
 
+
+    public static Vector3 Vector3FromString(string value)
+    {
+        char[] temp = { '(', ')' };
+        string[] args = value.Trim(temp).Split(',');
+        return new Vector3(float.Parse(args[0].Trim()), float.Parse(args[1].Trim()), float.Parse(args[2].Trim()));
+    }
+
     public override void HandleMessage(string flag, string value)
     {
         if (flag == "Pos")
