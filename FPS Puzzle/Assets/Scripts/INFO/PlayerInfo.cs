@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using NETWORK_ENGINE;
+using System;
 
 public class PlayerInfo : Info
 {
@@ -16,7 +17,6 @@ public class PlayerInfo : Info
             MaxHP = 3;
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
-            Respawn = GameObject.FindGameObjectWithTag("Respawn");
         }
         if (IsLocalPlayer)
         {
@@ -50,6 +50,13 @@ public class PlayerInfo : Info
                 HP = int.Parse(value);
             }
         }
+        if (flag == "Respawned")
+        {
+            if(IsClient)
+            {
+                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -72,15 +79,16 @@ public class PlayerInfo : Info
     {
         if (HP <= 0)
         {
-            if (IsClient)
-            {
-               //this.gameObject.SetActive(false);
-            }
             if (IsServer)
             {
                 HP = MaxHP;
                 SendUpdate("HP", HP.ToString());
                 this.gameObject.transform.position = Respawn.transform.position + new Vector3 (0,2,0);
+                SendUpdate("Respawned", string.Empty);
+            }
+            if (IsClient)
+            {
+                this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             }
         }
     }
@@ -100,6 +108,16 @@ public class PlayerInfo : Info
         if(IsLocalPlayer)
         {
             SendCommand("R", true.ToString());
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (IsServer)
+        {
+            if (other.gameObject.tag == "Respawn")
+            {
+                Respawn = other.gameObject;
+            }
         }
     }
 }
