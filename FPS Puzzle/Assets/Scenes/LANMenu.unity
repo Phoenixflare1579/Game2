@@ -2573,17 +2573,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2327014068485857913, guid: 87d47eef205c5dd4cb64a17e19a6c538, type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8572968103444068776, guid: 87d47eef205c5dd4cb64a17e19a6c538, type: 3}
       propertyPath: m_Name
       value: Teleporter Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 8572968103444068776, guid: 87d47eef205c5dd4cb64a17e19a6c538, type: 3}
-      propertyPath: m_TagString
-      value: Respawn
       objectReference: {fileID: 0}
     - target: {fileID: 9057475236042760978, guid: 87d47eef205c5dd4cb64a17e19a6c538, type: 3}
       propertyPath: m_RootOrder
