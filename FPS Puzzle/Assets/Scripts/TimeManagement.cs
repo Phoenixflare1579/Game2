@@ -33,7 +33,8 @@ public class TimeManagement : NetworkComponent
                 if (players.Length > 0) 
                 {
                     int count = 0;
-                    for(int i = 0; i < players.Length; i++)
+                    Start = true;
+                    /*for(int i = 0; i < players.Length; i++)
                     {
                         if (players[i].GetComponent<PlayerInfo>().isReady && players.Length >= 2)
                         {
@@ -43,7 +44,7 @@ public class TimeManagement : NetworkComponent
                         {
                             Start = true;
                         }
-                    }
+                    }*/
                     if (Start)
                     {
                         temp = players[0].GetComponent<Rigidbody>().velocity.magnitude;
@@ -60,8 +61,7 @@ public class TimeManagement : NetworkComponent
                         }
                         else if (temp < 0)
                         {
-                            temp = 3;
-                            Time.timeScale = temp / 10;
+                            Time.timeScale = -temp / 10;
                         }
                         else
                         {
