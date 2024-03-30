@@ -127,6 +127,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 417839918871332348, guid: ba4a30cd20abf734da1c48ce1465c03a, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 417839918871332348, guid: ba4a30cd20abf734da1c48ce1465c03a, type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[2]
       value: 100
       objectReference: {fileID: 0}
@@ -136,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5209327250738526725, guid: ba4a30cd20abf734da1c48ce1465c03a, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5209327250738526725, guid: ba4a30cd20abf734da1c48ce1465c03a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -214,7 +218,8 @@ PrefabInstance:
       propertyPath: m_Animations.Array.data[1]
       value: 
       objectReference: {fileID: 7400000, guid: bf024460eb583df4d8d0ed0ac056b2f3, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7675987549344463935, guid: ba4a30cd20abf734da1c48ce1465c03a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5209327250738526725, guid: ba4a30cd20abf734da1c48ce1465c03a, type: 3}
