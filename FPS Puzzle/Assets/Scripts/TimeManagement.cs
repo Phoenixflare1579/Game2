@@ -57,7 +57,14 @@ public class TimeManagement : NetworkComponent
                         }
                         if (temp > 0)
                         {
-                            Time.timeScale = temp / 10;
+                            if (temp <= 500)
+                            {
+                                Time.timeScale = temp / 10;
+                            }
+                            else
+                            {
+                                Time.timeScale = 500 / 10;
+                            }
                         }
                         else if (temp < 0)
                         {
