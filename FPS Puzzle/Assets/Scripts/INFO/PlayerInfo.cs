@@ -20,13 +20,13 @@ public class PlayerInfo : Info
         
         if (IsServer)
         {
-            MaxHP = 3;
+            MaxHP = 2;
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
         }
         if (IsLocalPlayer)
         {
-            MaxHP = 3;
+            MaxHP = 2;
         }
     }
 

@@ -9,18 +9,7 @@ public class Info : NetworkComponent //new parent class for players and enemies 
     public int MaxHP;
     public override void HandleMessage(string flag, string value)
     {
-        if (flag == "HP")//testing for if HandleMessage works for child classes.
-        {
-            if (IsServer)
-            {
-                HP = int.Parse(value);
-                SendUpdate("HP", HP.ToString());
-            }
-            if (IsLocalPlayer)
-            {
-                HP = int.Parse(value);
-            }
-        }
+
     }
 
     public override void NetworkedStart()
