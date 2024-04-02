@@ -7,6 +7,7 @@ public class TimeManagement : NetworkComponent
     public GameObject[] players;
     public float temp;
     public bool Start = false;
+
     public override void HandleMessage(string flag, string value)
     {
         if (flag == "Time")

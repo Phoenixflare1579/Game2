@@ -4,11 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using NETWORK_ENGINE;
 using System;
+using TMPro;
 
 public class PlayerInfo : Info
 {
     public bool isReady = false;
     public GameObject Respawn;
+    public int DeathCount = 0;
+    public int RTime;
+    public int WTime;
+    bool End = false;
+    GameObject endcard;
     public override void NetworkedStart()
     {
         
@@ -89,6 +95,14 @@ public class PlayerInfo : Info
             if (IsClient)
             {
                 this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                if(Time.timeScale < 1 && !End)
+                {
+                    endcard=MyCore.NetCreateObject(1, -1);
+                    endcard.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Player " + this.NetId;
+                    endcard.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Deaths:  " + DeathCount;
+                    endcard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Rtime: " + Time.realtimeSinceStartup;
+                    endcard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Wtime: " + Time.deltaTime;
+                }
             }
         }
     }
