@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5122479323394817923}
   - component: {fileID: 4506154946764903317}
   - component: {fileID: 3420416431028107463}
-  - component: {fileID: 4087463842006351612}
-  - component: {fileID: 3139558702000440602}
+  - component: {fileID: 2880040600132308171}
+  - component: {fileID: 3190513658985451661}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: 79cc4dcc7cd03914683d002af98d7439, type: 3}
---- !u!114 &4087463842006351612
+--- !u!114 &2880040600132308171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,17 +145,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3084164972674587603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f34ca87a457962d459c49c36b9753ca5, type: 3}
+  m_Script: {fileID: 11500000, guid: 5aafee35fe19c984b9ee863e8eba0d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 0
-  Owner: -10
-  NetId: -10
-  IsInit: 0
-  IsLocalPlayer: 0
-  UpdateFrequency: 0.1
   MyCore: {fileID: 0}
---- !u!114 &3139558702000440602
+  MyId: {fileID: 0}
+  IsDirty: 0
+  threshhold: 0.1
+  ethreshhold: 3
+  LastPosition: {x: 0, y: 0, z: 0}
+  LastRotation: {x: 0, y: 0, z: 0}
+  LastVelocity: {x: 0, y: 0, z: 0}
+  LastAngVelocity: {x: 0, y: 0, z: 0}
+  useAdapt: 0
+  adaptVelocity: {x: 0, y: 0, z: 0}
+--- !u!114 &3190513658985451661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,5 +178,6 @@ MonoBehaviour:
   ethreshhold: 3
   LastPosition: {x: 0, y: 0, z: 0}
   LastVelocity: {x: 0, y: 0, z: 0}
-  useAdapt: 0
+  useAdapt: 1
   adaptVelocity: {x: 0, y: 0, z: 0}
+  LastAngVelocity: {x: 0, y: 0, z: 0}

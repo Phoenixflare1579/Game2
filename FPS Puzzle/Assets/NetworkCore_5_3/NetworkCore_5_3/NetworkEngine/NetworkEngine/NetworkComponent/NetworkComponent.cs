@@ -49,11 +49,7 @@ namespace NETWORK_ENGINE
         public void Awake()
         {
             MyId = gameObject.GetComponent<NetworkID>();
-            MyCore = GameObject.FindObjectOfType<NetworkCore>();
-            if(MyCore == null)
-            {
-                throw new System.Exception("ERROR: There is no network core on the scene.");
-            }
+
             if(MyId == null)
             {
                 throw new System.Exception("ERROR: There is no network ID on this object");
@@ -67,6 +63,11 @@ namespace NETWORK_ENGINE
         IEnumerator SlowStart()
         {
             yield return new WaitUntil(() => MyId.IsInit);
+            MyCore = MyId.MyCore;
+            if (MyCore == null)
+            {
+                throw new System.Exception("ERROR: There is no network core on the scene.");
+            }
             NetworkedStart();
             StartCoroutine(SlowUpdate());
         }

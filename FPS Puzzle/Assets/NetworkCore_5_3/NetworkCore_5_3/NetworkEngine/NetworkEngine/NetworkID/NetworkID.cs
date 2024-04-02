@@ -47,6 +47,8 @@ namespace NETWORK_ENGINE
         public int NetId = -10;
         public bool IsInit;
         public bool IsLocalPlayer;
+
+        public bool UseLobby;
         public bool IsServer
         {
             get { return MyCore.IsServer; }
@@ -71,11 +73,19 @@ namespace NETWORK_ENGINE
         {
             //UDPGameObjectMessages = new ExclusiveString();
             //GameObjectMessages = new ExclusiveString(); 
-            MyCore = GameObject.FindObjectOfType<NetworkCore>();
-            if(MyCore == null)
+            if (!UseLobby)
+            {
+                MyCore = GameObject.FindObjectOfType<NetworkCore>();
+            }
+            else
+            {
+                MyCore = GameObject.FindObjectOfType<LobbyManager2>();
+            }
+            if (MyCore == null)
             {
                 throw new System.Exception("There is no network core in the scene!");
             }
+            
             //IsServer = MyCore.IsServer;
             //IsClient = MyCore.IsClient;
     
@@ -161,6 +171,14 @@ namespace NETWORK_ENGINE
 
         public void Net_Update(string type, string var, string value)
         {
+            /*if(!IsInit)
+            {
+                return;
+            }
+            if (MyCore == null)
+            {
+                return;
+            }*/
             //Get components for network behaviours
             //Destroy self if owner connection is done.
             try
@@ -179,7 +197,14 @@ namespace NETWORK_ENGINE
             {
                 if (MyCore == null)
                 {
-                    MyCore = GameObject.FindObjectOfType<NetworkCore>();
+                    if (!UseLobby)
+                    {
+                        MyCore = GameObject.FindObjectOfType<NetworkCore>();
+                    }
+                    else
+                    {
+                        MyCore = GameObject.FindObjectOfType<LobbyManager2>();
+                    }
                 }
                 if ((MyCore.IsServer && type == "COMMAND")
                     || (MyCore.IsClient && type == "UPDATE"))
@@ -191,9 +216,9 @@ namespace NETWORK_ENGINE
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
-                //Debug.Log("Game Object " + name + " Caught Exception: " + e.ToString() + "\n" + type + "\n" + var +"\n" +value);
+                Debug.Log("Game Object " + name + " Caught Exception: " + e.ToString() + "\n" + type + "\n" + var +"\n" +value);
                 //This can happen if myCore has not been set.  
                 //I am not sure how this is possible, but it should be good for the next round.
             }

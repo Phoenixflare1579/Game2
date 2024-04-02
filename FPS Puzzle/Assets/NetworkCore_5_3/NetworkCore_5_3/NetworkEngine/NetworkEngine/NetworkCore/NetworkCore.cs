@@ -40,7 +40,7 @@ public class NetworkCore     : GenericCore_Web
     /// <summary>
     /// Initializes the Network Core variables.
     /// </summary>
-    new void Start()
+    protected virtual new void Start()
     {
         base.Start();
         UDPMasterMessage = new ExclusiveString();
@@ -72,11 +72,8 @@ public class NetworkCore     : GenericCore_Web
     /// <returns></returns>
     public override IEnumerator OnClientConnect(int id)
     {
-        Debug.Log("???");
         if (IsServer)
-        {
-            Debug.Log("S4");
-           
+        {      
             yield return new WaitForSeconds(.15f);
             foreach (KeyValuePair<int, NetworkID> entry in NetObjs)
             {
@@ -91,14 +88,12 @@ public class NetworkCore     : GenericCore_Web
                 //Connections[ConCounter - 1].Send(Encoding.ASCII.GetBytes(MSG));
                 Send(MSG, id);
             }
-            Debug.Log("S5");
             yield return new WaitForSeconds(.1f);
             NetCreateObject(-1, id);
-            Debug.Log("S6");
         }
         if(IsClient)
         {
-            if(GameObject.FindObjectOfType<LobbyManager>()== null && UseMenuManager)
+            if(GameObject.FindObjectOfType<LobbyManager2>()== null && UseMenuManager)
             {
                 StartCoroutine(MenuManager());
             }
@@ -129,11 +124,8 @@ public class NetworkCore     : GenericCore_Web
             Logger("Number of Connections " + Connections.Count);
         }
         if(!IsConnected && !IsServer)
-        {   
-            if (GameObject.FindObjectOfType<LobbyManager>() == null)
-            {
-                SceneManager.LoadScene(DefaultReturnScene);
-            }
+        {
+            SceneManager.LoadScene(DefaultReturnScene);      
         }
     }
     /// <summary>
@@ -186,6 +178,7 @@ public class NetworkCore     : GenericCore_Web
     /// <param name="commands">The string containing the received message.</param>
     public override void OnHandleMessages(string commands)
     {
+        Debug.Log(commands);
         try
         {
             if (commands.Trim(' ') == "OK" && IsClient)
@@ -265,9 +258,6 @@ public class NetworkCore     : GenericCore_Web
             }
             else if (commands.Contains("COMMAND#") || commands.Contains("UPDATE#"))
             {
-                //We will assume it is Game Object specific message
-                //string msg = "COMMAND#" + myId.netId + "#" + var + "#" + value;
-                //Debug.Log("Raw command from network Core: " + commands);
                 string[] args = commands.Trim().Split('#');
                 int n = int.Parse(args[1]);
                 if (NetObjs.ContainsKey(n))
@@ -424,11 +414,7 @@ public class NetworkCore     : GenericCore_Web
     {
         if(IsServer)
         {
-            if(GameObject.FindObjectOfType<LobbyManager>() != null)
-            {
-                GameObject.FindObjectOfType<LobbyManager>().NotifyGameStarted();
-                OnGameStarted();
-            }
+            OnGameStarted();
             StopListening();
         }
     }
@@ -453,7 +439,7 @@ public class NetworkCore     : GenericCore_Web
         {
             Logger("Number of connections: " + Connections.Count);
         }
-        if(GameObject.FindObjectOfType<LobbyManager>() == null && !IsServer)
+        if(GameObject.FindObjectOfType<LobbyManager2>() == null && !IsServer)
         {
             SceneManager.LoadScene(0);
         }
@@ -481,5 +467,4 @@ public class NetworkCore     : GenericCore_Web
             DisconnectScreen.SetActive(true);
         }
     }
-
 }

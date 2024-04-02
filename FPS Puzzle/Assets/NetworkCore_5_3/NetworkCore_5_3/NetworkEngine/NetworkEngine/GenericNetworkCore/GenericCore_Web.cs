@@ -333,9 +333,7 @@ public class GenCore : WebSocketBehavior
             clientWS.OnMessage += (bytes) =>
             {
                 // Reading a plain text message
-
-                var message = System.Text.Encoding.UTF8.GetString(bytes);
-                Debug.Log("Receiving: " + message);
+                var message = System.Text.Encoding.UTF8.GetString(bytes);   
                 //owner.TCPHandleMessage(this, message);
                 if (message.Length > 0)
                 {
@@ -354,8 +352,7 @@ public class GenCore : WebSocketBehavior
     protected override void OnOpen()
     {
         if (owner.IsListening && (owner.MaxConnections ==0 || owner.Connections.Count < owner.MaxConnections))
-        {
-            Debug.Log("Accepting new client!");
+        {      
             //base.OnOpen();
             this.Send("ID#" + owner.conCounter + "#" + owner.AppNumber + "\n");
             ConnectionID = owner.conCounter;
@@ -384,7 +381,6 @@ public class GenCore : WebSocketBehavior
     {
         try
         {
-            Debug.Log(e.Data);
             if (e.Data.StartsWith("ID#"))
             {
                 if (int.Parse(e.Data.Split('#')[2]) == owner.AppNumber)
@@ -406,8 +402,14 @@ public class GenCore : WebSocketBehavior
     {
         if (owner.IsServer)
         {
-           
-            SendAsync((string)msg.Clone(),(x)=>{ });
+            try
+            {
+                SendAsync((string)msg.Clone(), (x) => { });
+            }
+            catch(InvalidOperationException e)
+            {
+                Debug.Log("Warning: Web Socket already closed: " + e.ToString());
+            }
         }
         else
         {
@@ -467,71 +469,63 @@ public class GenericCore_Web : MonoBehaviour
             OutputConsole.text += s + "\n";
         }
     }
-
-
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        CycleCounter++;
-        if (IsConnected && CycleCounter % this.CycleTrigger == 0)
+        //Get the message from the websocket thread to the unity side.
+        //Uses Consumer/Producer Queue.
+        foreach (KeyValuePair<int, GenCore> pair in Connections)
         {
-            if (this.CycleCounter == int.MaxValue)
+            string temp = "";
+            while (pair.Value.msg.Count > 0)
             {
-                this.CycleCounter = 0;
+                temp += pair.Value.msg.Consume();
             }
-            //Get the message from the websocket thread to the unity side.
-            //Uses Consumer/Producer Queue.
+            TCPHandleMessage(pair.Value, temp);
+        }
+        //Did any connections close?
+        //Server Only
+        List<int> badC = new List<int>();
+        if (IsServer)
+        {
             foreach (KeyValuePair<int, GenCore> pair in Connections)
             {
-                string temp = "";
-                while (pair.Value.msg.Count > 0)
+                if (pair.Value.Closing)
                 {
-                    temp += pair.Value.msg.Consume();
+                    badC.Add(pair.Key);
                 }
-                TCPHandleMessage(pair.Value, temp);
             }
-            //Did any connections close?
-            //Server Only
-            List<int> badC = new List<int>();
+            foreach (int i in badC)
+            {
+                Disconnect(i);
+            }
+        }
+        //Are you the client?  Are you closing?
+        if (IsClient && Connections.ContainsKey(0) && Connections[0].Closing)
+        {
+            Disconnect(0);
+        }
+        //Necessary for non-webgl to manage the websocket.
+        if (IsClient && Connections.ContainsKey(0) && !Connections[0].Closing)
+        {
+#if !UNITY_WEBGL || UNITY_EDITOR
+            Connections[0].clientWS.DispatchMessageQueue();
+#endif
+        }
+        //Every 100 udpates send heartbeat. 
+        if (CycleCounter % 100 == 0)
+        {
             if (IsServer)
             {
-                foreach (KeyValuePair<int, GenCore> pair in Connections)
-                {
-                    if (pair.Value.Closing)
-                    {
-                        badC.Add(pair.Key);
-                    }
-                }
-                foreach (int i in badC)
-                {
-                    Disconnect(i);
-                }
+                wss.WebSocketServices.Broadcast("OK\n");
             }
-            //Are you the client?  Are you closing?
-            if (IsClient && Connections.ContainsKey(0) && Connections[0].Closing)
-            {
-                Disconnect(0);
-            }
-            //Necessary for non-webgl to manage the websocket.
-            if (IsClient && !Connections[0].Closing)
-            {
-#if !UNITY_WEBGL || UNITY_EDITOR
-                Connections[0].clientWS.DispatchMessageQueue();
-#endif
-            }
-            //Every 100 udpates send heartbeat. 
-            if (CycleCounter % 100 == 0)
-            {
-                if (IsServer)
-                {
-                    wss.WebSocketServices.Broadcast("OK\n");
-                }
-            }
-            //Call On Slow Update for Netcore and LobbyManager
-            OnSlowUpdate();
         }
+        //Call On Slow Update for Netcore and LobbyManager
+        OnSlowUpdate();
+    }
 
-
+    // Update is called once per frame
+    protected void Update()
+    {
     }
     private async void OnApplicationQuit()
     {
@@ -602,8 +596,7 @@ public class GenericCore_Web : MonoBehaviour
             }
             int count = 0;
             while(temp!=null&& temp.clientWS != null && temp.clientWS.State != NativeWebSocket.WebSocketState.Open)
-            {
-                Debug.Log("Waiting for Connection.");
+            {     
                 yield return new WaitForSeconds(.1f);
                 count++;
                 if (temp.FailedToConnect || count > 15)
@@ -617,13 +610,12 @@ public class GenericCore_Web : MonoBehaviour
                 IsClient = true;
                 IsConnected = true;
                 IsServer = false;
-                Debug.Log("Adding client-side to Connections.");
                 Connections.Add(0, temp);
                 StartCoroutine(SlowUpdate());
                 yield return new WaitUntil(() => LocalConnectionID != -10);
                 StartCoroutine(OnClientConnect(LocalConnectionID));
             }
-            else if(FindObjectOfType<LobbyManager>()== null)
+            else if(FindObjectOfType<LobbyManager2>()== null)
             {
                 Disconnect(0);
             }
@@ -704,6 +696,9 @@ public class GenericCore_Web : MonoBehaviour
         Debug.Log("Disconnecting " + id);
 
         StartingDisconnect(id);
+        
+        
+
         if(IsClient)
         {
             if (Connections.ContainsKey(0) && !Connections[0].Closing)
@@ -827,7 +822,7 @@ public class GenericCore_Web : MonoBehaviour
         StartServer();
     }
 
-    public void UI_Quit()
+    public virtual void UI_Quit()
     {
         if(IsClient)
         {
@@ -836,6 +831,21 @@ public class GenericCore_Web : MonoBehaviour
         else if(IsServer)
         {
             StartCoroutine(DisconnectServer());
+            if (GameObject.FindObjectsOfType<LobbyManager2>() != null)
+            {
+                LobbyAgentManager [] lbm = FindObjectsOfType<LobbyAgentManager>(default);
+                foreach(LobbyAgentManager l in lbm)
+                {
+                    if(l.IsLocalPlayer)
+                    {
+                        l.SendCommand("GSTARTED", true.ToString());
+                        l.SendCommand("GAMEOVER", "1");
+                        StartCoroutine(l.slowProcessKill());
+                    }
+                }
+                //GameObject.FindAnyObjectByType<LobbyManager2>().Disconnect(0);
+                //Application.Quit();
+            }
         }
     }
 
@@ -959,4 +969,6 @@ public class GenericCore_Web : MonoBehaviour
     {
 
     }
+
+
 }
