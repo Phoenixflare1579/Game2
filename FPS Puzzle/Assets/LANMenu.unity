@@ -1472,7 +1472,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Teleporter Variant
       objectReference: {fileID: 0}
+<<<<<<< HEAD:FPS Puzzle/Assets/LANMenu.unity
     - target: {fileID: 9057475236042760978, guid: 87d47eef205c5dd4cb64a17e19a6c538, type: 3}
+=======
+    - target: {fileID: 985536813606173475, guid: be16d74237a853c408e5230e2606ad31, type: 3}
+>>>>>>> parent of 58d3367 (Update LANMenu.unity):FPS Puzzle/Assets/Scenes/LANMenu.unity
       propertyPath: m_RootOrder
       value: 17
       objectReference: {fileID: 0}
