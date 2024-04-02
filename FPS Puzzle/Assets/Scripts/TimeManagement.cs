@@ -30,21 +30,16 @@ public class TimeManagement : NetworkComponent
             if (IsServer)
             {
                 players = GameObject.FindGameObjectsWithTag("Player");
-                if (players.Length > 0) 
+                if (players.Length > 2) 
                 {
-                    int count = 0;
                     Start = true;
-                    /*for(int i = 0; i < players.Length; i++)
+                    for (int i = 0; i < players.Length; i++)
                     {
-                        if (players[i].GetComponent<PlayerInfo>().isReady && players.Length >= 2)
+                        if (!players[i].GetComponent<PlayerInfo>().isReady)
                         {
-                            count++;
+                            Start=false;
                         }
-                        if (count == players.Length)
-                        {
-                            Start = true;
-                        }
-                    }*/
+                    }
                     if (Start)
                     {
                         temp = players[0].GetComponent<Rigidbody>().velocity.magnitude;
