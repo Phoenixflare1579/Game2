@@ -39,7 +39,7 @@ public class TimeManagement : NetworkComponent
                     {
                         if (!players[i].GetComponent<PlayerInfo>().isReady)
                         {
-                            Start=false;
+                            Start = false;
                         }
                     }
                     if (Start)
@@ -94,6 +94,7 @@ public class TimeManagement : NetworkComponent
                 if (IsDirty)
                 {
                     SendUpdate("Time", Time.timeScale.ToString());
+                    IsDirty = false;
                 }
             }
             yield return new WaitForSecondsRealtime(0.1f);

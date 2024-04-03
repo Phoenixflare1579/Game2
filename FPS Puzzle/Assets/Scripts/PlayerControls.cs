@@ -71,7 +71,7 @@ public class PlayerControls : NetworkComponent
                 }
             }
         }
-        if (flag == "Fire")
+        /*if (flag == "Fire")
         {
             if(IsServer)
             {
@@ -84,14 +84,7 @@ public class PlayerControls : NetworkComponent
                     
                 }
             }
-        }
-        if (flag == "Weapon")
-        {
-            if(IsLocalPlayer)
-            {
-                isWeapon = bool.Parse(value);
-            }
-        }
+        }*/
         if (flag == "Vel")
         {
             if (IsClient)
@@ -215,26 +208,12 @@ public class PlayerControls : NetworkComponent
 
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
-
-                equipped = this.transform.GetChild(0).GetChild(0).gameObject;
-                equipped.GetComponent<Rigidbody>().isKinematic = true;
-                if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
-                {
-                    isWeapon = true;
-                    SendUpdate("Weapon", isWeapon.ToString());
-                }
-                else
-                {
-                    isWeapon = false;
-                    SendUpdate("Weapon", isWeapon.ToString());
-                }
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
                     SendUpdate("Rot", rb.rotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
-
                     IsDirty = false;
                 }
             }

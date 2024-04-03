@@ -18,16 +18,18 @@ public class PlayerInfo : Info
     public string PName = "Test";
     public override void NetworkedStart()
     {
-        
         if (IsServer)
         {
             MaxHP = 2;
             HP = MaxHP;
+            RTime = Time.realtimeSinceStartup;
+            WTime = Time.realtimeSinceStartup;
             SendUpdate("HP", HP.ToString());
         }
-        if (IsLocalPlayer)
+        if (!IsServer)
         {
             MaxHP = 2;
+            HP = MaxHP;
         }
     }
 
@@ -40,19 +42,19 @@ public class PlayerInfo : Info
                 isReady = bool.Parse(value);
                 SendUpdate("R", isReady.ToString());
             }
-            if (IsLocalPlayer)
+            if (!IsServer)
             {
                 isReady = bool.Parse(value);
             }
         }
-        if (flag == "HP")//testing for if HandleMessage works for child classes.
+        if (flag == "HP")
         {
             if (IsServer)
             {
                 HP = int.Parse(value);
                 SendUpdate("HP", HP.ToString());
             }
-            if (IsLocalPlayer)
+            if (!IsServer)
             {
                 HP = int.Parse(value);
             }
@@ -64,24 +66,15 @@ public class PlayerInfo : Info
                 this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
         }
-        if (flag == "Start")
-        {
-            if (IsServer)
-            {
-                RTime = Time.realtimeSinceStartup;
-                WTime = Time.realtimeSinceStartup;
-            }
-        }
         if (flag == "End")
         {
             if (!IsServer)
             {
                 string[] args = value.Split(',');
-                endcard = GameObject.Find(args[0]);
-                endcard.transform.SetParent(GameObject.Find("End Screen").transform.GetChild(0).transform);
-                RTime = float.Parse(args[1]);
-                WTime = float.Parse(args[2]);
-                PName = args[3];
+                endcard.transform.SetParent(this.gameObject.transform.GetChild(1).GetChild(2).transform);
+                RTime = float.Parse(args[0]);
+                WTime = float.Parse(args[1]);
+                PName = args[2];
                 endcard.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = PName;
                 endcard.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Deaths: " + DeathCount;
                 endcard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Rtime: " + (Time.realtimeSinceStartup - RTime);
@@ -92,49 +85,47 @@ public class PlayerInfo : Info
 
     public override IEnumerator SlowUpdate()
     {
-        while (true)
+        while (IsConnected)
         {
-            if (IsServer) 
-            { 
+            if (IsServer)
+            {
+                if (Time.timeScale < 1 && !End)
+                {
+                    endcard = MyCore.NetCreateObject(1, this.Owner);
+                    endcard.transform.SetParent(this.gameObject.transform.GetChild(1).GetChild(2).transform);
+                    SendUpdate("End", RTime + ',' + WTime + ',' + PName);
+                    End = true;
+                }
                 if (IsDirty)
                 {
                     SendUpdate("HP", HP.ToString());
                     SendUpdate("R", isReady.ToString());
+                    IsDirty = false;
+                }
+            }
+            if (HP <= 0)
+            {
+                if (IsServer)
+                {
+                    this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 2, 0);
+                    DeathCount++;
+                    HP = MaxHP;
+                    SendUpdate("HP", HP.ToString());
+                }
+                if (IsClient)
+                {
+                    this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    StartCoroutine(Timer());
+                }
+                if (IsLocalPlayer)
+                {
+                    GetComponent<PlayerControls>().enabled = false;
+                    StartCoroutine(Timer());
                 }
             }
             yield return new WaitForSecondsRealtime(0.1f);
         }
     }
-
-    void Update()
-    {
-        if (HP <= 0)
-        {
-            if (IsServer)
-            {
-                HP = MaxHP;
-                SendUpdate("HP", HP.ToString());
-                this.gameObject.transform.position = Respawn.transform.position + new Vector3 (0,2,0);
-                DeathCount++;
-                SendUpdate("Respawned", string.Empty);
-            }
-            if (IsClient)
-            {
-                this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            }
-        }
-        if (IsServer)
-        {
-            if (Time.timeScale < 1 && !End)
-            {
-                endcard = MyCore.NetCreateObject(1, -1);
-                endcard.transform.SetParent(GameObject.Find("End Screen").transform.GetChild(0).transform);
-                SendUpdate("End", endcard.ToString() + ',' + RTime + ',' + WTime + ',' + PName);
-                End = true;
-            }
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (!IsServer) return;
@@ -160,6 +151,18 @@ public class PlayerInfo : Info
             {
                 Respawn = other.gameObject;
             }
+        }
+    }
+    public IEnumerator Timer()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        if (IsClient) 
+        {
+            this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+        if (IsLocalPlayer)
+        {
+            GetComponent<PlayerControls>().enabled = true;
         }
     }
 }
