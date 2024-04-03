@@ -94,9 +94,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5955724363734045775}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6795623364104483015}
   m_SourcePrefab: {fileID: 100100000, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
 --- !u!1 &5508305809920875619 stripped
 GameObject:
@@ -152,26 +149,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6795623364104483015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5508305809920875619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aafee35fe19c984b9ee863e8eba0d44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyCore: {fileID: 0}
-  MyId: {fileID: 0}
-  IsDirty: 0
-  threshhold: 0.1
-  ethreshhold: 3
-  LastPosition: {x: 0, y: 0, z: 0}
-  LastRotation: {x: 0, y: 0, z: 0}
-  LastVelocity: {x: 0, y: 0, z: 0}
-  LastAngVelocity: {x: 0, y: 0, z: 0}
-  useAdapt: 0
-  adaptVelocity: {x: 0, y: 0, z: 0}
