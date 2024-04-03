@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 5122479323394817923}
   - component: {fileID: 4506154946764903317}
   - component: {fileID: 3420416431028107463}
-  - component: {fileID: 4336136496427943943}
-  - component: {fileID: 4053446143374390672}
+  - component: {fileID: 5386065698882755166}
+  - component: {fileID: 1742006143808814595}
+  - component: {fileID: -3502283450537610768}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -136,7 +137,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: 79cc4dcc7cd03914683d002af98d7439, type: 3}
---- !u!114 &4336136496427943943
+--- !u!114 &5386065698882755166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,7 +157,30 @@ MonoBehaviour:
   UseLobby: 0
   UpdateFrequency: 0.1
   MyCore: {fileID: 0}
---- !u!114 &4053446143374390672
+--- !u!114 &1742006143808814595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3084164972674587603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aafee35fe19c984b9ee863e8eba0d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyCore: {fileID: 0}
+  MyId: {fileID: 0}
+  IsDirty: 0
+  threshhold: 0.1
+  ethreshhold: 3
+  LastPosition: {x: 0, y: 0, z: 0}
+  LastRotation: {x: 0, y: 0, z: 0}
+  LastVelocity: {x: 0, y: 0, z: 0}
+  LastAngVelocity: {x: 0, y: 0, z: 0}
+  useAdapt: 0
+  adaptVelocity: {x: 0, y: 0, z: 0}
+--- !u!114 &-3502283450537610768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: 968411881109811227}
   - component: {fileID: 2218243655100300774}
   - component: {fileID: 1846037972703679958}
+  - component: {fileID: -7528099367444052184}
   m_Layer: 5
   m_Name: Player Stats
   m_TagString: Untagged
@@ -510,6 +511,26 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &-7528099367444052184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207496398690330320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34ca87a457962d459c49c36b9753ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  Owner: -10
+  NetId: -10
+  IsInit: 0
+  IsLocalPlayer: 0
+  UseLobby: 0
+  UpdateFrequency: 0.1
+  MyCore: {fileID: 0}
 --- !u!1 &5718877410068166892
 GameObject:
   m_ObjectHideFlags: 0
