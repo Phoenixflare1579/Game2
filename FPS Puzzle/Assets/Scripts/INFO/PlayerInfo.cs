@@ -154,7 +154,7 @@ public class PlayerInfo : Info
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (IsServer)
+        if(IsServer)
         {
             if (other.gameObject.tag == "Respawn")
             {
