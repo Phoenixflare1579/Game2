@@ -16,6 +16,7 @@ public class PlayerInfo : Info
     bool End = false;
     GameObject endcard;
     public string PName = "Test";
+    bool Dead = false;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -59,13 +60,6 @@ public class PlayerInfo : Info
                 HP = int.Parse(value);
             }
         }
-        if (flag == "Respawned")
-        {
-            if(IsClient)
-            {
-                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
-            }
-        }
         if (flag == "End")
         {
             if (!IsServer)
@@ -89,6 +83,11 @@ public class PlayerInfo : Info
         {
             if (IsServer)
             {
+                if (this.transform.position.y < -350)
+                {
+                    HP = 0;
+                    SendUpdate("HP", HP.ToString());
+                }
                 if (Time.timeScale < 1 && !End)
                 {
                     endcard = MyCore.NetCreateObject(1, this.Owner);
@@ -103,22 +102,26 @@ public class PlayerInfo : Info
                     IsDirty = false;
                 }
             }
-            if (HP <= 0)
+            if (HP <= 0 && !Dead)
             {
                 if (IsServer)
                 {
-                    this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 2, 0);
-                    DeathCount++;
+                    Dead = true;
                     HP = MaxHP;
                     SendUpdate("HP", HP.ToString());
+                    this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 0, 3);
+                    DeathCount++;
+                    StartCoroutine(Timer());
                 }
                 if (IsClient)
                 {
+                    Dead = true;
                     this.gameObject.GetComponent<MeshRenderer>().enabled = false;
                     StartCoroutine(Timer());
                 }
                 if (IsLocalPlayer)
                 {
+                    Dead = true;
                     GetComponent<PlayerControls>().enabled = false;
                     StartCoroutine(Timer());
                 }
@@ -143,13 +146,13 @@ public class PlayerInfo : Info
             SendCommand("R", true.ToString());
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(IsServer)
         {
             if (other.gameObject.tag == "Respawn")
             {
-                Respawn = other.gameObject;
+                Respawn = other.transform.parent.gameObject;
             }
         }
     }
@@ -164,5 +167,6 @@ public class PlayerInfo : Info
         {
             GetComponent<PlayerControls>().enabled = true;
         }
+        Dead = false;
     }
 }

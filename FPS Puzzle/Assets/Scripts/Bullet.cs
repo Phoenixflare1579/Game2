@@ -6,7 +6,6 @@ using NETWORK_ENGINE;
 [RequireComponent(typeof(NetworkRigidbody))]
 public class Bullet : NetworkComponent
 {
-    Vector2 LastInput;
     public float threshhold = 0.1f;
     public float ethreshhold = 3f;
     public Vector3 LastPosition;
