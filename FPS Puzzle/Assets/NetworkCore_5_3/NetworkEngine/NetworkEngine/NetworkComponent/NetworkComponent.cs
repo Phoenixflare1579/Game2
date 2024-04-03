@@ -22,8 +22,8 @@ namespace NETWORK_ENGINE
             get { return MyCore.IsClient; }
         }
         public bool IsServer
-        {
-            get { return MyCore.IsServer; }
+        {      
+                get { return MyCore.IsServer; }       
         }
         public bool IsLocalPlayer
         {

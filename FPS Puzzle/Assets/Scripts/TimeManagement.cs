@@ -7,6 +7,7 @@ public class TimeManagement : NetworkComponent
     public GameObject[] players;
     public float temp;
     public bool Start = false;
+    public bool First = false;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -43,6 +44,15 @@ public class TimeManagement : NetworkComponent
                     }
                     if (Start)
                     {
+                        if(!First)
+                        {
+                            for (int i = 0; i < players.Length; i++) 
+                            {
+                                players[i].GetComponent<PlayerInfo>().SendCommand("Start", string.Empty);
+                                yield return new WaitForSecondsRealtime(0.1f);
+                            }
+                            First = true;
+                        }
                         temp = players[0].GetComponent<Rigidbody>().velocity.magnitude;
                         for (int i = 0; i < players.Length; i++)
                         {

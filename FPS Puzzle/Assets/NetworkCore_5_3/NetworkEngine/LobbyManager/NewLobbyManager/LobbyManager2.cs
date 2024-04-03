@@ -69,10 +69,10 @@ public class LobbyManager2 : NetworkCore
             }
 
         }
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
         IP = privateIPAddress;
         StartServer();
-#endif
+#endif*/
         if (!IsConnected)
         {
             StartCoroutine(SlowAgentStart());

@@ -171,14 +171,8 @@ namespace NETWORK_ENGINE
 
         public void Net_Update(string type, string var, string value)
         {
-            /*if(!IsInit)
-            {
-                return;
-            }
-            if (MyCore == null)
-            {
-                return;
-            }*/
+            if (!IsInit || MyCore == null) return;
+ 
             //Get components for network behaviours
             //Destroy self if owner connection is done.
             try

@@ -705,7 +705,15 @@ namespace NativeWebSocket
         {
             if (State == WebSocketState.Open)
             {
-                await m_Socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, m_CancellationToken);
+                try
+                {
+                    await m_Socket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, m_CancellationToken);
+                }
+                catch (Exception) 
+                {
+                    //Socket is already closed.
+                }
+
             }
         }
     }

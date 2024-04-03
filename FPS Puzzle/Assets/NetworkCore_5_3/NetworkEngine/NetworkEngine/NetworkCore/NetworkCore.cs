@@ -178,7 +178,7 @@ public class NetworkCore     : GenericCore_Web
     /// <param name="commands">The string containing the received message.</param>
     public override void OnHandleMessages(string commands)
     {
-        Debug.Log(commands);
+       
         try
         {
             if (commands.Trim(' ') == "OK" && IsClient)

@@ -11,10 +11,11 @@ public class PlayerInfo : Info
     public bool isReady = false;
     public GameObject Respawn;
     public int DeathCount = 0;
-    public int RTime;
-    public int WTime;
+    public float RTime;
+    public float WTime;
     bool End = false;
     GameObject endcard;
+    public string PName = "Test";
     public override void NetworkedStart()
     {
         
@@ -63,6 +64,30 @@ public class PlayerInfo : Info
                 this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
         }
+        if (flag == "Start")
+        {
+            if (IsServer)
+            {
+                RTime = Time.realtimeSinceStartup;
+                WTime = Time.realtimeSinceStartup;
+            }
+        }
+        if (flag == "End")
+        {
+            if (!IsServer)
+            {
+                string[] args = value.Split(',');
+                endcard = GameObject.Find(args[0]);
+                endcard.transform.SetParent(GameObject.Find("End Screen").transform.GetChild(0).transform);
+                RTime = float.Parse(args[1]);
+                WTime = float.Parse(args[2]);
+                PName = args[3];
+                endcard.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = PName;
+                endcard.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Deaths: " + DeathCount;
+                endcard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Rtime: " + (Time.realtimeSinceStartup - RTime);
+                endcard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Wtime: " + (Time.deltaTime - WTime);
+            }
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -90,19 +115,22 @@ public class PlayerInfo : Info
                 HP = MaxHP;
                 SendUpdate("HP", HP.ToString());
                 this.gameObject.transform.position = Respawn.transform.position + new Vector3 (0,2,0);
+                DeathCount++;
                 SendUpdate("Respawned", string.Empty);
             }
             if (IsClient)
             {
                 this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-                if(Time.timeScale < 1 && !End)
-                {
-                    endcard=MyCore.NetCreateObject(1, -1);
-                    endcard.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Player " + this.NetId;
-                    endcard.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Deaths:  " + DeathCount;
-                    endcard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Rtime: " + Time.realtimeSinceStartup;
-                    endcard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Wtime: " + Time.deltaTime;
-                }
+            }
+        }
+        if (IsServer)
+        {
+            if (Time.timeScale < 1 && !End)
+            {
+                endcard = MyCore.NetCreateObject(1, -1);
+                endcard.transform.SetParent(GameObject.Find("End Screen").transform.GetChild(0).transform);
+                SendUpdate("End", endcard.ToString() + ',' + RTime + ',' + WTime + ',' + PName);
+                End = true;
             }
         }
     }

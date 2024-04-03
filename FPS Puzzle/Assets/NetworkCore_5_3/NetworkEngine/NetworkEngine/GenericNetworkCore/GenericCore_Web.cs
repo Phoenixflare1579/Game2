@@ -692,9 +692,7 @@ public class GenericCore_Web : MonoBehaviour
         }
     }
     public async void  Disconnect(int id)
-    {
-        Debug.Log("Disconnecting " + id);
-
+    {   
         StartingDisconnect(id);
         
         

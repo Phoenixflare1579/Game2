@@ -27,6 +27,7 @@ public class LobbyAgentManager : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
+        //if(!MyId.IsInit || MyCore == null) return;
 
         
        
@@ -197,7 +198,7 @@ public class LobbyAgentManager : NetworkComponent
                 {
                     MyCore.Disconnect(Owner);
                 }
-                if (IsDirty)
+                if (IsDirty && isGameServer)
                 {
                     SendUpdate("PORT", port.ToString());
                     SendUpdate("MAXPLAYERS", maxNumPlayers.ToString());
