@@ -59,28 +59,28 @@ public class TimeManagement : NetworkComponent
                     {
                         if (temp <= 500)
                         {
-                            Time.timeScale = temp / 10;
+                            Time.timeScale = temp / 10.0f;
                         }
                         else
                         {
-                            Time.timeScale = 500 / 10;
+                            Time.timeScale = 500.0f / 10.0f;
                         }
                     }
                     else if (temp < 0)
                     {
                         if (-temp <= 500)
                         {
-                            Time.timeScale = -temp / 10;
+                            Time.timeScale = -temp / 10.0f;
                         }
                         else
                         {
-                            Time.timeScale = 500 / 10;
+                            Time.timeScale = 500.0f / 10.0f;
                         }
                     }
                     else
                     {
                         temp = 1;
-                        Time.timeScale = temp / 10;
+                        Time.timeScale = temp / 10.0f;
                     }
                 }
                 SendUpdate("Time", Time.timeScale.ToString());//Sending time to the client
