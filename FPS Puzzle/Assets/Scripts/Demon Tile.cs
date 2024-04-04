@@ -10,6 +10,13 @@ public class DemonTile : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerInfo>().SendCommand("HP",0.ToString());
+            GetComponent<Animator>().SetTrigger("Kill");
+            StartCoroutine(Wait());
         }
+    }
+    public IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1);
+        GetComponent<Animator>().SetTrigger("Hi");
     }
 }
