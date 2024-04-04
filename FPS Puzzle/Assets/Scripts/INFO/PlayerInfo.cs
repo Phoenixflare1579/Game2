@@ -14,7 +14,7 @@ public class PlayerInfo : Info
     public float RTime;
     public float WTime;
     bool End = false;
-    GameObject endcard;
+    public GameObject endcard;
     public string PName = "Test";
     bool Dead = false;
     public override void NetworkedStart()
@@ -65,7 +65,6 @@ public class PlayerInfo : Info
             if (!IsServer)
             {
                 string[] args = value.Split(',');
-                endcard.transform.SetParent(this.gameObject.transform.GetChild(1).GetChild(2).transform);
                 RTime = float.Parse(args[0]);
                 WTime = float.Parse(args[1]);
                 PName = args[2];
@@ -90,8 +89,6 @@ public class PlayerInfo : Info
                 }
                 if (Time.timeScale < 1 && !End)
                 {
-                    endcard = MyCore.NetCreateObject(1, this.Owner);
-                    endcard.transform.SetParent(this.gameObject.transform.GetChild(1).GetChild(2).transform);
                     SendUpdate("End", RTime + ',' + WTime + ',' + PName);
                     End = true;
                 }

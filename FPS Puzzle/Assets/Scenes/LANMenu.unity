@@ -666,7 +666,6 @@ MonoBehaviour:
   ObjectCounter: 0
   SpawnPrefab:
   - {fileID: 5386065698882755166, guid: 203be4040b56eb14eae4c4a823aaae98, type: 3}
-  - {fileID: -7528099367444052184, guid: 035bfcf5ac5f47e40b0661c601f5c21a, type: 3}
   - {fileID: 7539506165190737744, guid: 692032bff03696c44bb0926b21a28e36, type: 3}
   - {fileID: 4572292519277105788, guid: 184070adb9b061e498e533eafa811394, type: 3}
   - {fileID: 7572352782126813892, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}

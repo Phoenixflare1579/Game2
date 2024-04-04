@@ -4,7 +4,7 @@ using UnityEngine;
 using NETWORK_ENGINE;
 public class TimeManagement : NetworkComponent
 {
-    public GameObject[] players;
+    public PlayerInfo[] players;
     public float temp;
     public bool Start = false;
     public bool First = false;
@@ -31,34 +31,35 @@ public class TimeManagement : NetworkComponent
         {
             if (IsServer)
             {
-                players = GameObject.FindGameObjectsWithTag("Player");
-                if (players.Length > 2) 
+                players = GameObject.FindObjectsOfType<PlayerInfo>();
+                if (players.Length > 2 && !Start)
                 {
                     Start = true;
-                    for (int i = 0; i < players.Length; i++)
+                    foreach (PlayerInfo p in players)
                     {
-                        if (!players[i].GetComponent<PlayerInfo>().isReady)
+                        if (!p.isReady)
                         {
                             Start = false;
                         }
                     }
+                }
                     if (Start)
                     {
                         if(!First)
                         {
-                            for (int i = 0; i < players.Length; i++) 
+                            foreach (PlayerInfo p in players)
                             {
-                                players[i].GetComponent<PlayerInfo>().SendCommand("Start", string.Empty);
+                                p.SendCommand("Start", string.Empty);
                                 yield return new WaitForSecondsRealtime(0.1f);
                             }
                             First = true;
                         }
                         temp = players[0].GetComponent<Rigidbody>().velocity.magnitude;
-                        for (int i = 0; i < players.Length; i++)
+                        foreach (PlayerInfo p in players)
                         {
-                            if (players[i].GetComponent<Rigidbody>().velocity.magnitude > temp)
+                            if (p.GetComponent<Rigidbody>().velocity.magnitude > temp)
                             {
-                                temp = players[i].GetComponent<Rigidbody>().velocity.magnitude;
+                                temp = p.GetComponent<Rigidbody>().velocity.magnitude;
                             }
                         }
                         if (temp > 0)
@@ -89,8 +90,7 @@ public class TimeManagement : NetworkComponent
                             Time.timeScale = temp / 10;
                         }
                     }
-                    SendUpdate("Time", Time.timeScale.ToString());
-                }
+                SendUpdate("Time", Time.timeScale.ToString());
                 if (IsDirty)
                 {
                     SendUpdate("Time", Time.timeScale.ToString());

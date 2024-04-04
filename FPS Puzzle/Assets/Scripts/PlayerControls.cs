@@ -246,6 +246,19 @@ public class PlayerControls : NetworkComponent
             }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
             rb.velocity = tv;
+            if (!jump)
+            { 
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, -transform.up, out hit, 0.5f))
+                {
+                    Debug.Log(hit.transform.gameObject.name);
+                    if (hit.transform.gameObject != this.gameObject && hit.collider.isTrigger == false)
+                    {
+                        jump = true;
+                        SendUpdate("Jump", jump.ToString());
+                    }
+                }
+            }
         }
         if (IsClient)
         {
@@ -264,17 +277,6 @@ public class PlayerControls : NetworkComponent
                 offset = new Vector3(0, 0, 0);
             }
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
-        }
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (IsServer)
-        {
-            if (collision.gameObject.tag == "Floor")
-            {
-                jump = true;
-                SendUpdate("Jump", jump.ToString());
-            }
         }
     }
 }
