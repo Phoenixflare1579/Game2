@@ -4,7 +4,7 @@ using UnityEngine;
 using NETWORK_ENGINE;
 public class TimeManagement : NetworkComponent
 {
-    public PlayerInfo[] players;
+    public GameObject[] players;
     public float temp;
     public bool Start = false;
 
@@ -30,57 +30,60 @@ public class TimeManagement : NetworkComponent
         {
             if (IsServer)
             {
-                players = GameObject.FindObjectsOfType<PlayerInfo>();
-                if (players.Length > 2 && !Start)
+                if (!Start)
                 {
-                    Start = true;
-                    foreach (PlayerInfo p in players)
+                    players = GameObject.FindGameObjectsWithTag("Player");//pulls the array of gameobjects to check for velocity and isready.
+                    if (players.Length > 2)
                     {
-                        if (!p.isReady)
+                        Start = true;
+                        foreach (GameObject p in players)
                         {
-                            Start = false;
+                            if (!p.GetComponent<PlayerInfo>().isReady)
+                            {
+                                Start = false;
+                            }
                         }
                     }
                 }
-                    if (Start)
+                else if (Start)//Setting time for all the players once everyone has readied up
+                {
+                    temp = players[0].gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+                    foreach (GameObject p in players)
                     {
-                        temp = players[0].gameObject.GetComponent<Rigidbody>().velocity.magnitude;
-                        foreach (PlayerInfo p in players)
+                        if (p.gameObject.GetComponent<Rigidbody>().velocity.magnitude > temp)
                         {
-                            if (p.gameObject.GetComponent<Rigidbody>().velocity.magnitude > temp)
-                            {
-                                temp = p.GetComponent<Rigidbody>().velocity.magnitude;
-                            }
+                            temp = p.GetComponent<Rigidbody>().velocity.magnitude;
                         }
-                        if (temp > 0)
+                    }
+                    if (temp > 0)
+                    {
+                        if (temp <= 500)
                         {
-                            if (temp <= 500)
-                            {
-                                Time.timeScale = temp / 10;
-                            }
-                            else
-                            {
-                                Time.timeScale = 500 / 10;
-                            }
-                        }
-                        else if (temp < 0)
-                        {
-                            if (-temp <= 500)
-                            {
-                                Time.timeScale = -temp / 10;
-                            }
-                            else
-                            {
-                                Time.timeScale = 500 / 10;
-                            }
+                            Time.timeScale = temp / 10;
                         }
                         else
                         {
-                            temp = 1;
-                            Time.timeScale = temp / 10;
+                            Time.timeScale = 500 / 10;
                         }
                     }
-                SendUpdate("Time", Time.timeScale.ToString());
+                    else if (temp < 0)
+                    {
+                        if (-temp <= 500)
+                        {
+                            Time.timeScale = -temp / 10;
+                        }
+                        else
+                        {
+                            Time.timeScale = 500 / 10;
+                        }
+                    }
+                    else
+                    {
+                        temp = 1;
+                        Time.timeScale = temp / 10;
+                    }
+                }
+                SendUpdate("Time", Time.timeScale.ToString());//Sending time to the client
                 if (IsDirty)
                 {
                     SendUpdate("Time", Time.timeScale.ToString());

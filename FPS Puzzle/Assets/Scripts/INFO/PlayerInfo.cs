@@ -32,6 +32,10 @@ public class PlayerInfo : Info
             MaxHP = 2;
             HP = MaxHP;
         }
+        if (!IsLocalPlayer)
+        {
+            this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        }
     }
 
     public override void HandleMessage(string flag, string value)
@@ -60,7 +64,7 @@ public class PlayerInfo : Info
                 HP = int.Parse(value);
             }
         }
-        if (flag == "End")
+        if (flag == "End")//Ending card create
         {
             if (!IsServer)
             {
@@ -88,7 +92,7 @@ public class PlayerInfo : Info
                     HP = 0;
                     SendUpdate("HP", HP.ToString());
                 }
-                if (Time.timeScale < 1 && !End)
+                if (Time.timeScale < 1 && !End)//Setting up and sending card message.
                 {
                     SendUpdate("End", RTime + ',' + WTime + ',' + PName);
                     End = true;
@@ -137,9 +141,9 @@ public class PlayerInfo : Info
             SendUpdate("HP", HP.ToString());
         }
     }
-    public void ReadyUp()
+    public void ReadyUp()//Ready up button for all players
     {
-        if(IsLocalPlayer)
+        if(!IsServer)
         {
             SendCommand("R", true.ToString());
         }

@@ -191,7 +191,7 @@ public class PlayerControls : NetworkComponent
 
     }
 
-    public override IEnumerator SlowUpdate()
+    public override IEnumerator SlowUpdate()//setting up network rigidbody
     {
         while (MyCore.IsConnected)
         {
@@ -230,7 +230,7 @@ public class PlayerControls : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        if (IsServer)
+        if (IsServer)//setting up velocity for the players based on different booleans
         {
             if (sprint)
             {
@@ -260,12 +260,12 @@ public class PlayerControls : NetworkComponent
                 }
             }
         }
-        if (IsClient)
+        if (IsClient)//Sending speed to client
         {
             rb.velocity = LastVelocity;
             rb.angularVelocity = LastAngVelocity;
         }
-        if (IsLocalPlayer)
+        if (IsLocalPlayer)//Setting up camera tracking.
         {
             Vector3 offset;
             if (!crouch)
