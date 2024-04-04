@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
+using System;
 public class TimeManagement : NetworkComponent
 {
     public GameObject[] players;
@@ -50,27 +51,19 @@ public class TimeManagement : NetworkComponent
                     temp = players[0].gameObject.GetComponent<Rigidbody>().velocity.magnitude;
                     foreach (GameObject p in players)
                     {
-                        if (p.gameObject.GetComponent<Rigidbody>().velocity.magnitude > temp)
+                        if (p.gameObject != null && p.gameObject.GetComponent<Rigidbody>().velocity.magnitude != float.NaN)
                         {
-                            temp = p.GetComponent<Rigidbody>().velocity.magnitude;
+                            if (Math.Abs(p.gameObject.GetComponent<Rigidbody>().velocity.magnitude) > Math.Abs(temp))
+                            {
+                                temp = Math.Abs(p.GetComponent<Rigidbody>().velocity.magnitude);
+                            }
                         }
                     }
-                    if (temp > 0)
+                    if (temp > 1f)
                     {
-                        if (temp <= 500)
+                        if (temp <= 500.0f)
                         {
                             Time.timeScale = temp / 10.0f;
-                        }
-                        else
-                        {
-                            Time.timeScale = 500.0f / 10.0f;
-                        }
-                    }
-                    else if (temp < 0)
-                    {
-                        if (-temp <= 500)
-                        {
-                            Time.timeScale = -temp / 10.0f;
                         }
                         else
                         {
@@ -90,7 +83,7 @@ public class TimeManagement : NetworkComponent
                     IsDirty = false;
                 }
             }
-            yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
     }
 }
