@@ -670,8 +670,8 @@ MonoBehaviour:
   - {fileID: 4572292519277105788, guid: 184070adb9b061e498e533eafa811394, type: 3}
   - {fileID: 7572352782126813892, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
   - {fileID: 8796359427706357446, guid: cf72bfced01ed3d4797d5fe259b27865, type: 3}
-  - {fileID: 5291741244296523277, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
-  NetworkPlayerManager: {fileID: 6104672241944320832, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
+  - {fileID: 2797793813386573920, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
+  NetworkPlayerManager: {fileID: 4002887035319589554, guid: f9d3ca672306f3545a087238edb8086c, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &408156394
 Transform:
