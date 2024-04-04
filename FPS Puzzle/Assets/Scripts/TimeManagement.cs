@@ -90,7 +90,7 @@ public class TimeManagement : NetworkComponent
                     IsDirty = false;
                 }
             }
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSecondsRealtime(0.2f);
         }
     }
 }

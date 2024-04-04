@@ -66,7 +66,7 @@ public class PlayerInfo : Info
         }
         if (flag == "End")//Ending card create
         {
-            if (!IsServer)
+            if (IsLocalPlayer)
             {
                 string[] args = value.Split(',');
                 RTime = float.Parse(args[0]);
