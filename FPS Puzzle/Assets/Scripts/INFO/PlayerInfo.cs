@@ -14,6 +14,7 @@ public class PlayerInfo : Info
     public bool End = false;
     public TextMeshProUGUI[] endcard;
     public string PName = "Player";
+    public int PColor = 0;
     bool Dead = false;
     public GameObject canvas;
     public override void NetworkedStart()
