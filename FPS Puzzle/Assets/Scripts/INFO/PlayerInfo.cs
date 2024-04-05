@@ -11,20 +11,17 @@ public class PlayerInfo : Info
     public bool isReady = false;
     public GameObject Respawn;
     public int DeathCount = 0;
-    public float RTime;
-    public float WTime;
-    bool End = false;
-    public GameObject endcard;
-    public string PName = "Test";
+    public bool End = false;
+    public TextMeshProUGUI[] endcard;
+    public string PName = "Player";
     bool Dead = false;
+    public GameObject canvas;
     public override void NetworkedStart()
     {
         if (IsServer)
         {
             MaxHP = 2;
             HP = MaxHP;
-            RTime = Time.realtimeSinceStartup;
-            WTime = Time.realtimeSinceStartup;
             SendUpdate("HP", HP.ToString());
         }
         if (!IsServer)
@@ -66,17 +63,19 @@ public class PlayerInfo : Info
         }
         if (flag == "End")//Ending card create
         {
+            if (IsServer)
+            {
+                StartCoroutine(Kill());
+            }
             if (IsLocalPlayer)
             {
-                string[] args = value.Split(',');
-                RTime = float.Parse(args[0]);
-                WTime = float.Parse(args[1]);
-                PName = args[2];
-                endcard.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = PName;
-                endcard.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Deaths: " + DeathCount;
-                endcard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Rtime: " + (Time.realtimeSinceStartup - RTime);
-                endcard.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Wtime: " + (Time.deltaTime - WTime);
-                this.gameObject.transform.GetChild(1).transform.GetChild(2).GetComponent<Canvas>().enabled = true;
+                PName = value;
+                endcard[0].text = PName + Owner;
+                endcard[1].text = "Deaths: " + DeathCount;
+                endcard[2].text = "Rtime: " + Time.realtimeSinceStartup;
+                endcard[3].text = "Wtime: " + Time.realtimeSinceStartup * Time.timeScale;
+                canvas.SetActive(true);
+                SendCommand("End", string.Empty);
             }
         }
     }
@@ -87,15 +86,15 @@ public class PlayerInfo : Info
         {
             if (IsServer)
             {
+                if (Time.timeScale < 1f && !End)
+                {
+                    End = true;
+                    SendUpdate("End", PName);
+                }
                 if (this.transform.position.y < -350)
                 {
                     HP = 0;
                     SendUpdate("HP", HP.ToString());
-                }
-                if (Time.timeScale < 1 && !End)//Setting up and sending card message.
-                {
-                    SendUpdate("End", RTime + ',' + WTime + ',' + PName);
-                    End = true;
                 }
                 if (IsDirty)
                 {
@@ -112,12 +111,12 @@ public class PlayerInfo : Info
                     HP = MaxHP;
                     SendUpdate("HP", HP.ToString());
                     this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 0, 3);
-                    DeathCount++;
                     StartCoroutine(Timer());
                 }
                 if (IsClient)
                 {
                     Dead = true;
+                    DeathCount++;
                     this.gameObject.GetComponent<MeshRenderer>().enabled = false;
                     StartCoroutine(Timer());
                 }
@@ -170,5 +169,10 @@ public class PlayerInfo : Info
             GetComponent<PlayerControls>().enabled = true;
         }
         Dead = false;
+    }
+    public IEnumerator Kill()
+    {
+        yield return new WaitForSecondsRealtime(5);
+        StartCoroutine(MyCore.DisconnectServer());
     }
 }
