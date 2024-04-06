@@ -7,15 +7,46 @@ public class NPM : NetworkComponent
 {
     public string PName = "Player";
     public int PColor = 0;
+    public bool hasJoined = false;
 
     public override void HandleMessage(string flag, string value)
     {
-       
+       if (flag == "NAME")
+        {
+            PName = value;
+            if (IsServer)
+            {
+                SendUpdate("NAME", value);
+            }
+        }
+
+       if (flag == "COLOR")
+        {
+            PColor = int.Parse(value);
+            if (IsServer)
+            {
+                SendUpdate("COLOR", value);
+            }
+        }
+
+        if (flag == "JOIN")
+        {
+            hasJoined = true;
+            this.transform.GetChild(0).gameObject.SetActive(false);
+            if (IsServer)
+            {
+                MyCore.NetCreateObject(5, int.Parse(value));
+                SendUpdate("JOIN", value);
+            }
+        }
     }
 
     public override void NetworkedStart()
     {
-        
+        if (!IsLocalPlayer)
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -24,12 +55,15 @@ public class NPM : NetworkComponent
         {
             if (IsServer)
             {
+
                 if (IsDirty)
                 {
+                    SendUpdate("NAME", PName);
+                    SendUpdate("COLOR", PColor.ToString());
                     IsDirty = false;
                 }
             }
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return new WaitForSeconds(.1f);
         }
     }
 
@@ -51,6 +85,29 @@ public class NPM : NetworkComponent
         if (IsServer)
         {
            PColor = color;
+        }
+    }
+    public void UI_NameInput(string s)
+    {
+        if (IsLocalPlayer)
+        {
+            SendCommand("NAME", s);
+        }
+
+    }
+    public void UI_ColorInput(int c)
+    {
+        if (IsLocalPlayer)
+        {
+            SendCommand("COLOR", c.ToString());
+        }
+    }
+
+    public void UI_JoinButton()
+    {
+        if (IsLocalPlayer)
+        {
+            SendCommand("JOIN", this.Owner.ToString());
         }
     }
 

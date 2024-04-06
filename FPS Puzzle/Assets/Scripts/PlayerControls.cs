@@ -214,6 +214,8 @@ public class PlayerControls : NetworkComponent
                     SendUpdate("Rot", rb.rotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
+                    SendUpdate("NAME", GetComponent<PlayerInfo>().name);
+                    SendUpdate("COLOR", GetComponent<PlayerInfo>().PColor.ToString());
                     IsDirty = false;
                 }
             }

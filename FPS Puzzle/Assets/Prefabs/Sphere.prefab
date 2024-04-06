@@ -1778,7 +1778,7 @@ Transform:
   - {fileID: 7956818183204655516}
   - {fileID: 5039122252389994042}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8108096966269792072
 MeshFilter:
@@ -2091,7 +2091,9 @@ MonoBehaviour:
   - {fileID: 2624710211052318973}
   - {fileID: 7776824933310484931}
   PName: Test
+  PColor: 0
   canvas: {fileID: 8474294016904907390}
+  playerNameDisplay: {fileID: 8948916555760249331}
 --- !u!135 &7793377840370049684
 SphereCollider:
   m_ObjectHideFlags: 0

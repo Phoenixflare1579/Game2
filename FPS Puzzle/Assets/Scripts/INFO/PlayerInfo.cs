@@ -17,6 +17,7 @@ public class PlayerInfo : Info
     public int PColor = 0;
     bool Dead = false;
     public GameObject canvas;
+    public TextMeshProUGUI playerNameDisplay;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -24,6 +25,16 @@ public class PlayerInfo : Info
             MaxHP = 2;
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
+            foreach (NPM n in FindObjectsOfType<NPM>())
+            {
+                if (n.Owner == this.Owner)
+                {
+                    PColor = n.PColor;
+                    PName = n.PName;
+                    SendUpdate("NAME", PName);
+                    SendUpdate("COLOR", PColor.ToString());
+                }
+            }
         }
         if (!IsServer)
         {
@@ -60,6 +71,38 @@ public class PlayerInfo : Info
             if (!IsServer)
             {
                 HP = int.Parse(value);
+            }
+        }
+        if (flag == "COLOR")
+        {
+            PColor = int.Parse(value);
+            switch (PColor)
+            {
+                case 0:
+                    GetComponent<MeshRenderer>().material.color = Color.red;
+                    break;
+                case 1:
+                    GetComponent<MeshRenderer>().material.color = Color.blue;
+                    break;
+                case 2:
+                    GetComponent<MeshRenderer>().material.color = Color.green;
+                    break;
+                case 3:
+                    GetComponent<MeshRenderer>().material.color = Color.white;
+                    break;
+            }
+            if (IsServer)
+            {
+                SendUpdate("COLOR", PColor.ToString());
+            }
+        }
+        if (flag == "NAME")
+        {
+            PName = value;
+            playerNameDisplay.text = PName;
+            if (IsServer)
+            {
+                SendUpdate("NAME", value);
             }
         }
         if (flag == "End")//Ending card create
