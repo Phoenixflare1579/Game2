@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerControls : NetworkComponent
 {
@@ -107,11 +108,22 @@ public class PlayerControls : NetworkComponent
         {
             if (IsClient)
             {
-                LastRotation = NetworkCore.Vector3FromString(value);
-                if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold && useAdapt)
-                {
-                    rb.rotation = Quaternion.Euler(LastRotation);
-                }
+                
+            }
+            if (IsServer)
+            {
+                string raw = value.Trim('(').Trim(')');
+                string[] sArray = raw.Split(',');
+
+                Quaternion result = new Quaternion(
+                    float.Parse(sArray[0]),
+                    float.Parse(sArray[1]),
+                    float.Parse(sArray[2]),
+                    float.Parse(sArray[3]));
+
+                xQuat = result;
+
+                transform.localRotation = xQuat;
             }
         }
     }
@@ -204,14 +216,14 @@ public class PlayerControls : NetworkComponent
                 LastVelocity = rb.velocity;
 
                 SendUpdate("Rot", rb.rotation.ToString());
-                LastRotation = rb.rotation.eulerAngles;
+                rb.transform.localRotation = xQuat;
 
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
-                    SendUpdate("Rot", rb.rotation.ToString());
+                    SendUpdate("Rot", rb.transform.localRotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
                     IsDirty = false;
@@ -246,6 +258,7 @@ public class PlayerControls : NetworkComponent
             }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
             rb.velocity = tv;
+            transform.localRotation = xQuat;
             if (!jump)
             { 
                 RaycastHit hit;
@@ -263,10 +276,12 @@ public class PlayerControls : NetworkComponent
         if (IsClient)//Sending speed to client
         {
             rb.velocity = LastVelocity;
-            rb.angularVelocity = LastAngVelocity;
+            rb.transform.localRotation = xQuat;
+
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
+            Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
             {
@@ -276,7 +291,33 @@ public class PlayerControls : NetworkComponent
             {
                 offset = new Vector3(0, 0, 0);
             }
+            rotation.x += Input.GetAxis(xAxis) * sensitivity;
+            rotation.y += Input.GetAxis(yAxis) * sensitivity;
+            rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
+            xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+            yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+
+            Camera.main.transform.localRotation = xQuat * yQuat;
+            transform.localRotation = xQuat;
+            Debug.Log(xQuat);
+            SendCommand("Rot", xQuat.ToString());
+
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
         }
     }
+
+    public Quaternion xQuat;
+    public Quaternion yQuat;
+    public float Sensitivity
+    {
+        get { return sensitivity; }
+        set { sensitivity = value; }
+    }
+    [Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
+    [Tooltip("Limits vertical camera rotation. Prevents the flipping that happens when rotation goes above 90.")]
+    [Range(0f, 90f)][SerializeField] float yRotationLimit = 88f;
+
+    Vector2 rotation = Vector2.zero;
+    const string xAxis = "Mouse X"; //Strings in direct code generate garbage, storing and re-using them creates no garbage
+    const string yAxis = "Mouse Y";
 }
