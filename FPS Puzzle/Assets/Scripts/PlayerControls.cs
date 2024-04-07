@@ -109,7 +109,16 @@ public class PlayerControls : NetworkComponent
         {
             if (IsClient)
             {
-                
+                string raw = value.Trim('(').Trim(')');
+                string[] sArray = raw.Split(',');
+
+                Quaternion result = new Quaternion(
+                    float.Parse(sArray[0]),
+                    float.Parse(sArray[1]),
+                    float.Parse(sArray[2]),
+                    float.Parse(sArray[3]));
+
+                xQuat = result;
             }
             if (IsServer)
             {
