@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class PlayerControls : NetworkComponent
 {
@@ -105,16 +106,24 @@ public class PlayerControls : NetworkComponent
         }
         if (flag == "Rot")
         {
+            if (IsClient)
+            {
+                
+            }
             if (IsServer)
             {
-                LastRotation = NetworkCore.Vector3FromString(value);
-                Debug.Log(1);
-                if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold && useAdapt)
-                {
-                    Debug.Log(2);
+                string raw = value.Trim('(').Trim(')');
+                string[] sArray = raw.Split(',');
 
-                    rb.rotation = Quaternion.Euler(LastRotation);
-                }
+                Quaternion result = new Quaternion(
+                    float.Parse(sArray[0]),
+                    float.Parse(sArray[1]),
+                    float.Parse(sArray[2]),
+                    float.Parse(sArray[3]));
+
+                xQuat = result;
+
+                transform.localRotation = xQuat;
             }
         }
     }
@@ -207,14 +216,14 @@ public class PlayerControls : NetworkComponent
                 LastVelocity = rb.velocity;
 
                 SendUpdate("Rot", rb.rotation.ToString());
-                LastRotation = rb.rotation.eulerAngles;
+                rb.transform.localRotation = xQuat;
 
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
-                    SendUpdate("Rot", rb.rotation.ToString());
+                    SendUpdate("Rot", rb.transform.localRotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
                     IsDirty = false;
@@ -249,6 +258,7 @@ public class PlayerControls : NetworkComponent
             }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
             rb.velocity = tv;
+            transform.localRotation = xQuat;
             if (!jump)
             { 
                 RaycastHit hit;
@@ -266,8 +276,7 @@ public class PlayerControls : NetworkComponent
         if (IsClient)//Sending speed to client
         {
             rb.velocity = LastVelocity;
-            rb.angularVelocity = LastAngVelocity;
-            SendCommand("Rot", Camera.main.transform.eulerAngles.ToString());
+            rb.transform.localRotation = xQuat;
 
         }
         if (IsLocalPlayer)//Setting up camera tracking.
@@ -285,15 +294,20 @@ public class PlayerControls : NetworkComponent
             rotation.x += Input.GetAxis(xAxis) * sensitivity;
             rotation.y += Input.GetAxis(yAxis) * sensitivity;
             rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
-            var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-            var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+            xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+            yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
             Camera.main.transform.localRotation = xQuat * yQuat;
+            transform.localRotation = xQuat;
+            Debug.Log(xQuat);
+            SendCommand("Rot", xQuat.ToString());
 
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
-
         }
     }
+
+    public Quaternion xQuat;
+    public Quaternion yQuat;
     public float Sensitivity
     {
         get { return sensitivity; }

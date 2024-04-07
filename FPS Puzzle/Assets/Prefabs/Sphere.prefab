@@ -1879,6 +1879,8 @@ MonoBehaviour:
   jump: 1
   equipped: {fileID: 0}
   isWeapon: 0
+  sensitivity: 2
+  yRotationLimit: 88
 --- !u!114 &4276138779337314199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1921,7 +1923,19 @@ MonoBehaviour:
     m_ActionId: 8d887851-d2f9-4a78-8270-6fb0ea770f4b
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3496712674868275932}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: Look
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a0c931de-5aa0-4c42-8c1f-a6966f2c34cd
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
