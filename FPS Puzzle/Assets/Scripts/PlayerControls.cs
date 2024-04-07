@@ -105,11 +105,14 @@ public class PlayerControls : NetworkComponent
         }
         if (flag == "Rot")
         {
-            if (IsClient)
+            if (IsServer)
             {
                 LastRotation = NetworkCore.Vector3FromString(value);
+                Debug.Log(1);
                 if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold && useAdapt)
                 {
+                    Debug.Log(2);
+
                     rb.rotation = Quaternion.Euler(LastRotation);
                 }
             }
@@ -264,9 +267,12 @@ public class PlayerControls : NetworkComponent
         {
             rb.velocity = LastVelocity;
             rb.angularVelocity = LastAngVelocity;
+            SendCommand("Rot", Camera.main.transform.eulerAngles.ToString());
+
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
+            Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
             {
@@ -276,7 +282,28 @@ public class PlayerControls : NetworkComponent
             {
                 offset = new Vector3(0, 0, 0);
             }
+            rotation.x += Input.GetAxis(xAxis) * sensitivity;
+            rotation.y += Input.GetAxis(yAxis) * sensitivity;
+            rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
+            var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+            var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+
+            Camera.main.transform.localRotation = xQuat * yQuat;
+
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
+
         }
     }
+    public float Sensitivity
+    {
+        get { return sensitivity; }
+        set { sensitivity = value; }
+    }
+    [Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
+    [Tooltip("Limits vertical camera rotation. Prevents the flipping that happens when rotation goes above 90.")]
+    [Range(0f, 90f)][SerializeField] float yRotationLimit = 88f;
+
+    Vector2 rotation = Vector2.zero;
+    const string xAxis = "Mouse X"; //Strings in direct code generate garbage, storing and re-using them creates no garbage
+    const string yAxis = "Mouse Y";
 }
