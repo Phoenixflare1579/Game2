@@ -25,16 +25,6 @@ public class PlayerInfo : Info
             MaxHP = 2;
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
-            foreach (NPM n in FindObjectsOfType<NPM>())
-            {
-                if (n.Owner == this.Owner)
-                {
-                    PColor = n.PColor;
-                    PName = n.PName;
-                    SendUpdate("NAME", PName);
-                    SendUpdate("COLOR", PColor.ToString());
-                }
-            }
         }
         if (!IsServer)
         {
@@ -114,7 +104,7 @@ public class PlayerInfo : Info
             if (IsLocalPlayer)
             {
                 PName = value;
-                endcard[0].text = PName + Owner;
+                endcard[0].text = PName;
                 endcard[1].text = "Deaths: " + DeathCount;
                 endcard[2].text = "Rtime: " + Time.realtimeSinceStartup;
                 endcard[3].text = "Wtime: " + Time.realtimeSinceStartup * Time.timeScale;
@@ -130,6 +120,11 @@ public class PlayerInfo : Info
         {
             if (IsServer)
             {
+                if (playerNameDisplay.text != PName)
+                {
+                    SendUpdate("Name", PName);
+                    SendUpdate("COLOR", PColor.ToString());
+                }
                 if (Time.timeScale < 1f && !End)
                 {
                     End = true;
@@ -144,6 +139,8 @@ public class PlayerInfo : Info
                 {
                     SendUpdate("HP", HP.ToString());
                     SendUpdate("R", isReady.ToString());
+                    SendUpdate("NAME", PName);
+                    SendUpdate("COLOR", PColor.ToString());
                     IsDirty = false;
                 }
             }

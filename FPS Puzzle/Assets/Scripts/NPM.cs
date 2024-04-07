@@ -8,6 +8,7 @@ public class NPM : NetworkComponent
     public string PName = "Player";
     public int PColor = 0;
     public bool hasJoined = false;
+    GameObject temp;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -35,8 +36,10 @@ public class NPM : NetworkComponent
             this.transform.GetChild(0).gameObject.SetActive(false);
             if (IsServer)
             {
-                MyCore.NetCreateObject(5, int.Parse(value));
+                temp = MyCore.NetCreateObject(5, int.Parse(value));
                 SendUpdate("JOIN", value);
+                temp.GetComponent<PlayerInfo>().PColor = PColor;
+                temp.GetComponent<PlayerInfo>().PName = PName;
             }
         }
     }
