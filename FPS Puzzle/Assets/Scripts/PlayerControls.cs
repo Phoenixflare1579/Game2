@@ -4,6 +4,7 @@ using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using System;
 
 public class PlayerControls : NetworkComponent
 {
@@ -256,8 +257,7 @@ public class PlayerControls : NetworkComponent
             {
                 speed = 10f;
             }
-            Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
-            rb.velocity = tv;
+            rb.velocity = (transform.right * LastInput.x).normalized * speed + (transform.forward * LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
             transform.localRotation = xQuat;
             if (!jump)
             { 
