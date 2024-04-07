@@ -2094,6 +2094,8 @@ MonoBehaviour:
   PColor: 0
   canvas: {fileID: 8474294016904907390}
   playerNameDisplay: {fileID: 8948916555760249331}
+  DeadZone: 0
+  triggercollider: {fileID: 7793377840370049684}
 --- !u!135 &7793377840370049684
 SphereCollider:
   m_ObjectHideFlags: 0

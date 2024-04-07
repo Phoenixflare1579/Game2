@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using NETWORK_ENGINE;
 using System;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerInfo : Info
 {
@@ -18,6 +19,9 @@ public class PlayerInfo : Info
     bool Dead = false;
     public GameObject canvas;
     public TextMeshProUGUI playerNameDisplay;
+    public bool DeadZone = false;
+    bool respawn = true;
+    public Collider triggercollider;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -142,21 +146,32 @@ public class PlayerInfo : Info
                     HP = MaxHP;
                     SendUpdate("HP", HP.ToString());
                     this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 0, 3);
-                    StartCoroutine(Timer());
                 }
                 if (IsClient)
                 {
                     Dead = true;
                     DeathCount++;
                     this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-                    StartCoroutine(Timer());
                 }
                 if (IsLocalPlayer)
                 {
                     Dead = true;
                     GetComponent<PlayerControls>().enabled = false;
-                    StartCoroutine(Timer());
+
                 }
+                respawn = true;
+                foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    if (p.GetComponent<PlayerInfo>().DeadZone)
+                    {
+                        respawn = false;
+                    }            
+                triggercollider.enabled = false;
+            }
+
+            if (respawn && Dead)
+            {
+                StartCoroutine(Timer());
+                Dead = false;
             }
             yield return new WaitForSecondsRealtime(0.1f);
         }
@@ -199,7 +214,7 @@ public class PlayerInfo : Info
         {
             GetComponent<PlayerControls>().enabled = true;
         }
-        Dead = false;
+        triggercollider.enabled = false;
     }
     public IEnumerator Kill()
     {
