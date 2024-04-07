@@ -17,6 +17,7 @@ public class PlayerInfo : Info
     public int PColor = 0;
     bool Dead = false;
     public GameObject canvas;
+    public TextMeshProUGUI playerNameDisplay;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -62,6 +63,38 @@ public class PlayerInfo : Info
                 HP = int.Parse(value);
             }
         }
+        if (flag == "COLOR")
+        {
+            PColor = int.Parse(value);
+            switch (PColor)
+            {
+                case 0:
+                    GetComponent<MeshRenderer>().material.color = Color.red;
+                    break;
+                case 1:
+                    GetComponent<MeshRenderer>().material.color = Color.blue;
+                    break;
+                case 2:
+                    GetComponent<MeshRenderer>().material.color = Color.green;
+                    break;
+                case 3:
+                    GetComponent<MeshRenderer>().material.color = Color.white;
+                    break;
+            }
+            if (IsServer)
+            {
+                SendUpdate("COLOR", PColor.ToString());
+            }
+        }
+        if (flag == "NAME")
+        {
+            PName = value;
+            playerNameDisplay.text = PName;
+            if (IsServer)
+            {
+                SendUpdate("NAME", value);
+            }
+        }
         if (flag == "End")//Ending card create
         {
             if (IsServer)
@@ -71,7 +104,7 @@ public class PlayerInfo : Info
             if (IsLocalPlayer)
             {
                 PName = value;
-                endcard[0].text = PName + Owner;
+                endcard[0].text = PName;
                 endcard[1].text = "Deaths: " + DeathCount;
                 endcard[2].text = "Rtime: " + Time.realtimeSinceStartup;
                 endcard[3].text = "Wtime: " + Time.realtimeSinceStartup * Time.timeScale;
@@ -101,6 +134,8 @@ public class PlayerInfo : Info
                 {
                     SendUpdate("HP", HP.ToString());
                     SendUpdate("R", isReady.ToString());
+                    SendUpdate("NAME", PName);
+                    SendUpdate("COLOR", PColor.ToString());
                     IsDirty = false;
                 }
             }
@@ -143,14 +178,14 @@ public class PlayerInfo : Info
     }
     public void ReadyUp()//Ready up button for all players
     {
-        if(!IsServer)
+        if (!IsServer)
         {
             SendCommand("R", true.ToString());
         }
     }
     private void OnTriggerStay(Collider other)
     {
-        if(IsServer)
+        if (IsServer)
         {
             if (other.gameObject.tag == "Respawn")
             {
@@ -161,7 +196,7 @@ public class PlayerInfo : Info
     public IEnumerator Timer()
     {
         yield return new WaitForSecondsRealtime(3);
-        if (IsClient) 
+        if (IsClient)
         {
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
