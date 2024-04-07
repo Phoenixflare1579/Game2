@@ -5,6 +5,8 @@ using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerControls : NetworkComponent
 {
@@ -290,6 +292,7 @@ public class PlayerControls : NetworkComponent
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
+
             Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
