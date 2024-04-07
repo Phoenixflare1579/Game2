@@ -120,11 +120,6 @@ public class PlayerInfo : Info
         {
             if (IsServer)
             {
-                if (playerNameDisplay.text != PName)
-                {
-                    SendUpdate("Name", PName);
-                    SendUpdate("COLOR", PColor.ToString());
-                }
                 if (Time.timeScale < 1f && !End)
                 {
                     End = true;
