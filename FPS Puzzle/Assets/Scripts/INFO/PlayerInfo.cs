@@ -120,11 +120,6 @@ public class PlayerInfo : Info
         {
             if (IsServer)
             {
-                if (Time.timeScale < 1f && !End)
-                {
-                    End = true;
-                    SendUpdate("End", PName);
-                }
                 if (this.transform.position.y < -350)
                 {
                     HP = 0;

@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class DangerDoor : MonoBehaviour
 {
-    bool broken = false; 
+    bool broken = false;
+    public AnimationClip open;
     public void Update()
     {
-        if (Time.timeScale >= 15 && !broken)
+        foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
         {
-            GetComponent<Animation>().RemoveClip("Danger Door");
-            GetComponent<Animation>().PlayQueued("Door Corners");
+            if (Vector3.Distance(p.transform.position,this.gameObject.transform.position) < 15f)
+            {
+                broken = true;
+            }
+        }
+        if (Time.timeScale >= 15 && broken)
+        {
+            GetComponent<Animation>().clip = open;
             this.GetComponent<BoxCollider>().enabled = false;
-            broken = true;
         }
     }
     private void OnCollisionEnter(Collision collision)
