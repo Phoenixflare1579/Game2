@@ -138,6 +138,16 @@ public class PlayerControls : NetworkComponent
                 transform.localRotation = xQuat;
             }
         }
+        if (flag == "Equip")
+        {
+            if(IsClient)
+            {
+                if (value != string.Empty)
+                {
+                    equipped = GameObject.Find(value.ToString());
+                }
+            }
+        }
     }
 
     public void Move(InputAction.CallbackContext c)
@@ -232,12 +242,39 @@ public class PlayerControls : NetworkComponent
 
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
+
+                if (equipped == null && this.transform.GetChild(0).GetChild(0).gameObject != null)
+                {
+                    equipped = this.transform.GetChild(0).GetChild(0).gameObject;
+                    if(equipped.name.Contains("gun") || equipped.name.Contains("sword"))
+                    {
+                        isWeapon = true;
+                    }
+                }
+
+                if (equipped != null)
+                {
+                    SendUpdate("Equip", equipped.ToString());
+                }
+                else
+                {
+                    SendUpdate("Equip", string.Empty);
+                }
+
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
                     SendUpdate("Rot", rb.transform.localRotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
+                    if (equipped != null)
+                    {
+                        SendUpdate("Equip", equipped.ToString());
+                    }
+                    else
+                    {
+                        SendUpdate("Equip", string.Empty);
+                    }
                     IsDirty = false;
                 }
             }

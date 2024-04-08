@@ -214,7 +214,7 @@ public class PlayerInfo : Info
         {
             if (other.gameObject.tag == "Respawn")
             {
-                Respawn = other.transform.parent.gameObject;
+                Respawn = other.gameObject;
             }
         }
     }
