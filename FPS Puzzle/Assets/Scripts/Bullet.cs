@@ -6,54 +6,18 @@ using NETWORK_ENGINE;
 [RequireComponent(typeof(NetworkRigidbody))]
 public class Bullet : NetworkComponent
 {
-    public float threshhold = 0.1f;
-    public float ethreshhold = 3f;
-    public Vector3 LastPosition;
-    public Vector3 LastVelocity;
-    public bool useAdapt = true;
-    public Vector3 adaptVelocity;
-    public Vector3 LastAngVelocity;
     Rigidbody rb;
     public override void HandleMessage(string flag, string value)
     {
-        if (flag == "Pos")
-        {
-            if (IsClient)
-            {
-                LastPosition = NetworkCore.Vector3FromString(value);
-                if ((LastPosition - rb.position).magnitude > ethreshhold)
-                {
-                    rb.position = LastPosition;
-                }
-                else if ((LastPosition - rb.position).magnitude > threshhold)
-                {
-                    adaptVelocity = (LastPosition - rb.position) / .1f;
-                }
-                else
-                {
-                    adaptVelocity = Vector3.zero;
-                }
-            }
-        }
-        Debug.Log(LastPosition);
-        Debug.Log(rb.position);
-        Debug.Log(adaptVelocity);
-        if (flag == "Vel")
-        {
-            if (IsClient)
-            {
-                LastVelocity = NetworkCore.Vector3FromString(value);
-                if (useAdapt)
-                {
-                    LastAngVelocity = adaptVelocity;
-                }
-            }
-        }
+        
     }
 
     public override void NetworkedStart()
     {
-        
+        if(IsServer)
+        {
+            StartCoroutine(TTD());
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -62,16 +26,8 @@ public class Bullet : NetworkComponent
         {
             if (IsServer)
             {
-                SendUpdate("Pos", rb.position.ToString());
-                LastPosition = rb.position;
-
-                SendUpdate("Vel", rb.velocity.ToString());
-                LastVelocity = rb.velocity;
-
                 if (IsDirty)
                 {
-                    SendUpdate("Pos", rb.position.ToString());
-                    SendUpdate("Vel", rb.velocity.ToString());
                     IsDirty = false;
                 }
             }
@@ -100,5 +56,10 @@ public class Bullet : NetworkComponent
         {
             MyCore.NetDestroyObject(MyId.NetId);
         }
+    }
+    public IEnumerator TTD()
+    {
+        yield return new WaitForSeconds(10);
+        MyCore.NetDestroyObject(MyId.NetId);
     }
 }
