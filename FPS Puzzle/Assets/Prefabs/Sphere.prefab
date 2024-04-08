@@ -437,7 +437,7 @@ MonoBehaviour:
   xQuat: {x: 0, y: 0, z: 0, w: 0}
   yQuat: {x: 0, y: 0, z: 0, w: 0}
   sensitivity: 2
-  yRotationLimit: 88
+  yRotationLimit: 75
 --- !u!114 &6093461172462758989
 MonoBehaviour:
   m_ObjectHideFlags: 0
