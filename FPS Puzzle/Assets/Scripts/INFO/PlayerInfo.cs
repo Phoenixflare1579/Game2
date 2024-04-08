@@ -6,6 +6,8 @@ using NETWORK_ENGINE;
 using System;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerInfo : Info
 {
@@ -53,6 +55,14 @@ public class PlayerInfo : Info
             if (!IsServer)
             {
                 isReady = bool.Parse(value);
+                if (isReady)
+                {
+                    this.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    this.gameObject.transform.GetChild(1).GetChild(0).GetComponent<Button>().interactable = true;
+                }
             }
         }
         if (flag == "HP")
@@ -186,11 +196,15 @@ public class PlayerInfo : Info
             SendUpdate("HP", HP.ToString());
         }
     }
-    public void ReadyUp()//Ready up button for all players
+    public void Ready(InputAction.CallbackContext c)
     {
-        if (!IsServer)
+        if (c.started)
         {
-            SendCommand("R", true.ToString());
+            if (IsLocalPlayer)
+            {
+                isReady = !isReady;
+                SendCommand("R", isReady.ToString());
+            }
         }
     }
     private void OnTriggerStay(Collider other)

@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Ready",
+                    "type": "Button",
+                    "id": "34e681c1-7e43-4571-90cb-cb9fe932d521",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -351,6 +360,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Open Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2786f70e-ed5d-407c-9a04-d2c4b9d76007",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ready",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
