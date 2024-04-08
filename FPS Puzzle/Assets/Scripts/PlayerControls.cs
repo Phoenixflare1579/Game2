@@ -75,20 +75,20 @@ public class PlayerControls : NetworkComponent
                 }
             }
         }
-        /*if (flag == "Fire")
+        if (flag == "Fire")
         {
-            if(IsServer)
+            if (IsServer)
             {
-                if(equipped.name.Contains("gun"))
+                if (equipped.name.Contains("gun"))
                 {
                     MyCore.NetCreateObject(0, MyId.Owner, LastPosition + this.transform.forward * 2, this.transform.rotation);
                 }
                 else if (equipped.name.Contains("sword"))
                 {
-                    
+
                 }
             }
-        }*/
+        }
         if (flag == "Vel")
         {
             if (IsClient)

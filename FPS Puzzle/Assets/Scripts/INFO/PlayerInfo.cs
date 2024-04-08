@@ -128,6 +128,7 @@ public class PlayerInfo : Info
         }
     }
 
+    
     public override IEnumerator SlowUpdate()
     {
         while (IsConnected)
