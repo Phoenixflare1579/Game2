@@ -297,11 +297,11 @@ public class PlayerControls : NetworkComponent
             Vector3 offset;
             if (!crouch)
             {
-                offset = new Vector3(0, 1, 0);
+                offset = new Vector3(0, 3f, 0);
             }
             else
             {
-                offset = new Vector3(0, 0, 0);
+                offset = new Vector3(0, 1.5f, 0);
             }
             rotation.x += Input.GetAxis(xAxis) * sensitivity;
             rotation.y += Input.GetAxis(yAxis) * sensitivity;
@@ -327,7 +327,7 @@ public class PlayerControls : NetworkComponent
     }
     [Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
     [Tooltip("Limits vertical camera rotation. Prevents the flipping that happens when rotation goes above 90.")]
-    [Range(0f, 90f)][SerializeField] float yRotationLimit = 88f;
+    [Range(0f, 75f)][SerializeField] float yRotationLimit = 72f;
 
     Vector2 rotation = Vector2.zero;
     const string xAxis = "Mouse X"; //Strings in direct code generate garbage, storing and re-using them creates no garbage
