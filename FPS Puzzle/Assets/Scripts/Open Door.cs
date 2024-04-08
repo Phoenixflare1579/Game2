@@ -9,6 +9,8 @@ public class OpenDoor : MonoBehaviour
     public bool isDanger;
     bool broken = false;
     bool done = false;
+    public bool locked;
+    public GameObject lockbreaker;
 
     private void Start()
     {
@@ -43,6 +45,14 @@ public class OpenDoor : MonoBehaviour
                 done = true;
             }
         }
+        if(locked && lockbreaker.GetComponent<PressurePlate>().active)
+        {
+            locked = false;
+        }
+        else if (!locked && !lockbreaker.GetComponent<PressurePlate>().active)
+        {
+            locked = true;
+        }
     }
         private void OnCollisionEnter(Collision collision)
         {
@@ -53,7 +63,7 @@ public class OpenDoor : MonoBehaviour
         }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !open && !isDanger)
+        if (other.gameObject.tag == "Player" && !open && !isDanger && !locked)
         {
             StartCoroutine(Wait());
             this.gameObject.GetComponent<Animator>().SetTrigger(type);
