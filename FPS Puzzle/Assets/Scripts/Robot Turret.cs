@@ -8,6 +8,7 @@ public class RobotTurret : NetworkComponent
 {
     public bool open = false;
     GameObject target;
+    int shots;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -27,11 +28,12 @@ public class RobotTurret : NetworkComponent
             {
                 GetComponent<Collider>().enabled = false;
                 target = null;
+                shots = 0;
             }
             else
             {
                 GetComponent<Collider>().enabled = true;
-                if (IsServer && target == null)
+                if (IsServer && target == null && shots <=3)
                 {
                     if (GameObject.FindGameObjectWithTag("Player") != null)
                     {
@@ -46,10 +48,9 @@ public class RobotTurret : NetworkComponent
                         }
                         if (target != null)
                         {
-                            GameObject temp = MyCore.NetCreateObject(0, Owner, this.transform.position);
-                            temp.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                            temp.GetComponent<Rigidbody>().position = Vector3.MoveTowards(temp.transform.position, target.transform.position, 10f * Time.deltaTime);
+                            GameObject temp = MyCore.NetCreateObject(0, Owner, this.transform.position); 
                             target = null;
+                            shots++;
                         }
                     }
                 }

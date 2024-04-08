@@ -9,7 +9,7 @@ public class Bullet : NetworkComponent
     Rigidbody rb;
     public override void HandleMessage(string flag, string value)
     {
-        
+
     }
     public override void NetworkedStart()
     {
@@ -39,6 +39,7 @@ public class Bullet : NetworkComponent
         {
             rb.velocity = transform.forward * 20f;
         }
+        GetComponent<Collider>().enabled = false;
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -49,7 +50,12 @@ public class Bullet : NetworkComponent
     }
     public IEnumerator TTD()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(10f);
         MyCore.NetDestroyObject(MyId.NetId);
+    }
+    public IEnumerator StartUp()
+    {
+        yield return new WaitForSeconds(0.25f);
+        GetComponent<Collider>().enabled = true;
     }
 }

@@ -219,7 +219,7 @@ public class PlayerInfo : Info
     }
     public IEnumerator Timer()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(3f);
         if (IsClient)
         {
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;
@@ -232,7 +232,7 @@ public class PlayerInfo : Info
     }
     public IEnumerator Kill()
     {
-        yield return new WaitForSecondsRealtime(10);
+        yield return new WaitForSecondsRealtime(10f);
         StartCoroutine(MyCore.DisconnectServer());
     }
 }
