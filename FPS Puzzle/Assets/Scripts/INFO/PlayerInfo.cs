@@ -232,7 +232,7 @@ public class PlayerInfo : Info
     }
     public IEnumerator Kill()
     {
-        yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSecondsRealtime(10);
         StartCoroutine(MyCore.DisconnectServer());
     }
 }

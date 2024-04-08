@@ -18,14 +18,11 @@ public class LaserWall : MonoBehaviour
         if(Time.timeScale < 1f && !open)
         {
             this.GetComponent<Animator>().SetTrigger("Full");
-            this.GetComponent<BoxCollider>().enabled = false;
             open = true;
         }
         else if (Time.timeScale >= 1f && open)
         {
             this.GetComponent<Animator>().SetTrigger("Close");
-            this.GetComponent<BoxCollider>().enabled = true;
-
             open = false;
         }
     }

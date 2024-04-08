@@ -21,14 +21,6 @@ public class OpenDoor : MonoBehaviour
     }
     void Update()
     {
-        if (open)
-        {
-            this.gameObject.GetComponent<MeshCollider>().enabled = false;
-        }
-        else
-        {
-            this.gameObject.GetComponent<MeshCollider>().enabled = true;
-        }
         if (!done && isDanger)
         {
             foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
@@ -40,18 +32,20 @@ public class OpenDoor : MonoBehaviour
             }
             if (Time.timeScale >= 15 && broken)
             {
-                this.GetComponent<MeshCollider>().enabled = false;
                 this.gameObject.GetComponent<Animator>().SetTrigger("Corner");
                 done = true;
             }
         }
-        if(locked && lockbreaker.GetComponent<PressurePlate>().active)
+        if (lockbreaker != null)
         {
-            locked = false;
-        }
-        else if (!locked && !lockbreaker.GetComponent<PressurePlate>().active)
-        {
-            locked = true;
+            if (locked && lockbreaker.GetComponent<PressurePlate>().active)
+            {
+                locked = false;
+            }
+            else if (!locked && !lockbreaker.GetComponent<PressurePlate>().active)
+            {
+                locked = true;
+            }
         }
     }
         private void OnCollisionEnter(Collision collision)
@@ -71,7 +65,6 @@ public class OpenDoor : MonoBehaviour
     }
     public IEnumerator Wait()
     {
-        yield return new WaitForSeconds(1);
         open = true;
         yield return new WaitForSeconds(5);
         this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");

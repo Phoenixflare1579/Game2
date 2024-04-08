@@ -170,3 +170,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
+  green: {fileID: 2100000, guid: 73f746d85dbbbd948861fb8014614715, type: 2}
+  basic: {fileID: -876546973899608171, guid: a0bb08a0b1fd99646943e0d630d5109c, type: 3}

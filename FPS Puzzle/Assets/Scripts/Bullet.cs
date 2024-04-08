@@ -11,15 +11,13 @@ public class Bullet : NetworkComponent
     {
         
     }
-
     public override void NetworkedStart()
     {
-        if(IsServer)
+        if (IsServer)
         {
             StartCoroutine(TTD());
         }
     }
-
     public override IEnumerator SlowUpdate()
     {
         while (MyCore.IsConnected)
@@ -34,8 +32,6 @@ public class Bullet : NetworkComponent
             yield return new WaitForSecondsRealtime(0.1f);
         }
     }
-
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,12 +39,6 @@ public class Bullet : NetworkComponent
         {
             rb.velocity = transform.forward * 20f;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     private void OnCollisionEnter(Collision collision)
     {
