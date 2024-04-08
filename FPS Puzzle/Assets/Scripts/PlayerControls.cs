@@ -81,7 +81,7 @@ public class PlayerControls : NetworkComponent
             {
                 if (equipped.name.Contains("gun"))
                 {
-                    MyCore.NetCreateObject(0, MyId.Owner, LastPosition + this.transform.forward * 2, this.transform.rotation);
+                    MyCore.NetCreateObject(0, MyId.Owner, LastPosition + this.rb.transform.forward * 2, this.rb.transform.rotation);
                 }
                 else if (equipped.name.Contains("sword"))
                 {
