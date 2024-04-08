@@ -4,6 +4,9 @@ using UnityEngine;
 using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using System;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerControls : NetworkComponent
 {
@@ -23,7 +26,6 @@ public class PlayerControls : NetworkComponent
     public GameObject equipped;
     public bool isWeapon = false;
     bool crouch = false;
-    bool menu = false;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -109,7 +111,16 @@ public class PlayerControls : NetworkComponent
         {
             if (IsClient)
             {
-                
+                string raw = value.Trim('(').Trim(')');
+                string[] sArray = raw.Split(',');
+
+                Quaternion result = new Quaternion(
+                    float.Parse(sArray[0]),
+                    float.Parse(sArray[1]),
+                    float.Parse(sArray[2]),
+                    float.Parse(sArray[3]));
+
+                xQuat = result;
             }
             if (IsServer)
             {
@@ -124,7 +135,7 @@ public class PlayerControls : NetworkComponent
 
                 xQuat = result;
 
-                rb.transform.localRotation = xQuat;
+                transform.localRotation = xQuat;
             }
         }
     }
@@ -199,18 +210,6 @@ public class PlayerControls : NetworkComponent
         }
     }
 
-    public void Menu(InputAction.CallbackContext c)
-    {
-        if(c.started && !menu)
-        {
-            menu = true;
-        }
-        else if (c.started && menu)
-        {
-            menu = false;
-        }
-    }
-
     public override void NetworkedStart()
     {
 
@@ -269,9 +268,8 @@ public class PlayerControls : NetworkComponent
             {
                 speed = 10f;
             }
-            Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
-            rb.transform.localRotation = xQuat;
-            rb.velocity = tv;
+            rb.velocity = (transform.right * LastInput.x).normalized * speed + (transform.forward * LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
+            transform.localRotation = xQuat;
             if (!jump)
             { 
                 RaycastHit hit;
@@ -290,13 +288,12 @@ public class PlayerControls : NetworkComponent
         {
             rb.velocity = LastVelocity;
             rb.transform.localRotation = xQuat;
+
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
-            if (!menu)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+
+            Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
             {
@@ -313,7 +310,7 @@ public class PlayerControls : NetworkComponent
             yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
             Camera.main.transform.localRotation = xQuat * yQuat;
-            rb.transform.localRotation = xQuat;
+            transform.localRotation = xQuat;
             Debug.Log(xQuat);
             SendCommand("Rot", xQuat.ToString());
 
