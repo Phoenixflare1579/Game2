@@ -39,7 +39,6 @@ public class Bullet : NetworkComponent
         {
             rb.velocity = transform.forward * 20f;
         }
-        GetComponent<Collider>().enabled = false;
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -52,10 +51,5 @@ public class Bullet : NetworkComponent
     {
         yield return new WaitForSeconds(10f);
         MyCore.NetDestroyObject(MyId.NetId);
-    }
-    public IEnumerator StartUp()
-    {
-        yield return new WaitForSeconds(0.25f);
-        GetComponent<Collider>().enabled = true;
     }
 }
