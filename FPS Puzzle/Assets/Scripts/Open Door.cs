@@ -5,34 +5,66 @@ using UnityEngine;
 public class OpenDoor : MonoBehaviour
 {
     bool open = false;
-    // Start is called before the first frame update
-    void Start()
+    public string type;//Corner,T&B,Sides
+    public bool isDanger;
+    bool broken = false;
+    bool done = false;
+
+    private void Start()
     {
-        
+        if(isDanger)
+        {
+           this.gameObject.GetComponent<Animator>().SetTrigger("DD");
+        }
     }
-    // Update is called once per frame
     void Update()
     {
         if (open)
         {
-            this.transform.parent.gameObject.GetComponent<BoxCollider>().enabled = false;
+            this.gameObject.GetComponent<MeshCollider>().enabled = false;
         }
         else
         {
-            this.transform.parent.gameObject.GetComponent<BoxCollider>().enabled = true;
+            this.gameObject.GetComponent<MeshCollider>().enabled = true;
+        }
+        if (!done && isDanger)
+        {
+            foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (Vector3.Distance(p.transform.position, this.gameObject.transform.position) < 25f)
+                {
+                    broken = true;
+                }
+            }
+            if (Time.timeScale >= 15 && broken)
+            {
+                this.GetComponent<MeshCollider>().enabled = false;
+                this.gameObject.GetComponent<Animator>().SetTrigger("Corner");
+                done = true;
+            }
         }
     }
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag == "Player" && isDanger)
+            {
+                collision.gameObject.GetComponent<PlayerInfo>().SendCommand("HP", (collision.gameObject.GetComponent<PlayerInfo>().HP - 1).ToString());
+            }
+        }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !open)
+        if (other.gameObject.tag == "Player" && !open && !isDanger)
         {
             StartCoroutine(Wait());
-            this.transform.parent.gameObject.GetComponent<Animation>().Play();
+            this.gameObject.GetComponent<Animator>().SetTrigger(type);
         }
     }
     public IEnumerator Wait()
     {
         yield return new WaitForSeconds(1);
         open = true;
+        yield return new WaitForSeconds(5);
+        this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+        open = false;
     }
 }
