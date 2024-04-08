@@ -5,20 +5,24 @@ using UnityEngine;
 public class DangerDoor : MonoBehaviour
 {
     bool broken = false;
+    bool done = false;
     public AnimationClip open;
     public void Update()
-    {
-        foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+    {   if (!done)
         {
-            if (Vector3.Distance(p.transform.position,this.gameObject.transform.position) < 15f)
+            foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
             {
-                broken = true;
+                if (Vector3.Distance(p.transform.position, this.gameObject.transform.position) < 15f)
+                {
+                    broken = true;
+                }
             }
-        }
-        if (Time.timeScale >= 15 && broken)
-        {
-            GetComponent<Animation>().clip = open;
-            this.GetComponent<BoxCollider>().enabled = false;
+            if (Time.timeScale >= 15 && broken)
+            {
+                GetComponent<Animation>().clip = open;
+                this.GetComponent<BoxCollider>().enabled = false;
+                done = true;
+            }
         }
     }
     private void OnCollisionEnter(Collision collision)

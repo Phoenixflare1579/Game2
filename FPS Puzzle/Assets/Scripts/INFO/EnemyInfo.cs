@@ -9,7 +9,7 @@ public class EnemyInfo : Info
     {
         if (IsServer)
         {
-            MaxHP = 3;
+            MaxHP = 2;
             HP = MaxHP;
         }
     }

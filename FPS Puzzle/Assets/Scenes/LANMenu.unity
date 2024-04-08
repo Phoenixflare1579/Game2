@@ -1084,6 +1084,32 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
+--- !u!1 &830334550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7083030239318942671, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+  m_PrefabInstance: {fileID: 1006050784}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &830334556
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830334550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.039761994, y: 0.0067684553, z: 0.02062095}
+  m_Center: {x: 0, y: -0.0016836363, z: 0.00012669349}
 --- !u!1001 &1006050784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1092,6 +1118,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2632180726220523148, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5414582484828173757, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7083030239318942671, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_Name
       value: Robot Turret Variant
@@ -1142,9 +1176,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6886799525949232523, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
+    - {fileID: 5414582484828173757, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7083030239318942671, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 830334556}
   m_SourcePrefab: {fileID: 100100000, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
 --- !u!1001 &1012835157
 PrefabInstance:

@@ -23,6 +23,7 @@ public class PlayerControls : NetworkComponent
     public GameObject equipped;
     public bool isWeapon = false;
     bool crouch = false;
+    bool menu = false;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -123,7 +124,7 @@ public class PlayerControls : NetworkComponent
 
                 xQuat = result;
 
-                transform.localRotation = xQuat;
+                rb.transform.localRotation = xQuat;
             }
         }
     }
@@ -198,6 +199,18 @@ public class PlayerControls : NetworkComponent
         }
     }
 
+    public void Menu(InputAction.CallbackContext c)
+    {
+        if(c.started && !menu)
+        {
+            menu = true;
+        }
+        else if (c.started && menu)
+        {
+            menu = false;
+        }
+    }
+
     public override void NetworkedStart()
     {
 
@@ -257,8 +270,8 @@ public class PlayerControls : NetworkComponent
                 speed = 10f;
             }
             Vector3 tv = new Vector3(LastInput.x, 0, LastInput.y).normalized * speed + new Vector3(0, rb.velocity.y, 0);
+            rb.transform.localRotation = xQuat;
             rb.velocity = tv;
-            transform.localRotation = xQuat;
             if (!jump)
             { 
                 RaycastHit hit;
@@ -277,11 +290,13 @@ public class PlayerControls : NetworkComponent
         {
             rb.velocity = LastVelocity;
             rb.transform.localRotation = xQuat;
-
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            if (!menu)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
             Vector3 offset;
             if (!crouch)
             {
@@ -298,7 +313,7 @@ public class PlayerControls : NetworkComponent
             yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
             Camera.main.transform.localRotation = xQuat * yQuat;
-            transform.localRotation = xQuat;
+            rb.transform.localRotation = xQuat;
             Debug.Log(xQuat);
             SendCommand("Rot", xQuat.ToString());
 

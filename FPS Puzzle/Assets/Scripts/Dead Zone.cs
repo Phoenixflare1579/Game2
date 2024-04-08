@@ -10,6 +10,10 @@ public class DeadZone : MonoBehaviour
         {
             other.GetComponent<PlayerInfo>().DeadZone = true;
         }
+        /*if (other.gameObject.tag == "Android")
+        {
+            other.GetComponent<PlayerInfo>().DeadZone = true;
+        }*/
     }
     private void OnTriggerExit(Collider other)
     {
