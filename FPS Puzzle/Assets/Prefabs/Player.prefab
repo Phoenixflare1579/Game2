@@ -3178,6 +3178,7 @@ MonoBehaviour:
   jump: 1
   equipped: {fileID: 0}
   isWeapon: 0
+  equipslot: {fileID: 89}
   xQuat: {x: 0, y: 0, z: 0, w: 0}
   yQuat: {x: 0, y: 0, z: 0, w: 0}
   sensitivity: 2
@@ -3332,7 +3333,19 @@ MonoBehaviour:
     m_ActionId: b254e573-a167-40fa-9f8b-638460debaa9
     m_ActionName: Player/New action
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 393}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: Grab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ea6b8836-cb02-4f7a-9517-c437673c30c4
     m_ActionName: Player/New action
   - m_PersistentCalls:

@@ -26,6 +26,7 @@ public class PlayerControls : NetworkComponent
     public GameObject equipped;
     public bool isWeapon = false;
     bool crouch = false;
+    public GameObject equipslot;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -138,16 +139,6 @@ public class PlayerControls : NetworkComponent
                 transform.localRotation = xQuat;
             }
         }
-        if (flag == "Equip")
-        {
-            if(IsClient)
-            {
-                if (value != string.Empty)
-                {
-                    equipped = GameObject.Find(value.ToString());
-                }
-            }
-        }
     }
 
     public void Move(InputAction.CallbackContext c)
@@ -219,6 +210,44 @@ public class PlayerControls : NetworkComponent
             }
         }
     }
+    public void Grab(InputAction.CallbackContext c)
+    {
+        RaycastHit hit;
+        if (equipped == null && c.started && Physics.Raycast(transform.position, transform.forward, out hit, 3f) && hit.transform.gameObject.tag == "Equippable")
+        {
+            PickUp(hit.transform.gameObject);
+        }
+        else if (equipped != null)
+        {
+            Drop(equipped);
+        }
+    }
+
+    private void PickUp(GameObject e)
+    {
+
+        e.transform.SetParent(equipslot.transform);
+
+        e.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        e.transform.localPosition = Vector3.zero;
+
+        e.GetComponent<Rigidbody>().isKinematic = true;
+        e.GetComponent<Collider>().enabled = false;
+
+    }
+
+    private void Drop(GameObject e)
+    {
+        transform.SetParent(null);
+
+        e.GetComponent<Rigidbody>().velocity = rb.velocity;
+
+        e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 3f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 0.5f, ForceMode.Impulse);
+
+        e.GetComponent<Rigidbody>().isKinematic = false;
+        e.GetComponent<Collider>().enabled = true;
+    }
 
     public override void NetworkedStart()
     {
@@ -243,23 +272,16 @@ public class PlayerControls : NetworkComponent
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
 
-                if (equipped == null && this.transform.GetChild(0).GetChild(0).gameObject != null)
+                if (equipped == null && equipslot.transform.GetChild(0) != null)
                 {
-                    equipped = this.transform.GetChild(0).GetChild(0).gameObject;
+                    equipped = equipslot.transform.GetChild(0).gameObject;
                     if(equipped.name.Contains("gun") || equipped.name.Contains("sword"))
                     {
                         isWeapon = true;
                     }
                 }
 
-                if (equipped != null)
-                {
-                    SendUpdate("Equip", equipped.ToString());
-                }
-                else
-                {
-                    SendUpdate("Equip", string.Empty);
-                }
+                
 
                 if (IsDirty)
                 {
@@ -267,14 +289,6 @@ public class PlayerControls : NetworkComponent
                     SendUpdate("Rot", rb.transform.localRotation.ToString());
                     SendUpdate("Vel", rb.velocity.ToString());
                     SendUpdate("AVel", rb.angularVelocity.ToString());
-                    if (equipped != null)
-                    {
-                        SendUpdate("Equip", equipped.ToString());
-                    }
-                    else
-                    {
-                        SendUpdate("Equip", string.Empty);
-                    }
                     IsDirty = false;
                 }
             }
@@ -312,7 +326,6 @@ public class PlayerControls : NetworkComponent
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, -transform.up, out hit, 0.5f))
                 {
-                    Debug.Log(hit.transform.gameObject.name);
                     if (hit.transform.gameObject != this.gameObject && hit.collider.isTrigger == false)
                     {
                         jump = true;

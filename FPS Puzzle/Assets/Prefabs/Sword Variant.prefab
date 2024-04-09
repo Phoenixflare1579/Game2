@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalScale.x
@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.24451
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.84159
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.094511
+      value: 4.5561485
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalRotation.w
@@ -83,6 +83,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_Name
       value: Sword Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
+      propertyPath: m_TagString
+      value: Equippable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
