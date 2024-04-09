@@ -34,19 +34,22 @@ public class MovingEnemyNavmesh : NetworkComponent
                 if (DeadZone)
                 {
                     tag = "Enemy";
+                    GetComponent<Animator>().SetTrigger("Cube");
                     if (target != null)
                     {
-                        myAgent.destination = target.transform.position;
+                        myAgent.SetDestination(target.transform.position);
+                        myAgent.speed = 12f;
                     }
                 }
-                else if (myAgent.transform.position == myAgent.destination)
+                else if (Vector3.Distance(myAgent.transform.position, myAgent.destination) <= 2f)
                 {
                     index++;
-                    if (index == goals.Count)
+                    if (index >= goals.Count)
                     {
                         index = 0;
                     }
-                    myAgent.destination = goals[index].transform.position;
+
+                    myAgent.SetDestination(goals[index].transform.position);
                 }
             }
             yield return new WaitForSeconds(0.1f);

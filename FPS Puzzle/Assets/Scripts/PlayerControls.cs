@@ -46,10 +46,6 @@ public class PlayerControls : NetworkComponent
         if (flag == "Crouch")
         {
             crouch = bool.Parse(value);
-            if (IsClient)
-            {
-                animator.SetBool("Crouch", crouch);
-            }
         }
         if (flag == "Jump")
         {
@@ -271,6 +267,7 @@ public class PlayerControls : NetworkComponent
     private void Drop(GameObject e)
     {
         transform.SetParent(null);
+        equipped = null;
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity;
 
@@ -361,7 +358,7 @@ public class PlayerControls : NetworkComponent
         {
             rb.velocity = LastVelocity;
             rb.transform.localRotation = xQuat;
-
+            animator.SetBool("Crouch", crouch);
             if (rb.velocity.x + rb.velocity.z != animator.GetFloat("SpeedH"))
             {
                 animator.SetFloat("SpeedH", rb.velocity.x + rb.velocity.z);
@@ -382,7 +379,7 @@ public class PlayerControls : NetworkComponent
             }
             else
             {
-                offset = new Vector3(0, 1.5f, 0);
+                offset = new Vector3(0, 2f, 0);
             }
             rotation.x += Input.GetAxis(xAxis) * sensitivity;
             rotation.y += Input.GetAxis(yAxis) * sensitivity;
