@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - NavPoint
   - Equippable
+  - Android
   layers:
   - Default
   - TransparentFX

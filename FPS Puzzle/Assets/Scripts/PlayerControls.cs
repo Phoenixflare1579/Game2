@@ -28,6 +28,7 @@ public class PlayerControls : NetworkComponent
     bool crouch = false;
     public GameObject equipslot;
     RaycastHit hit;
+    public Animator animator;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -41,9 +42,13 @@ public class PlayerControls : NetworkComponent
             {
                 sprint = bool.Parse(value);
             }
-            if (flag == "Crouch")
+        }
+        if (flag == "Crouch")
+        {
+            crouch = bool.Parse(value);
+            if (IsClient)
             {
-                crouch = bool.Parse(value);
+                animator.SetBool("Crouch", crouch);
             }
         }
         if (flag == "Jump")
@@ -228,18 +233,26 @@ public class PlayerControls : NetworkComponent
 
     private void PickUp(GameObject e)//Picking up objects.
     {
-
+        
         e.transform.SetParent(equipslot.transform);
 
         equipped = e;
 
         if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
         {
+            if (IsClient)
+            {
+                animator.SetTrigger("Grab");
+            }
             isWeapon = true;
         }
 
-        if (e.name.Contains("cube"))
+        if (equipped.name.Contains("cube"))
         {
+            if (IsClient)
+            {
+                animator.SetTrigger("Cube");
+            }
             e.transform.localRotation = Quaternion.Euler(new Vector3(90f,0,0));
         }
 
@@ -248,6 +261,11 @@ public class PlayerControls : NetworkComponent
         e.GetComponent<Rigidbody>().isKinematic = true;
         e.GetComponent<Collider>().enabled = false;
 
+    }
+
+    public void Stop()
+    {
+        animator.speed = 0;
     }
 
     private void Drop(GameObject e)
@@ -303,6 +321,7 @@ public class PlayerControls : NetworkComponent
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -343,6 +362,14 @@ public class PlayerControls : NetworkComponent
             rb.velocity = LastVelocity;
             rb.transform.localRotation = xQuat;
 
+            if (rb.velocity.x + rb.velocity.z != animator.GetFloat("SpeedH"))
+            {
+                animator.SetFloat("SpeedH", rb.velocity.x + rb.velocity.z);
+            }
+            if (rb.velocity.y != animator.GetFloat("SpeedV"))
+            {
+                animator.SetFloat("SpeedV", rb.velocity.y);
+            }
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {

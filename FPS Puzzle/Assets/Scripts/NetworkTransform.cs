@@ -8,7 +8,6 @@ public class NetworkTransform : NetworkComponent
 {
     public Vector3 LastPosition;
     public Vector3 LastRotation;
-    public Vector3 LastScale;
 
     public float MinThreshold = .1f;
     public float MaxThreshold = .5f;
@@ -47,13 +46,6 @@ public class NetworkTransform : NetworkComponent
             }
             LastRotation = temp;
         }
-
-        if(flag == "SCALE")
-        {
-            Vector3 temp = NetworkTransform.VectorFromString(value);
-            this.transform.localScale = temp;
-            LastScale = temp;
-        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -76,18 +68,10 @@ public class NetworkTransform : NetworkComponent
                     LastRotation = this.transform.rotation.eulerAngles;
                 }
 
-                float CheckScale = (this.transform.localScale - LastScale).magnitude;
-                if (CheckScale > MinThreshold)
-                {
-                    SendUpdate("SCALE", this.transform.localScale.ToString("F3"));
-                    LastScale = this.transform.localScale;
-                }
-
                 if (IsDirty)
                 {
                     SendUpdate("POS", this.transform.position.ToString("F2"));
                     SendUpdate("ROT", this.transform.rotation.eulerAngles.ToString("F2"));
-                    SendUpdate("SCALE", this.transform.localScale.ToString("F3"));
 
                     IsDirty = false;
                 }
