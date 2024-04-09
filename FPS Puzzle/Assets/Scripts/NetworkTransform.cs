@@ -72,7 +72,6 @@ public class NetworkTransform : NetworkComponent
                 {
                     SendUpdate("POS", this.transform.position.ToString("F2"));
                     SendUpdate("ROT", this.transform.rotation.eulerAngles.ToString("F2"));
-
                     IsDirty = false;
                 }
             }
@@ -97,7 +96,8 @@ public class NetworkTransform : NetworkComponent
     {
         if(IsClient && Smooth)
         {
-            this.transform.position = Vector3.Lerp(this.transform.position, LastPosition, .2f); //NavMeshSpeed * Time.deltaTime
+            this.transform.position = Vector3.Lerp(this.transform.position, LastPosition, .2f);
+            GetComponent<Animator>().SetFloat("SpeedH", 5f);
             Quaternion qt = new Quaternion();
             qt.eulerAngles = Vector3.Lerp(
                 this.transform.rotation.eulerAngles, LastRotation, RotationSpeed * Time.deltaTime
