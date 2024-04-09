@@ -46,6 +46,20 @@ public class PlayerControls : NetworkComponent
         if (flag == "Crouch")
         {
             crouch = bool.Parse(value);
+            if (IsServer)
+            {
+                SendUpdate("Crouch", value);
+            }
+            if(crouch)
+            {
+                GetComponent<BoxCollider>().center = new Vector3(0, 2f, 0);
+                GetComponent<BoxCollider>().size = new Vector3(2.7f, 4f, 2f);
+            }
+            else
+            {
+                GetComponent<BoxCollider>().center = new Vector3(0, 3.2f, 0);
+                GetComponent<BoxCollider>().size = new Vector3(2.7f, 6.5f, 1f);
+            }
         }
         if (flag == "Jump")
         {
