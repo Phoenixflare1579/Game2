@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LANMenu.unity
     guid: 1c15f2452767a5e44bbca5d7122dba90
+  - enabled: 1
+    path: Assets/Scenes/Test Scene.unity
+    guid: f61746765efb6064d809e559bb2bbe64
   m_configObjects: {}
