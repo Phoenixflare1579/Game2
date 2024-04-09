@@ -27,6 +27,7 @@ public class PlayerControls : NetworkComponent
     public bool isWeapon = false;
     bool crouch = false;
     public GameObject equipslot;
+    RaycastHit hit;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -212,23 +213,36 @@ public class PlayerControls : NetworkComponent
     }
     public void Grab(InputAction.CallbackContext c)
     {
-        RaycastHit hit;
-        if (equipped == null && c.started && Physics.Raycast(transform.position, transform.forward, out hit, 3f) && hit.transform.gameObject.tag == "Equippable")
+        if (equipped == null && c.started && hit.transform.gameObject.tag == "Equippable")
         {
             PickUp(hit.transform.gameObject);
         }
-        else if (equipped != null)
+    }
+    public void Throw(InputAction.CallbackContext c)
+    {
+        if (equipped != null && c.started)
         {
             Drop(equipped);
         }
     }
 
-    private void PickUp(GameObject e)
+    private void PickUp(GameObject e)//Picking up objects.
     {
 
         e.transform.SetParent(equipslot.transform);
 
-        e.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        equipped = e;
+
+        if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
+        {
+            isWeapon = true;
+        }
+
+        if (e.name.Contains("cube"))
+        {
+            e.transform.localRotation = Quaternion.Euler(new Vector3(90f,0,0));
+        }
+
         e.transform.localPosition = Vector3.zero;
 
         e.GetComponent<Rigidbody>().isKinematic = true;
@@ -272,17 +286,6 @@ public class PlayerControls : NetworkComponent
                 SendUpdate("AVel", rb.angularVelocity.ToString());
                 LastAngVelocity = rb.angularVelocity;
 
-                if (equipped == null && equipslot.transform.GetChild(0) != null)
-                {
-                    equipped = equipslot.transform.GetChild(0).gameObject;
-                    if(equipped.name.Contains("gun") || equipped.name.Contains("sword"))
-                    {
-                        isWeapon = true;
-                    }
-                }
-
-                
-
                 if (IsDirty)
                 {
                     SendUpdate("Pos", rb.position.ToString());
@@ -305,6 +308,7 @@ public class PlayerControls : NetworkComponent
     // Update is called once per frame
     void Update()
     {
+        Physics.Raycast(transform.position, transform.forward, out hit, 3f);
         if (IsServer)//setting up velocity for the players based on different booleans
         {
             if (sprint)
@@ -323,10 +327,10 @@ public class PlayerControls : NetworkComponent
             transform.localRotation = xQuat;
             if (!jump)
             { 
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, -transform.up, out hit, 0.5f))
+                RaycastHit hit2;
+                if (Physics.Raycast(transform.position, -transform.up, out hit2, 0.5f))
                 {
-                    if (hit.transform.gameObject != this.gameObject && hit.collider.isTrigger == false)
+                    if (hit2.transform.gameObject != this.gameObject && hit2.collider.isTrigger == false)
                     {
                         jump = true;
                         SendUpdate("Jump", jump.ToString());

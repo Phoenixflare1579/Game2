@@ -26,35 +26,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5561485
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.000000030908616
+      value: 0.7072302
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000030908623
+      value: 0.7069834
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071067
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 89.98
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -94,23 +94,23 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5472281828120612398}
+      addedObject: {fileID: 207}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5955724363734045775}
+      addedObject: {fileID: 200}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8796359427706357446}
+      addedObject: {fileID: 299}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4062676111511520568}
+      addedObject: {fileID: 298}
   m_SourcePrefab: {fileID: 100100000, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
 --- !u!1 &5508305809920875619 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
   m_PrefabInstance: {fileID: 4661233460403298610}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &5472281828120612398
+--- !u!64 &207
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,7 +132,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 20211aa20d343e44898c48bc39a97080, type: 3}
---- !u!54 &5955724363734045775
+--- !u!54 &200
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -156,10 +156,10 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &8796359427706357446
+  m_CollisionDetection: 2
+--- !u!114 &299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   UseLobby: 0
   UpdateFrequency: 0.1
   MyCore: {fileID: 0}
---- !u!114 &-4062676111511520568
+--- !u!114 &298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
