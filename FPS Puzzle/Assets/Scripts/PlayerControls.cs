@@ -43,6 +43,22 @@ public class PlayerControls : NetworkComponent
                 sprint = bool.Parse(value);
             }
         }
+        /*if (flag == "Equip")
+        {
+            PickUp(GameObject.Find(value));
+            if(IsServer)
+            {
+                SendUpdate("Equip", value);
+            }
+        }*/
+        if (flag == "Drop")
+        {
+            Drop(equipped);
+            if(IsServer)
+            {
+                SendUpdate("Drop", string.Empty);
+            }
+        }
         if (flag == "Crouch")
         {
             crouch = bool.Parse(value);
@@ -228,16 +244,16 @@ public class PlayerControls : NetworkComponent
     }
     public void Grab(InputAction.CallbackContext c)
     {
-        if (equipped == null && c.started && hit.transform.gameObject.tag == "Equippable")
+        if (equipped == null && c.started && hit.transform.gameObject.tag == "Equippable" && IsLocalPlayer)
         {
-            PickUp(hit.transform.gameObject);
+            SendCommand("Equip", hit.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
         }
     }
     public void Throw(InputAction.CallbackContext c)
     {
         if (equipped != null && c.started)
         {
-            Drop(equipped);
+            SendCommand("Drop", string.Empty);
         }
     }
 
