@@ -83,16 +83,16 @@ public class PlayerInfo : Info
             switch (PColor)
             {
                 case 0:
-                    GetComponent<MeshRenderer>().material.color = Color.red;
+                    transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().materials[1].color = Color.red;
                     break;
                 case 1:
-                    GetComponent<MeshRenderer>().material.color = Color.blue;
+                    transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().materials[1].color = Color.blue;
                     break;
                 case 2:
-                    GetComponent<MeshRenderer>().material.color = Color.green;
+                    transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().materials[1].color = Color.green;
                     break;
                 case 3:
-                    GetComponent<MeshRenderer>().material.color = Color.white;
+                    transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().materials[1].color = Color.white;
                     break;
             }
             if (IsServer)

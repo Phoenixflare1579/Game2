@@ -7,23 +7,24 @@ public class PressurePlate : MonoBehaviour
     public bool active;
     public Material green;
     public Material basic;
+    public bool stop;
     public void Update()
     {
         if(active)
         {
-            GetComponent<SkinnedMeshRenderer>().materials[1] = green;
+            GetComponent<SkinnedMeshRenderer>().material = green;
         }
         else
         {
-            GetComponent<SkinnedMeshRenderer>().materials[1] = basic;
+            GetComponent<SkinnedMeshRenderer>().material = basic;
         }
     }
     private void OnCollisionStay(Collision collision)
     {
-        GetComponent<Animator>().SetTrigger("Down");
+        active = true;
     }
     private void OnCollisionExit(Collision collision)
     {
-        GetComponent<Animator>().SetTrigger("Up");
+        active=false;
     }
 }
