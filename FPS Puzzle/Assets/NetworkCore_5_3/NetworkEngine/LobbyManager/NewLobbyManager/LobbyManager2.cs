@@ -51,9 +51,10 @@ public class LobbyManager2 : NetworkCore
                     int port = int.Parse(temp[1]);
                     localGameID = temp[3];
                     gameCore.PortNumber = port+portMininimum;
-                    IP = "127.0.0.1";
+                    IP = privateIPAddress;
+                    gameCore.IP = IP;
                     StartCoroutine(StartClient());
-                    gameCore.IP = privateIPAddress;
+                    
                     StartCoroutine(SlowStart());
                 }
             }
@@ -89,9 +90,10 @@ public class LobbyManager2 : NetworkCore
         yield return new WaitUntil(() => gameCore.IsServer);
         isGameServer = true;
     }
-
+    
     public IEnumerator SlowAgentStart()
     {
+
         Debug.Log("Attempting to connect to public IP.");
         IP = publicIPAddress;
         yield return StartCoroutine(StartClient());
@@ -111,6 +113,7 @@ public class LobbyManager2 : NetworkCore
                 }
             }
         }
+        gameCore.IP = IP;
     }
 
     public void StartNewGame(string s)
