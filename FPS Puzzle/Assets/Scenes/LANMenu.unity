@@ -1251,6 +1251,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1158176218944506750, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158176218944506750, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158176218944506750, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002413883336624466, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_Height
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002413883336624466, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_Radius
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002413883336624466, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_BaseOffset
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5198508253540901805, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
       propertyPath: goals.Array.data[0]
       value: 
@@ -1259,6 +1283,26 @@ PrefabInstance:
       propertyPath: goals.Array.data[1]
       value: 
       objectReference: {fileID: 1907731139}
+    - target: {fileID: 5331656056643036770, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_Size.y
+      value: 6.351919
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331656056643036770, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331656056643036770, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_Center.y
+      value: 0.13810349
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400697962680860805, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400697962680860805, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7487708119311941978, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
       propertyPath: m_Name
       value: Android
@@ -1273,7 +1317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7827958123768175584, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.02
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7827958123768175584, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
       propertyPath: m_LocalPosition.z

@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c429ae577197c354382db3ac5fd0f876, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c429ae577197c354382db3ac5fd0f876, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.4567591
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c429ae577197c354382db3ac5fd0f876, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.310118
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c429ae577197c354382db3ac5fd0f876, type: 3}
       propertyPath: m_LocalRotation.w
@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c429ae577197c354382db3ac5fd0f876, type: 3}
       propertyPath: m_Name
-      value: Android (1) Variant
+      value: Android
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c429ae577197c354382db3ac5fd0f876, type: 3}
       propertyPath: m_TagString

@@ -43,14 +43,14 @@ public class PlayerControls : NetworkComponent
                 sprint = bool.Parse(value);
             }
         }
-        /*if (flag == "Equip")
+        if (flag == "Equip")
         {
-            PickUp(GameObject.Find(value));
-            if(IsServer)
+            PickUp((MyCore.NetObjs[int.Parse(value)]).gameObject);
+            if (IsServer)
             {
                 SendUpdate("Equip", value);
             }
-        }*/
+        }
         if (flag == "Drop")
         {
             Drop(equipped);
@@ -68,13 +68,13 @@ public class PlayerControls : NetworkComponent
             }
             if(crouch)
             {
-                GetComponent<BoxCollider>().center = new Vector3(0, 2f, 0);
-                GetComponent<BoxCollider>().size = new Vector3(2.7f, 4f, 2f);
+                GetComponent<BoxCollider>().center = new Vector3(0, -1f, 0);
+                GetComponent<BoxCollider>().size = new Vector3(2.6f, 4f, 1.5f);
             }
             else
             {
-                GetComponent<BoxCollider>().center = new Vector3(0, 3.2f, 0);
-                GetComponent<BoxCollider>().size = new Vector3(2.7f, 6.5f, 1f);
+                GetComponent<BoxCollider>().center = new Vector3(0, 0.2f, 0);
+                GetComponent<BoxCollider>().size = new Vector3(2.6f, 6.5f, 1f);
             }
         }
         if (flag == "Jump")
@@ -82,7 +82,7 @@ public class PlayerControls : NetworkComponent
             if (IsServer)
             {
                 jump = bool.Parse(value);
-                rb.velocity += new Vector3(0, 5, 0);
+                rb.velocity += new Vector3(0, 8f, 0);
             }
             if (IsLocalPlayer)
             {
@@ -259,10 +259,13 @@ public class PlayerControls : NetworkComponent
 
     private void PickUp(GameObject e)//Picking up objects.
     {
-        
+        e.GetComponent<Rigidbody>().useGravity = false;
+
         e.transform.SetParent(equipslot.transform);
 
         equipped = e;
+
+        
 
         if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
         {
@@ -284,7 +287,7 @@ public class PlayerControls : NetworkComponent
 
         e.transform.localPosition = Vector3.zero;
 
-        e.GetComponent<Rigidbody>().isKinematic = true;
+        
         e.GetComponent<Collider>().enabled = false;
 
     }
@@ -296,15 +299,17 @@ public class PlayerControls : NetworkComponent
 
     private void Drop(GameObject e)
     {
-        transform.SetParent(null);
+        e.transform.SetParent(null);
         equipped = null;
+        
+        e.GetComponent<Rigidbody>().useGravity = true;
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity;
 
         e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 3f, ForceMode.Impulse);
         e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 0.5f, ForceMode.Impulse);
 
-        e.GetComponent<Rigidbody>().isKinematic = false;
+        
         e.GetComponent<Collider>().enabled = true;
     }
 
@@ -354,7 +359,6 @@ public class PlayerControls : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        Physics.Raycast(transform.position, transform.forward, out hit, 3f);
         if (IsServer)//setting up velocity for the players based on different booleans
         {
             if (sprint)
@@ -400,16 +404,16 @@ public class PlayerControls : NetworkComponent
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
-
+            Physics.Raycast(transform.position, transform.forward, out hit, 3f);
             Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
             {
-                offset = new Vector3(0, 3f, 0);
+                offset = new Vector3(0, 1.45f, 0);
             }
             else
             {
-                offset = new Vector3(0, 2f, 0);
+                offset = new Vector3(0, 1f, 0);
             }
             rotation.x += Input.GetAxis(xAxis) * sensitivity;
             rotation.y += Input.GetAxis(yAxis) * sensitivity;

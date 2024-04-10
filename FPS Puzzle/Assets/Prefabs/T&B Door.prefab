@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.8629873
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalPosition.y
@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.51
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalRotation.w
@@ -117,7 +117,7 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4921657533592873025}
   m_SourcePrefab: {fileID: 100100000, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
---- !u!1 &5227646324511380752 stripped
+--- !u!1 &3596354009928067988 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
   m_PrefabInstance: {fileID: 4407257373754611397}
@@ -129,7 +129,7 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5227646324511380752}
+  m_GameObject: {fileID: 3596354009928067988}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: fffc0b5688641b74a858bd7191d119f2, type: 2}
@@ -149,7 +149,7 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5227646324511380752}
+  m_GameObject: {fileID: 3596354009928067988}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -170,7 +170,7 @@ MeshCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5227646324511380752}
+  m_GameObject: {fileID: 3596354009928067988}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5227646324511380752}
+  m_GameObject: {fileID: 3596354009928067988}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7bde05e4a14ac34288bc61007b726b1, type: 3}
@@ -200,3 +200,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: T&B
   isDanger: 0
+  locked: 0
+  lockbreaker: {fileID: 0}

@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.24
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.19
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.572715
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -53,6 +53,30 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: -0.0038695345
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: 0.08164401
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.15777898
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
       propertyPath: m_BlendShapeWeights.Array.data[0]
       value: 0
       objectReference: {fileID: 0}
@@ -74,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 52b111aaa34a2be4cafe28c50bac74e7, type: 3}
       propertyPath: m_Name
-      value: Laser Wall Variant 1
+      value: Laser Wall (Full)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a515ed118cca1d47ad0bceee845062b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: Full
 --- !u!65 &5153448889365004327
 BoxCollider:
   m_ObjectHideFlags: 0
