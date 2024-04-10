@@ -265,8 +265,6 @@ public class PlayerControls : NetworkComponent
 
         equipped = e;
 
-        
-
         if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
         {
             if (IsClient)
@@ -359,6 +357,11 @@ public class PlayerControls : NetworkComponent
     // Update is called once per frame
     void Update()
     {
+        if (!IsClient)
+        {
+            Physics.Raycast(transform.position, transform.forward, out hit, 3f);
+            Debug.DrawRay(transform.position, transform.forward, Color.red);
+        }
         if (IsServer)//setting up velocity for the players based on different booleans
         {
             if (sprint)
@@ -378,7 +381,7 @@ public class PlayerControls : NetworkComponent
             if (!jump)
             { 
                 RaycastHit hit2;
-                if (Physics.Raycast(transform.position, -transform.up, out hit2, 0.5f))
+                if (Physics.Raycast(transform.position, -transform.up, out hit2, 0.75f))
                 {
                     if (hit2.transform.gameObject != this.gameObject && hit2.collider.isTrigger == false)
                     {
@@ -404,7 +407,7 @@ public class PlayerControls : NetworkComponent
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
-            Physics.Raycast(transform.position, transform.forward, out hit, 3f);
+            
             Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
@@ -423,7 +426,6 @@ public class PlayerControls : NetworkComponent
 
             Camera.main.transform.localRotation = xQuat * yQuat;
             transform.localRotation = xQuat;
-            Debug.Log(xQuat);
             SendCommand("Rot", xQuat.ToString());
 
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
