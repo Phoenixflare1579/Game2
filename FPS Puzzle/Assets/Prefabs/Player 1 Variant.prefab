@@ -873,7 +873,7 @@ Transform:
   - {fileID: 8718342477296607053}
   - {fileID: 3475852618547352758}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &3857612925721259481
 BoxCollider:
@@ -903,7 +903,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082767942475388265}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 54ae852a917d3a74e8f85d7940819ecf, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

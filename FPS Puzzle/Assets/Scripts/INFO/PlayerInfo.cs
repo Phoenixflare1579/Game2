@@ -39,7 +39,7 @@ public class PlayerInfo : Info
         }
         if (!IsLocalPlayer)
         {
-            this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+            this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 

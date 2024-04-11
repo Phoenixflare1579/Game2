@@ -973,7 +973,7 @@ MonoBehaviour:
   - {fileID: 7572352782126813892, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
   - {fileID: 299, guid: cf72bfced01ed3d4797d5fe259b27865, type: 3}
   - {fileID: 2557440005995621671, guid: 5805062e651ef1849a8089238d8af5d4, type: 3}
-  - {fileID: 7627658014608050936, guid: d00eb1fe023c0eb43b8bdfcafeecb2d1, type: 3}
+  - {fileID: 6762410468412621753, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
   - {fileID: 2995720519265560594, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
   NetworkPlayerManager: {fileID: 5986224602182991777, guid: 2efd8bab0c58ad2468d6ab017f244f5b, type: 3}
   DefaultReturnScene: 0
