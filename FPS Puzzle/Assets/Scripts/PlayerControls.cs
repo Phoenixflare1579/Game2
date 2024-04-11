@@ -145,10 +145,6 @@ public class PlayerControls : NetworkComponent
                     SendUpdate("Fire", "S");
                 }
             }
-            if (IsClient)
-            {
-                //Play animations
-            }
         }
         if (flag == "Vel")
         {
@@ -291,6 +287,17 @@ public class PlayerControls : NetworkComponent
                 else
                 {
                     SendCommand("Fire", ray.GetPoint(0.5f).ToString() + "," + ray.direction.ToString());
+                }
+            }
+            if (IsClient)
+            {
+                if (equipped.name.Contains("sword"))
+                {
+                    animator.SetTrigger("Slash");
+                }
+                else
+                {
+                    animator.SetTrigger("Shoot");
                 }
             }
         }
