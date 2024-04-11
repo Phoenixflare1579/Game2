@@ -359,8 +359,9 @@ public class PlayerControls : NetworkComponent
     {
         if (!IsClient)
         {
-            Physics.Raycast(transform.position, transform.forward, out hit, 3f);
-            Debug.DrawRay(transform.position, transform.forward, Color.red);
+           Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+           Physics.Raycast(ray.GetPoint(1f), ray.direction, out hit, 3f);
+            
         }
         if (IsServer)//setting up velocity for the players based on different booleans
         {
@@ -380,13 +381,15 @@ public class PlayerControls : NetworkComponent
             transform.localRotation = xQuat;
             if (!jump)
             { 
-                RaycastHit hit2;
-                if (Physics.Raycast(transform.position, -transform.up, out hit2, 0.75f))
+                RaycastHit[] hit2 = Physics.RaycastAll(transform.position, -transform.up, 1.5f);
+                Debug.DrawRay(transform.position, -transform.up, Color.blue);
+                foreach(RaycastHit h in hit2)
                 {
-                    if (hit2.transform.gameObject != this.gameObject && hit2.collider.isTrigger == false)
+                    if (h.transform.gameObject != this.gameObject)
                     {
                         jump = true;
                         SendUpdate("Jump", jump.ToString());
+                        break;
                     }
                 }
             }
