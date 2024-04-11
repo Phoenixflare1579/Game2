@@ -116,7 +116,7 @@ public class PlayerControls : NetworkComponent
                 if (equipped.name.Contains("gun"))
                 {
                     string[] args = value.Split(',');
-                    MyCore.NetCreateObject(0, MyId.Owner, NetworkCore.Vector3FromString(args[0]), Quaternion.LookRotation(NetworkCore.Vector3FromString(args[1])));
+                    MyCore.NetCreateObject(0, MyId.Owner, transform.forward + LastPosition * 2, Quaternion.identity);
                     SendUpdate("Fire", "G");
                 }
                 else if (equipped.name.Contains("sword"))
@@ -272,17 +272,17 @@ public class PlayerControls : NetworkComponent
                     {
                         if(h.transform.gameObject.tag == "Projectile")
                         {
-                            SendCommand("Fire", "Pr" + ',' + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString() + ',' + ray.direction);
+                            SendCommand("Fire", "Pr" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString() + "," + ray.direction);
                             break;
                         }
                         else if (h.transform.gameObject.tag == "Android" || h.transform.gameObject.tag == "Enemy") 
                         {
-                            SendCommand("Fire", "E" + ',' + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+                            SendCommand("Fire", "E" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
                             break;
                         }
                         else if (h.transform.gameObject.tag == "Player")
                         {
-                            SendCommand("Fire", "Pl" + ',' + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+                            SendCommand("Fire", "Pl" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
                             break;
                         }
                     }
@@ -290,7 +290,7 @@ public class PlayerControls : NetworkComponent
                 }
                 else
                 {
-                    SendCommand("Fire", ray.GetPoint(0.5f).ToString() + ',' + ray.direction);
+                    SendCommand("Fire", ray.GetPoint(0.5f).ToString() + "," + ray.direction.ToString());
                 }
             }
         }
