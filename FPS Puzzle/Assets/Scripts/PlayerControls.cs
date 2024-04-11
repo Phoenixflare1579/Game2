@@ -29,6 +29,7 @@ public class PlayerControls : NetworkComponent
     public GameObject equipslot;
     RaycastHit[] hit;
     public Animator animator;
+    Ray ray;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -114,12 +115,39 @@ public class PlayerControls : NetworkComponent
             {
                 if (equipped.name.Contains("gun"))
                 {
-                    MyCore.NetCreateObject(0, MyId.Owner, LastPosition + this.rb.transform.forward * 2, this.rb.transform.rotation);
+                    string[] args = value.Split(',');
+                    MyCore.NetCreateObject(0, MyId.Owner, NetworkCore.Vector3FromString(args[0]), Quaternion.LookRotation(NetworkCore.Vector3FromString(args[1])));
+                    SendUpdate("Fire", "G");
                 }
                 else if (equipped.name.Contains("sword"))
                 {
-
+                    if (value != string.Empty)
+                    {
+                        string[] args = value.Split(',');
+                        if (args[0] == "Pr")
+                        { 
+                         //   MyCore.NetObjs[int.Parse(args[1])].gameObject.GetComponent<Rigidbody>().velocity *= -1; needs to attach to sword for a second and then fly in the direction of ray.
+                         //   args[2] is the direction of the raycast
+                        }
+                        else if (args[0] == "E")
+                        {
+                            GameObject temp = MyCore.NetObjs[int.Parse(args[1])].gameObject;
+                            temp.GetComponent<EnemyInfo>().HP -= 1;
+                            temp.GetComponent<EnemyInfo>().SendUpdate("HP", temp.GetComponent<EnemyInfo>().HP.ToString());
+                        }
+                        else if (args[0] == "Pl")
+                        {
+                            GameObject temp = MyCore.NetObjs[int.Parse(args[1])].gameObject;
+                            temp.GetComponent<PlayerInfo>().HP -= 1;
+                            temp.GetComponent<PlayerInfo>().SendUpdate("HP", temp.GetComponent<PlayerInfo>().HP.ToString());
+                        }
+                    }
+                    SendUpdate("Fire", "S");
                 }
+            }
+            if (IsClient)
+            {
+                //Play animations
             }
         }
         if (flag == "Vel")
@@ -238,7 +266,32 @@ public class PlayerControls : NetworkComponent
         {
             if (IsLocalPlayer)
             {
-                SendCommand("Fire", string.Empty);
+                if(equipped.name.Contains("sword"))
+                {
+                    foreach (RaycastHit h in hit)
+                    {
+                        if(h.transform.gameObject.tag == "Projectile")
+                        {
+                            SendCommand("Fire", "Pr" + ',' + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString() + ',' + ray.direction);
+                            break;
+                        }
+                        else if (h.transform.gameObject.tag == "Android" || h.transform.gameObject.tag == "Enemy") 
+                        {
+                            SendCommand("Fire", "E" + ',' + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+                            break;
+                        }
+                        else if (h.transform.gameObject.tag == "Player")
+                        {
+                            SendCommand("Fire", "Pl" + ',' + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+                            break;
+                        }
+                    }
+                    SendCommand("Fire", string.Empty);
+                }
+                else
+                {
+                    SendCommand("Fire", ray.GetPoint(0.5f).ToString() + ',' + ray.direction);
+                }
             }
         }
     }
@@ -408,7 +461,7 @@ public class PlayerControls : NetworkComponent
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             hit = Physics.RaycastAll(ray, 3f);
             Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
