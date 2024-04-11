@@ -27,7 +27,7 @@ public class PlayerControls : NetworkComponent
     public bool isWeapon = false;
     bool crouch = false;
     public GameObject equipslot;
-    RaycastHit hit;
+    RaycastHit[] hit;
     public Animator animator;
     public override void HandleMessage(string flag, string value)
     {
@@ -244,9 +244,13 @@ public class PlayerControls : NetworkComponent
     }
     public void Grab(InputAction.CallbackContext c)
     {
-        if (equipped == null && c.started && hit.transform.gameObject.tag == "Equippable" && IsLocalPlayer)
+        foreach (RaycastHit h in hit)
         {
-            SendCommand("Equip", hit.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+            if (equipped == null && c.started && h.transform.gameObject.tag == "Equippable" && IsLocalPlayer)
+            {
+                SendCommand("Equip", h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+                break;
+            }
         }
     }
     public void Throw(InputAction.CallbackContext c)
@@ -357,12 +361,6 @@ public class PlayerControls : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        if (!IsClient)
-        {
-           Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-           Physics.Raycast(ray.GetPoint(1f), ray.direction, out hit, 3f);
-            
-        }
         if (IsServer)//setting up velocity for the players based on different booleans
         {
             if (sprint)
@@ -410,7 +408,8 @@ public class PlayerControls : NetworkComponent
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
-            
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            hit = Physics.RaycastAll(ray, 3f);
             Cursor.lockState = CursorLockMode.Locked;
             Vector3 offset;
             if (!crouch)
