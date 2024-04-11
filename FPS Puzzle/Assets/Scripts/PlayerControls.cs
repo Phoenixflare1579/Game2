@@ -295,7 +295,7 @@ public class PlayerControls : NetworkComponent
                 {
                     animator.SetTrigger("Slash");
                 }
-                else
+                else if (equipped.name.Contains("gun"))
                 {
                     animator.SetTrigger("Shoot");
                 }
