@@ -18,6 +18,7 @@ public class PlayerControls : NetworkComponent
     public Vector3 LastVelocity;
     public Vector3 LastAngVelocity;
     Rigidbody rb;
+    bool menu;
     public bool useAdapt = false;
     public Vector3 adaptVelocity;
     public float speed = 10f;
@@ -26,6 +27,7 @@ public class PlayerControls : NetworkComponent
     public GameObject equipped;
     public bool isWeapon = false;
     bool crouch = false;
+    bool attack;
     public GameObject equipslot;
     RaycastHit[] hit;
     public Animator animator;
@@ -37,7 +39,7 @@ public class PlayerControls : NetworkComponent
             if (flag == "Move")
             {
                 string[] tmp = value.Split(',');
-                LastInput = new Vector2(int.Parse(tmp[0]), int.Parse(tmp[1]));
+                LastInput = new Vector2(float.Parse(tmp[0]), float.Parse(tmp[1]));
             }
             if (flag == "Sprint")
             {
@@ -117,7 +119,7 @@ public class PlayerControls : NetworkComponent
                 {
                     string[] args = value.Split(',');
                     MyCore.NetCreateObject(0, MyId.Owner, transform.forward + LastPosition * 2, Quaternion.identity);
-                    SendUpdate("Fire", "G");
+                    SendUpdate("Fire", string.Empty);
                 }
                 else if (equipped.name.Contains("sword"))
                 {
@@ -142,8 +144,12 @@ public class PlayerControls : NetworkComponent
                             temp.GetComponent<PlayerInfo>().SendUpdate("HP", temp.GetComponent<PlayerInfo>().HP.ToString());
                         }
                     }
-                    SendUpdate("Fire", "S");
+                    SendUpdate("Fire", string.Empty);
                 }
+            }
+            if(IsClient)
+            {
+                attack = true;
             }
         }
         if (flag == "Vel")
@@ -255,6 +261,16 @@ public class PlayerControls : NetworkComponent
             SendCommand("Crouch", crouch.ToString());
         }
     }
+    public void Menu(InputAction.CallbackContext c)
+    {
+        if (c.started || c.performed)
+        {
+            if (IsLocalPlayer)
+            {
+                menu = !menu;
+            }
+        }
+    }
 
     public void Fire(InputAction.CallbackContext c)
     {
@@ -289,17 +305,7 @@ public class PlayerControls : NetworkComponent
                     SendCommand("Fire", ray.GetPoint(0.5f).ToString() + "," + ray.direction.ToString());
                 }
             }
-            if (IsClient)
-            {
-                if (equipped.name.Contains("sword"))
-                {
-                    animator.SetTrigger("Slash");
-                }
-                else if (equipped.name.Contains("gun"))
-                {
-                    animator.SetTrigger("Shoot");
-                }
-            }
+            
         }
     }
     public void Grab(InputAction.CallbackContext c)
@@ -465,12 +471,31 @@ public class PlayerControls : NetworkComponent
             {
                 animator.SetFloat("SpeedV", rb.velocity.y);
             }
+            if (attack)
+            {
+                if (equipped.name.Contains("sword"))
+                {
+                    animator.SetTrigger("Slash");
+                }
+                else if (equipped.name.Contains("gun"))
+                {
+                    animator.SetTrigger("Shoot");
+                }
+                attack = false;
+            }
         }
         if (IsLocalPlayer)//Setting up camera tracking.
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             hit = Physics.RaycastAll(ray, 3f);
-            Cursor.lockState = CursorLockMode.Locked;
+            if (!menu)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
             Vector3 offset;
             if (!crouch)
             {
