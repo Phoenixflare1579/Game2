@@ -45,6 +45,10 @@ public class TimeManagement : NetworkComponent
                             }
                         }
                     }
+                    if(Start)
+                    {
+                        MyCore.NotifyGameStart();
+                    }
                 }
                 else if (Start)//Setting time for all the players once everyone has readied up
                 {
