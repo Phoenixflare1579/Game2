@@ -374,6 +374,7 @@ public class PlayerControls : NetworkComponent
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity;
 
+
         e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 3f, ForceMode.Impulse);
         e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 0.5f, ForceMode.Impulse);
 
@@ -446,7 +447,6 @@ public class PlayerControls : NetworkComponent
             if (!jump)
             { 
                 RaycastHit[] hit2 = Physics.RaycastAll(transform.position, -transform.up, 1.5f);
-                Debug.DrawRay(transform.position, -transform.up, Color.blue);
                 foreach(RaycastHit h in hit2)
                 {
                     if (h.transform.gameObject != this.gameObject)

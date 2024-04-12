@@ -36,13 +36,13 @@ public class OpenDoor : MonoBehaviour
                 done = true;
             }
         }
-        if (lockbreaker != null)
+        if (lockbreaker != null || locked)
         {
-            if (locked && lockbreaker.GetComponent<PressurePlate>().active)
+            if (lockbreaker == null || (locked && lockbreaker.GetComponent<PressurePlate>().active))
             {
                 locked = false;
             }
-            else if (!locked && !lockbreaker.GetComponent<PressurePlate>().active)
+            else if ((!locked && !lockbreaker.GetComponent<PressurePlate>().active) || lockbreaker.name.Contains("target"))
             {
                 locked = true;
             }
