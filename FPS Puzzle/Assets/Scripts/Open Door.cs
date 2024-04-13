@@ -10,6 +10,7 @@ public class OpenDoor : MonoBehaviour
     bool broken = false;
     bool done = false;
     public bool locked;
+    public bool lockable;
     public GameObject lockbreaker;
 
     private void Start()
@@ -18,6 +19,10 @@ public class OpenDoor : MonoBehaviour
         if (isDanger)
         {
            this.gameObject.GetComponent<Animator>().SetTrigger("DD");
+        }
+        if (lockable)
+        {
+            locked = true;
         }
     }
     void Update()
@@ -35,9 +40,10 @@ public class OpenDoor : MonoBehaviour
             {
                 this.gameObject.GetComponent<Animator>().SetTrigger("Corner");
                 done = true;
+                isDanger = false;
             }
         }
-        if (lockbreaker != null || locked)
+        if (lockable)
         {
             if (lockbreaker == null || (locked && lockbreaker.GetComponent<PressurePlate>().active))
             {

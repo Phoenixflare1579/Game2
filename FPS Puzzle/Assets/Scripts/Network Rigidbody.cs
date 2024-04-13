@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class NetworkRigidbody : NetworkComponent
 {
     public float threshhold = 0.1f;
-    public float ethreshhold = 0.5f;
+    public float ethreshhold = 3f;
     public Vector3 LastPosition;
     public Vector3 LastRotation;
     public Vector3 LastVelocity;
