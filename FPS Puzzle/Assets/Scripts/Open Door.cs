@@ -15,10 +15,14 @@ public class OpenDoor : MonoBehaviour
 
     private void Start()
     {
-        this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+        
         if (isDanger)
         {
            this.gameObject.GetComponent<Animator>().SetTrigger("DD");
+        }
+        else
+        {
+            this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
         }
         if (lockable)
         {

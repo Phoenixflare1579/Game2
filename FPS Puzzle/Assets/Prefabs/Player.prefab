@@ -2669,7 +2669,7 @@ Transform:
   - {fileID: 8580179262290448226}
   - {fileID: 2039622414578136092}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7464942279635297711
 BoxCollider:
@@ -2690,7 +2690,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.6, y: 6.5, z: 1}
+  m_Size: {x: 1.8, y: 6.5, z: 1}
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!65 &688093327264780964
 BoxCollider:
@@ -2711,7 +2711,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.6, y: 6.5, z: 1}
+  m_Size: {x: 1.8, y: 6.5, z: 1}
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &993759577493015896
 MonoBehaviour:

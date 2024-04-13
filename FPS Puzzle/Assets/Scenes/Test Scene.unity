@@ -3221,6 +3221,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1321232043102858541, guid: 598a9eba38ed5b645953e1a059cf036c, type: 3}
+      propertyPath: lockable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321232043102858541, guid: 598a9eba38ed5b645953e1a059cf036c, type: 3}
       propertyPath: lockbreaker
       value: 
       objectReference: {fileID: 2045156712}
@@ -12666,7 +12670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5927831385620948194, guid: 184070adb9b061e498e533eafa811394, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5927831385620948194, guid: 184070adb9b061e498e533eafa811394, type: 3}
       propertyPath: m_LocalPosition.x

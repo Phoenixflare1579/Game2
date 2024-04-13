@@ -72,12 +72,12 @@ public class PlayerControls : NetworkComponent
             if(crouch)
             {
                 GetComponent<BoxCollider>().center = new Vector3(0, -1f, 0);
-                GetComponent<BoxCollider>().size = new Vector3(2.6f, 4f, 1.5f);
+                GetComponent<BoxCollider>().size = new Vector3(1.8f, 4f, 1.5f);
             }
             else
             {
                 GetComponent<BoxCollider>().center = new Vector3(0, 0.2f, 0);
-                GetComponent<BoxCollider>().size = new Vector3(2.6f, 6.5f, 1f);
+                GetComponent<BoxCollider>().size = new Vector3(1.8f, 6.5f, 1f);
             }
         }
         if (flag == "Jump")
