@@ -445,7 +445,7 @@ public class PlayerControls : NetworkComponent
             transform.localRotation = xQuat;
             if (!jump)
             { 
-                RaycastHit[] hit2 = Physics.RaycastAll(transform.position, -transform.up, 1.5f);
+                RaycastHit[] hit2 = Physics.RaycastAll(transform.position, -transform.up, 1.6f);
                 foreach(RaycastHit h in hit2)
                 {
                     if (h.transform.gameObject != this.gameObject)
