@@ -32,6 +32,7 @@ public class PlayerControls : NetworkComponent
     RaycastHit[] hit;
     public Animator animator;
     Ray ray;
+    public GameObject PauseMenu;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -275,12 +276,22 @@ public class PlayerControls : NetworkComponent
     }
     public void Menu(InputAction.CallbackContext c)
     {
-        if (c.started || c.performed)
+        if (c.started)
         {
             if (IsLocalPlayer)
             {
                 menu = !menu;
+                PauseMenu.SetActive(menu);
             }
+        }
+    }
+
+    public void ResumeBtn()
+    {
+        if (IsLocalPlayer)
+        {
+            menu = !menu;
+            PauseMenu.SetActive(menu);
         }
     }
 
@@ -543,7 +554,7 @@ public class PlayerControls : NetworkComponent
         get { return sensitivity; }
         set { sensitivity = value; }
     }
-    [Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
+    [Range(0.1f, 10f)][SerializeField] float sensitivity = 2f;
     [Tooltip("Limits vertical camera rotation. Prevents the flipping that happens when rotation goes above 90.")]
     [Range(0f, 75f)][SerializeField] float yRotationLimit = 72f;
 

@@ -208,6 +208,13 @@ public class PlayerInfo : Info
             }
         }
     }
+    public void RespawnBtn()
+    {
+        if (IsLocalPlayer)
+        {
+            SendCommand("HP", 0.ToString());
+        }
+    }
     private void OnTriggerStay(Collider other)
     {
         if (IsServer)
