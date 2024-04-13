@@ -117,9 +117,15 @@ public class PlayerControls : NetworkComponent
             {
                 if (equipped.name.Contains("gun"))
                 {
-                    string[] args = value.Split(',');
-                    Vector3 forward = NetworkCore.Vector3FromString(value);
-                    MyCore.NetCreateObject(0, MyId.Owner, forward, Quaternion.identity);
+                    Debug.Log(value);
+
+                    string[] args = value.Split('|');
+                    Debug.Log(args[0]);
+                    Debug.Log(args[1]);
+                    Vector3 forward = NetworkCore.Vector3FromString(args[0]);
+                    Quaternion Brot = QuaternionFromString(args[1]);
+
+                    MyCore.NetCreateObject(0, MyId.Owner, forward, Brot);
                     SendUpdate("Fire", string.Empty);
                 }
                 else if (equipped.name.Contains("sword"))
@@ -203,7 +209,12 @@ public class PlayerControls : NetworkComponent
             }
         }
     }
-
+    public static Quaternion QuaternionFromString(string v)
+    {
+        string raw = v.Trim('(').Trim(')');
+        string[] args = raw.Split(',');
+        return new Quaternion(float.Parse(args[0].Trim()), float.Parse(args[1].Trim()), float.Parse(args[2].Trim()), float.Parse(args[3].Trim()));
+    }
     public void Move(InputAction.CallbackContext c)
     {
         if (c.started || c.performed)
@@ -303,7 +314,7 @@ public class PlayerControls : NetworkComponent
                 }
                 else
                 {
-                    SendCommand("Fire", (rb.transform.forward + rb.transform.position).ToString());
+                    SendCommand("Fire", (rb.transform.forward + rb.transform.position).ToString() + "|" + rb.transform.rotation.ToString());
                 }
             }
             
