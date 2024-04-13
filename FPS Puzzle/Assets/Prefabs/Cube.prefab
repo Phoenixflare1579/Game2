@@ -123,7 +123,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2953666262558479450}
-  m_Material: {fileID: 13400000, guid: 54ae852a917d3a74e8f85d7940819ecf, type: 2}
+  m_Material: {fileID: 13400000, guid: 2be099eb0d793eb46abe10ec9201aa4c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -181,3 +181,4 @@ MonoBehaviour:
   LastAngVelocity: {x: 0, y: 0, z: 0}
   useAdapt: 0
   adaptVelocity: {x: 0, y: 0, z: 0}
+  equipped: 0
