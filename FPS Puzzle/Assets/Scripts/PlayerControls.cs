@@ -374,8 +374,7 @@ public class PlayerControls : NetworkComponent
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity;
 
-
-        e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 3f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().position = rb.transform.forward * 2;
         e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 0.5f, ForceMode.Impulse);
 
         
