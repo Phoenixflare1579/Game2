@@ -360,7 +360,7 @@ public class PlayerControls : NetworkComponent
         {
             if (IsClient)
             {
-                animator.SetTrigger("Cube");
+                animator.SetBool("Cube", true);
             }
             e.transform.localRotation = Quaternion.Euler(new Vector3(90f,0,0));
         }
@@ -381,7 +381,13 @@ public class PlayerControls : NetworkComponent
     {
         e.transform.SetParent(null);
         equipped = null;
-        
+        if (e.name.Contains("cube"))
+        {
+            if (IsClient)
+            {
+                animator.SetBool("Cube", false);
+            }
+        }
         e.GetComponent<Rigidbody>().useGravity = true;
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity.normalized * 5;
