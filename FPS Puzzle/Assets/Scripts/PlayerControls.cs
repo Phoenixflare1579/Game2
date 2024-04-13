@@ -118,7 +118,8 @@ public class PlayerControls : NetworkComponent
                 if (equipped.name.Contains("gun"))
                 {
                     string[] args = value.Split(',');
-                    MyCore.NetCreateObject(0, MyId.Owner, transform.forward + LastPosition * 2, Quaternion.identity);
+                    Vector3 forward = NetworkCore.Vector3FromString(value);
+                    MyCore.NetCreateObject(0, MyId.Owner, forward, Quaternion.identity);
                     SendUpdate("Fire", string.Empty);
                 }
                 else if (equipped.name.Contains("sword"))
@@ -302,7 +303,7 @@ public class PlayerControls : NetworkComponent
                 }
                 else
                 {
-                    SendCommand("Fire", ray.GetPoint(0.5f).ToString() + "," + ray.direction.ToString());
+                    SendCommand("Fire", (rb.transform.forward + rb.transform.position).ToString());
                 }
             }
             
