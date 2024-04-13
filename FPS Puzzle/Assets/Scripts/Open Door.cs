@@ -31,7 +31,7 @@ public class OpenDoor : MonoBehaviour
                     broken = true;
                 }
             }
-            if (Time.timeScale >= 15 && broken)
+            if (Time.timeScale >= 10 && broken)
             {
                 this.gameObject.GetComponent<Animator>().SetTrigger("Corner");
                 done = true;
