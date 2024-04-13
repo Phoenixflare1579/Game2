@@ -334,7 +334,7 @@ public class PlayerControls : NetworkComponent
         e.transform.SetParent(equipslot.transform);
 
         equipped = e;
-
+        e.GetComponent<Rigidbody>().velocity = Vector3.zero;
         if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
         {
             if (IsClient)
@@ -372,11 +372,11 @@ public class PlayerControls : NetworkComponent
         
         e.GetComponent<Rigidbody>().useGravity = true;
 
-        e.GetComponent<Rigidbody>().velocity = rb.velocity;
+        e.GetComponent<Rigidbody>().velocity = rb.velocity.normalized * 5;
 
-        e.GetComponent<Rigidbody>().position = ray.direction;
-        e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 0.5f, ForceMode.Impulse);
-        e.GetComponent<Rigidbody>().AddForce(ray.direction * 2.5f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().transform.position += rb.transform.forward.normalized * 2f;
+        e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 15.5f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 20f, ForceMode.Impulse);
 
         e.GetComponent<Collider>().enabled = true;
     }
@@ -445,7 +445,7 @@ public class PlayerControls : NetworkComponent
             transform.localRotation = xQuat;
             if (!jump)
             { 
-                RaycastHit[] hit2 = Physics.RaycastAll(transform.position, -transform.up, 1.6f);
+                RaycastHit[] hit2 = Physics.RaycastAll(transform.position, -transform.up, 1.53f);
                 foreach(RaycastHit h in hit2)
                 {
                     if (h.transform.gameObject != this.gameObject)
