@@ -374,10 +374,10 @@ public class PlayerControls : NetworkComponent
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity;
 
-        e.GetComponent<Rigidbody>().position = rb.transform.forward * 2;
+        e.GetComponent<Rigidbody>().position = ray.direction;
         e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 0.5f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().AddForce(ray.direction * 2.5f, ForceMode.Impulse);
 
-        
         e.GetComponent<Collider>().enabled = true;
     }
 

@@ -41,6 +41,8 @@ public class OpenDoor : MonoBehaviour
         {
             if (lockbreaker == null || (locked && lockbreaker.GetComponent<PressurePlate>().active))
             {
+                open = true;
+                this.gameObject.GetComponent<Animator>().SetTrigger(type);
                 locked = false;
             }
             else if ((!locked && !lockbreaker.GetComponent<PressurePlate>().active) || lockbreaker.name.Contains("target"))
