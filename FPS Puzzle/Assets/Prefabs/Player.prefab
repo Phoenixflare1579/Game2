@@ -2669,7 +2669,7 @@ Transform:
   - {fileID: 8580179262290448226}
   - {fileID: 2039622414578136092}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7464942279635297711
 BoxCollider:
@@ -2933,7 +2933,19 @@ MonoBehaviour:
     m_ActionId: ea6b8836-cb02-4f7a-9517-c437673c30c4
     m_ActionName: Player/New action
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 686877716311836755}
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
+        m_MethodName: Menu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8b30d8fa-b9de-49f8-9b98-f47098f3a5c9
     m_ActionName: Player/Open Menu[/Keyboard/escape]
   - m_PersistentCalls:

@@ -14,7 +14,8 @@ public class OpenDoor : MonoBehaviour
 
     private void Start()
     {
-        if(isDanger)
+        this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+        if (isDanger)
         {
            this.gameObject.GetComponent<Animator>().SetTrigger("DD");
         }
@@ -45,6 +46,8 @@ public class OpenDoor : MonoBehaviour
             else if ((!locked && !lockbreaker.GetComponent<PressurePlate>().active) || lockbreaker.name.Contains("target"))
             {
                 locked = true;
+                open = false;
+                this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
             }
         }
     }
@@ -59,15 +62,8 @@ public class OpenDoor : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && !open && !isDanger && !locked)
         {
-            StartCoroutine(Wait());
+            open = true;
             this.gameObject.GetComponent<Animator>().SetTrigger(type);
         }
-    }
-    public IEnumerator Wait()
-    {
-        open = true;
-        yield return new WaitForSeconds(5);
-        this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
-        open = false;
     }
 }
