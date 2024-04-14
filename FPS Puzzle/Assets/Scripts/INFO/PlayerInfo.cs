@@ -134,7 +134,7 @@ public class PlayerInfo : Info
         {
             if (IsServer)
             {
-                if (this.transform.position.y < -350)
+                if (this.transform.position.y < -250f)
                 {
                     HP = 0;
                     SendUpdate("HP", HP.ToString());
@@ -153,18 +153,20 @@ public class PlayerInfo : Info
                 if (IsServer)
                 {
                     Dead = true;
-                    this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 3, 3);
+                    SendUpdate("HP", HP.ToString());
+                    GetComponent<Rigidbody>().transform.position = Respawn.transform.position + new Vector3(0, 3, 0);
                 }
                 if (IsClient)
                 {
                     Dead = true;
-                    DeathCount++;
-                    this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().enabled = false;
+                    GetComponent<Rigidbody>().transform.position = Respawn.transform.position + new Vector3(0, 3, 0);
                 }
                 if (IsLocalPlayer)
                 {
                     Dead = true;
-                    GetComponent<PlayerControls>().enabled = false;
+                    DeathCount++;
+                    GetComponent<PlayerInput>().enabled = false;
                 }
                 respawn = true;
                 foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
@@ -173,10 +175,10 @@ public class PlayerInfo : Info
                         respawn = false;
                     }            
             }
-            if (respawn && Dead)
+            if (respawn)
             {
                 StartCoroutine(Timer());
-                Dead = false;
+                respawn = false;
             }
             yield return new WaitForSecondsRealtime(0.1f);
         }
@@ -221,7 +223,7 @@ public class PlayerInfo : Info
     }
     public IEnumerator Timer()
     {
-        yield return new WaitForSecondsRealtime(3f);
+        yield return new WaitForSecondsRealtime(5f);
         if (IsServer) 
         {
             HP = MaxHP;
@@ -229,12 +231,13 @@ public class PlayerInfo : Info
         }
         if (IsClient)
         {
-            this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().enabled = true;
         }
         if (IsLocalPlayer)
         {
-            GetComponent<PlayerControls>().enabled = true;
+            GetComponent<PlayerInput>().enabled = true;
         }
+        Dead = false;
     }
     public IEnumerator Kill()
     {

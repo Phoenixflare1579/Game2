@@ -4806,46 +4806,6 @@ MonoBehaviour:
     m_ActionId: ed180786-6e8a-4b30-bf56-05e047a981e4
     m_ActionName: Player/Sprint[/Keyboard/leftShift]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 639e618f-e476-48e8-b381-3fc5d39084e4
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7bcd0ef0-07d9-4dfa-9d8a-e57e843d94b0
-    m_ActionName: UI/Submit[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 3814ff87-4586-4737-a523-1418b91ad028
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8f6eba23-6763-4fa9-be12-6b44807c0e55
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c0c6d6be-1230-4832-a794-9d269c8a517a
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: fadf137c-df60-49fc-83fd-940dcade6c43
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 11703e9f-3760-4d46-9811-3e3d0ee2b08b
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e895c0ae-88ef-4ebc-b2c8-d7a41a3ddc0c
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e7d8c0cc-5d29-459f-bbb5-3cef9809f832
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 48af9ef7-ebf5-4acb-b8a6-932ab67110ad
-    m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 686877716311836755}
         m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
@@ -4988,7 +4948,6 @@ MonoBehaviour:
   canvas: {fileID: 1155991578660591025}
   playerNameDisplay: {fileID: 8897370376283004634}
   DeadZone: 0
-  triggercollider: {fileID: 688093327264780964}
 --- !u!95 &274107040602518345
 Animator:
   serializedVersion: 5
