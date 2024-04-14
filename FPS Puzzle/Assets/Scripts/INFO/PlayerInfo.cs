@@ -23,7 +23,6 @@ public class PlayerInfo : Info
     public TextMeshProUGUI playerNameDisplay;
     public bool DeadZone = false;
     bool respawn = true;
-    public Collider triggercollider;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -154,9 +153,7 @@ public class PlayerInfo : Info
                 if (IsServer)
                 {
                     Dead = true;
-                    HP = MaxHP;
-                    SendUpdate("HP", HP.ToString());
-                    this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 0, 3);
+                    this.gameObject.transform.position = Respawn.transform.position + new Vector3(0, 3, 3);
                 }
                 if (IsClient)
                 {
@@ -168,7 +165,6 @@ public class PlayerInfo : Info
                 {
                     Dead = true;
                     GetComponent<PlayerControls>().enabled = false;
-
                 }
                 respawn = true;
                 foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
@@ -176,9 +172,7 @@ public class PlayerInfo : Info
                     {
                         respawn = false;
                     }            
-                triggercollider.enabled = false;
             }
-
             if (respawn && Dead)
             {
                 StartCoroutine(Timer());
@@ -215,7 +209,7 @@ public class PlayerInfo : Info
             SendCommand("HP", 0.ToString());
         }
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (IsServer)
         {
@@ -228,6 +222,11 @@ public class PlayerInfo : Info
     public IEnumerator Timer()
     {
         yield return new WaitForSecondsRealtime(3f);
+        if (IsServer) 
+        {
+            HP = MaxHP;
+            SendUpdate("HP", HP.ToString());
+        }
         if (IsClient)
         {
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;
@@ -236,7 +235,6 @@ public class PlayerInfo : Info
         {
             GetComponent<PlayerControls>().enabled = true;
         }
-        triggercollider.enabled = false;
     }
     public IEnumerator Kill()
     {

@@ -8,6 +8,7 @@ public class TimeManagement : NetworkComponent
     public GameObject[] players;
     public float temp;
     public bool Start = false;
+    public GameObject Level1;
 
     public override void HandleMessage(string flag, string value)
     {
@@ -48,6 +49,10 @@ public class TimeManagement : NetworkComponent
                     if(Start)
                     {
                         MyCore.NotifyGameStart();
+                        foreach (GameObject p in players)
+                        {
+                            p.transform.position = Level1.transform.position + new Vector3(0, 3, 3);
+                        }
                     }
                 }
                 else if (Start)//Setting time for all the players once everyone has readied up
