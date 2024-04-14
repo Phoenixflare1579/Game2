@@ -11218,6 +11218,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2391195940090444276, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+      propertyPath: m_PlayAutomatically
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7083030239318942671, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_Name
       value: Robot Turret Variant
@@ -11240,19 +11244,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 0.7072302
       objectReference: {fileID: 0}
     - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7069834
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7069834
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11260,7 +11264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7566094469259655541, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

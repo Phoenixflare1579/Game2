@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 public class RobotTurret : NetworkComponent
 {
     public bool open = false;
-    GameObject target;
     int shots;
 
     public override void HandleMessage(string flag, string value)
@@ -27,31 +26,20 @@ public class RobotTurret : NetworkComponent
             if (!open)
             {
                 GetComponent<Collider>().enabled = false;
-                target = null;
-                shots = 0;
+                if (IsServer)
+                {
+                    shots = 0;
+                }
             }
             else
             {
                 GetComponent<Collider>().enabled = true;
-                if (IsServer && target == null && shots <=3)
+                if (IsServer)
                 {
-                    if (GameObject.FindGameObjectWithTag("Player") != null)
+                    if (shots < 3)
                     {
-                        float distance = 100f;
-                        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                        {
-                            if (Vector3.Distance(this.transform.position, p.transform.position) < distance)
-                            {
-                                distance = Vector3.Distance(this.transform.position, p.transform.position);
-                                target = p;
-                            }
-                        }
-                        if (target != null)
-                        {
-                            GameObject temp = MyCore.NetCreateObject(0, Owner, this.transform.position); 
-                            target = null;
-                            shots++;
-                        }
+                        GameObject temp = MyCore.NetCreateObject(0, this.Owner, this.transform.position + this.transform.forward + new Vector3(0,-2f,0), Quaternion.identity);
+                        shots++;
                     }
                 }
             }

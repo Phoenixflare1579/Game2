@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -3502283450537610768}
   m_Layer: 0
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,6 +180,7 @@ MonoBehaviour:
   LastAngVelocity: {x: 0, y: 0, z: 0}
   useAdapt: 0
   adaptVelocity: {x: 0, y: 0, z: 0}
+  equipped: 0
 --- !u!114 &-3502283450537610768
 MonoBehaviour:
   m_ObjectHideFlags: 0
