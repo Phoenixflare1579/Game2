@@ -38,7 +38,7 @@ public class RobotTurret : NetworkComponent
                 {
                     if (shots < 3)
                     {
-                        GameObject temp = MyCore.NetCreateObject(0, this.Owner, this.transform.position + this.transform.forward + new Vector3(0,-2f,0), Quaternion.identity);
+                        MyCore.NetCreateObject(0, this.Owner, this.transform.position + this.transform.forward + new Vector3(0,-2f,0), Quaternion.identity);
                         shots++;
                     }
                 }
