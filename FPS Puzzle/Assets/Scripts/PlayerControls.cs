@@ -135,9 +135,9 @@ public class PlayerControls : NetworkComponent
                     {
                         string[] args = value.Split(',');
                         if (args[0] == "Pr")
-                        { 
-                         //   MyCore.NetObjs[int.Parse(args[1])].gameObject.GetComponent<Rigidbody>().velocity *= -1; needs to attach to sword for a second and then fly in the direction of ray.
-                         //   args[2] is the direction of the raycast
+                        {
+                            MyCore.NetObjs[int.Parse(args[1])].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                            StartCoroutine(Reflect(int.Parse(args[1]), NetworkCore.Vector3FromString(args[2])));
                         }
                         else if (args[0] == "E")
                         {
@@ -545,6 +545,11 @@ public class PlayerControls : NetworkComponent
 
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, this.transform.position + offset, 100 * Time.deltaTime);
         }
+    }
+    public IEnumerator Reflect(int O, Vector3 D)
+    {
+        yield return new WaitForSeconds(0.35f);
+        MyCore.NetObjs[O].gameObject.GetComponent<Rigidbody>().AddForce(D);
     }
 
     public Quaternion xQuat;
