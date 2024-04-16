@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 173
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalScale.x
@@ -30,11 +30,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.87
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -144.38
+      value: -170.47
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3238aae3d8bbbd946baf9ccd9a9d0c96, type: 3}
       propertyPath: m_LocalRotation.w
@@ -163,7 +163,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1.3, z: 0.080660045}
-  m_Center: {x: 0, y: -0.00079825165, z: -1.6143411e-14}
+  m_Center: {x: 0, y: 0.5, z: -1.6143411e-14}
 --- !u!64 &91072107772045571
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -198,4 +198,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a836b8b63fae642a5c1172226d07c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: Corner
+  type: Sides
