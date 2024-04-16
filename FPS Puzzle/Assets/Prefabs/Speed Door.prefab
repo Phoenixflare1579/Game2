@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a836b8b63fae642a5c1172226d07c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
+  type: Sides
   isDanger: 0
   locked: 0
   lockable: 0
