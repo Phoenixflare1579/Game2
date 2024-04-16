@@ -38,10 +38,13 @@ public class RobotTurret : NetworkComponent
                 {
                     if (shots < 3)
                     {
-                        MyCore.NetCreateObject(0, this.Owner, this.transform.position + this.transform.forward + new Vector3(0,-2f,0), Quaternion.identity);
+                        GameObject bullet = MyCore.NetCreateObject(0, this.Owner, this.transform.position - (this.transform.up * 2f), Quaternion.identity);
+                        bullet.GetComponent<Rigidbody>().AddForce(this.transform.position - (this.transform.up) * 140f);
                         shots++;
+                        
                     }
                 }
+                yield return new WaitForSecondsRealtime(0.1f);
             }
             yield return new WaitForSecondsRealtime(0.1f);
         }

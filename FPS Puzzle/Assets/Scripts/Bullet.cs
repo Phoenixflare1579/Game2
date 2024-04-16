@@ -6,7 +6,7 @@ using NETWORK_ENGINE;
 [RequireComponent(typeof(NetworkRigidbody))]
 public class Bullet : NetworkComponent
 {
-    Rigidbody rb;
+
     public override void HandleMessage(string flag, string value)
     {
 
@@ -34,11 +34,7 @@ public class Bullet : NetworkComponent
     }
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        if (IsServer)
-        {
-            rb.velocity = transform.forward * 20f;
-        }
+
     }
     private void OnCollisionEnter(Collision collision)
     {

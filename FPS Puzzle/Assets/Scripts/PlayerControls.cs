@@ -126,7 +126,9 @@ public class PlayerControls : NetworkComponent
                     Vector3 forward = NetworkCore.Vector3FromString(args[0]);
                     Quaternion Brot = QuaternionFromString(args[1]);
 
-                    MyCore.NetCreateObject(0, MyId.Owner, forward, Brot);
+                    GameObject Bullet = MyCore.NetCreateObject(0, MyId.Owner, forward, Brot);
+                    Bullet.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 140);
+                    
                     SendUpdate("Fire", string.Empty);
                 }
                 else if (equipped.name.Contains("sword"))
