@@ -33,6 +33,7 @@ public class PlayerControls : NetworkComponent
     public Animator animator;
     Ray ray;
     public GameObject PauseMenu;
+    public AudioSource[] clips;
     public override void HandleMessage(string flag, string value)
     {
         if (IsServer)
@@ -154,6 +155,7 @@ public class PlayerControls : NetworkComponent
                             temp.GetComponent<PlayerInfo>().SendUpdate("HP", temp.GetComponent<PlayerInfo>().HP.ToString());
                         }
                     }
+                    
                     SendUpdate("Fire", string.Empty);
                 }
             }
@@ -365,7 +367,9 @@ public class PlayerControls : NetworkComponent
             if (IsClient)
             {
                 animator.SetTrigger("Grab");
+                clips[1].Play();
             }
+
             isWeapon = true;
         }
 
@@ -505,6 +509,7 @@ public class PlayerControls : NetworkComponent
             {
                 if (equipped.name.Contains("sword"))
                 {
+                    clips[0].Play();
                     animator.SetTrigger("Slash");
                 }
                 else if (equipped.name.Contains("gun"))

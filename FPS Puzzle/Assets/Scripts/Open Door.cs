@@ -6,24 +6,15 @@ public class OpenDoor : MonoBehaviour
 {
     bool open = false;
     public string type;//Corner,T&B,Sides
-    public bool isDanger;
-    bool broken = false;
-    bool done = false;
     public bool locked;
     public bool lockable;
     public GameObject lockbreaker;
+    AudioSource audio;
 
     private void Start()
-    {
-        
-        if (isDanger)
-        {
-           this.gameObject.GetComponent<Animator>().SetTrigger("DD");
-        }
-        else
-        {
-            this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
-        }
+    { 
+        audio = GetComponent<AudioSource>();
+        this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
         if (lockable)
         {
             locked = true;
@@ -31,51 +22,40 @@ public class OpenDoor : MonoBehaviour
     }
     void Update()
     {
-        if (!done && isDanger)
-        {
-            foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-            {
-                if (Vector3.Distance(p.transform.position, this.gameObject.transform.position) < 25f)
-                {
-                    broken = true;
-                }
-            }
-            if (Time.timeScale >= 10 && broken)
-            {
-                this.gameObject.GetComponent<Animator>().SetTrigger("Corner");
-                done = true;
-                isDanger = false;
-            }
-        }
         if (lockable)
         {
-            if (lockbreaker == null || (locked && lockbreaker.GetComponent<PressurePlate>().active))
+            if (lockbreaker == null)
             {
                 open = true;
                 this.gameObject.GetComponent<Animator>().SetTrigger(type);
-                locked = false;
             }
-            else if ((!locked && !lockbreaker.GetComponent<PressurePlate>().active) || lockbreaker.name.Contains("target"))
+            else if (lockbreaker.name.Contains("p"))
             {
-                locked = true;
-                open = false;
-                this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+                if ((locked && lockbreaker.GetComponent<PressurePlate>().active))
+                {
+                    open = true;
+                    this.gameObject.GetComponent<Animator>().SetTrigger(type);
+                    audio.Play();
+                    locked = false;
+                }
+                else if ((!locked && !lockbreaker.GetComponent<PressurePlate>().active))
+                {
+                    locked = true;
+                    open = false;
+                    this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+                    audio.Play();
+                }
             }
         }
     }
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.tag == "Player" && isDanger)
-            {
-                collision.gameObject.GetComponent<PlayerInfo>().SendCommand("HP", (collision.gameObject.GetComponent<PlayerInfo>().HP - 1).ToString());
-            }
-        }
+        
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !open && !isDanger && !locked)
+        if (other.gameObject.tag == "Player" && !open && !locked)
         {
             open = true;
             this.gameObject.GetComponent<Animator>().SetTrigger(type);
+            audio.Play();
         }
     }
 }

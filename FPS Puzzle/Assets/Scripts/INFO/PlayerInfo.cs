@@ -23,6 +23,8 @@ public class PlayerInfo : Info
     public TextMeshProUGUI playerNameDisplay;
     public bool DeadZone = false;
     bool respawn = true;
+    int volume;
+    public Slider vslider;
     public override void NetworkedStart()
     {
         if (IsServer)
@@ -243,5 +245,12 @@ public class PlayerInfo : Info
     {
         yield return new WaitForSecondsRealtime(10f);
         StartCoroutine(MyCore.DisconnectServer());
+    }
+    public void VolumeChange()
+    {
+        if (IsLocalPlayer)
+        {
+            AudioListener.volume = vslider.value/100;
+        }
     }
 }
