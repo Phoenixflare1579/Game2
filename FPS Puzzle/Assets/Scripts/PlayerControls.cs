@@ -27,7 +27,7 @@ public class PlayerControls : NetworkComponent
     public GameObject equipped;
     public bool isWeapon = false;
     bool crouch = false;
-    bool attack;
+    public bool attack = false;
     public GameObject equipslot;
     RaycastHit[] hit;
     public Animator animator;
@@ -132,7 +132,7 @@ public class PlayerControls : NetworkComponent
                     
                     SendUpdate("Fire", string.Empty);
                 }
-                else if (equipped.name.Contains("sword"))
+                else if (equipped.name.Contains("Sword"))
                 {
                     if (value != string.Empty)
                     {
@@ -155,7 +155,6 @@ public class PlayerControls : NetworkComponent
                             temp.GetComponent<PlayerInfo>().SendUpdate("HP", temp.GetComponent<PlayerInfo>().HP.ToString());
                         }
                     }
-                    
                     SendUpdate("Fire", string.Empty);
                 }
             }
@@ -305,7 +304,7 @@ public class PlayerControls : NetworkComponent
         {
             if (IsLocalPlayer)
             {
-                if(equipped.name.Contains("sword"))
+                if(equipped.name.Contains("Sword"))
                 {
                     foreach (RaycastHit h in hit)
                     {
@@ -362,24 +361,21 @@ public class PlayerControls : NetworkComponent
 
         equipped = e;
         e.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        if (equipped.name.Contains("gun") || equipped.name.Contains("sword"))
+        if (equipped.name.Contains("gun") || equipped.name.Contains("Sword"))
         {
             if (IsClient)
             {
                 animator.SetTrigger("Grab");
                 clips[1].Play();
             }
-
             isWeapon = true;
         }
-
-        if (equipped.name.Contains("cube"))
+        else
         {
             if (IsClient)
             {
                 animator.SetBool("Cube", true);
             }
-            e.transform.localRotation = Quaternion.Euler(new Vector3(90f,0,0));
         }
 
         e.transform.localPosition = Vector3.zero;
@@ -496,7 +492,6 @@ public class PlayerControls : NetworkComponent
         {
             rb.velocity = LastVelocity;
             rb.transform.localRotation = xQuat;
-            animator.SetBool("Crouch", crouch);
             if (rb.velocity.x + rb.velocity.z != animator.GetFloat("SpeedH"))
             {
                 animator.SetFloat("SpeedH", rb.velocity.x + rb.velocity.z);
@@ -507,10 +502,10 @@ public class PlayerControls : NetworkComponent
             }
             if (attack)
             {
-                if (equipped.name.Contains("sword"))
+                if (equipped.name.Contains("Sword"))
                 {
-                    clips[0].Play();
                     animator.SetTrigger("Slash");
+                    clips[0].Play();
                 }
                 else if (equipped.name.Contains("gun"))
                 {

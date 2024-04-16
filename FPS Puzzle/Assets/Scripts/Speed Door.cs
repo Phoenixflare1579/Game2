@@ -6,10 +6,10 @@ public class SpeedDoor : MonoBehaviour
 {
     bool open = false;
     public string type;//Corner,T&B,Sides;
-    AudioSource audio;
+    AudioSource audioc;
     private void Start()
     {
-        audio = GetComponent<AudioSource>();
+        audioc = GetComponent<AudioSource>();
         this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
     }
     private void OnTriggerStay(Collider other)
@@ -20,7 +20,7 @@ public class SpeedDoor : MonoBehaviour
             {
                 open = true;
                 this.gameObject.GetComponent<Animator>().SetTrigger(type);
-                audio.Play();
+                audioc.Play();
             }
         }
         else
@@ -29,7 +29,7 @@ public class SpeedDoor : MonoBehaviour
             {
                 open = false;
                 this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
-                audio.Play();
+                audioc.Play();
             }
         }
     }

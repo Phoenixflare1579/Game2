@@ -9,11 +9,11 @@ public class OpenDoor : MonoBehaviour
     public bool locked;
     public bool lockable;
     public GameObject lockbreaker;
-    AudioSource audio;
+    AudioSource audioc;
 
     private void Start()
     { 
-        audio = GetComponent<AudioSource>();
+        audioc = GetComponent<AudioSource>();
         this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
         if (lockable)
         {
@@ -35,7 +35,7 @@ public class OpenDoor : MonoBehaviour
                 {
                     open = true;
                     this.gameObject.GetComponent<Animator>().SetTrigger(type);
-                    audio.Play();
+                    audioc.Play();
                     locked = false;
                 }
                 else if ((!locked && !lockbreaker.GetComponent<PressurePlate>().active))
@@ -43,7 +43,7 @@ public class OpenDoor : MonoBehaviour
                     locked = true;
                     open = false;
                     this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
-                    audio.Play();
+                    audioc.Play();
                 }
             }
         }
@@ -55,7 +55,7 @@ public class OpenDoor : MonoBehaviour
         {
             open = true;
             this.gameObject.GetComponent<Animator>().SetTrigger(type);
-            audio.Play();
+            GetComponent<AudioSource>().Play();
         }
     }
 }

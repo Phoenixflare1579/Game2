@@ -5,11 +5,11 @@ using UnityEngine.InputSystem;
 
 public class DangerDoor : MonoBehaviour
 {
-    AudioSource audio;
+    AudioSource audioc;
     // Start is called before the first frame update
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        audioc = GetComponent<AudioSource>();
         this.gameObject.GetComponent<Animator>().SetTrigger("DD");
     }
 
@@ -25,7 +25,7 @@ public class DangerDoor : MonoBehaviour
         if (other.gameObject.tag == "Player" && Time.timeScale >= 10f)
         {
             this.gameObject.GetComponent<Animator>().SetTrigger("Corner");
-            audio.loop = false;
+            audioc.loop = false;
 
         }
     }
