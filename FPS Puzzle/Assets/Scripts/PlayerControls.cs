@@ -575,4 +575,8 @@ public class PlayerControls : NetworkComponent
     {
         Cursor.lockState = CursorLockMode.None;
     }
+    public void Quit()
+    {
+        MyCore.Disconnect(MyId.NetId);
+    }
 }

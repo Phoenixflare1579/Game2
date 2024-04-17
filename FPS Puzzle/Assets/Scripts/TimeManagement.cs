@@ -17,6 +17,10 @@ public class TimeManagement : NetworkComponent
             if(IsClient)
             {
                 Time.timeScale = float.Parse(value);
+                foreach(AudioSource s in GameObject.FindObjectsOfType(typeof(AudioSource)))
+                {
+                    s.pitch = Time.timeScale;
+                }
             }
         }
     }

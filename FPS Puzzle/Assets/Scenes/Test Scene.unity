@@ -4225,7 +4225,7 @@ MonoBehaviour:
   - {fileID: 2588630303909729917, guid: 184070adb9b061e498e533eafa811394, type: 3}
   - {fileID: 7572352782126813892, guid: 3b1a2d0a780849d4a92578a51f4cb42d, type: 3}
   - {fileID: 299, guid: cf72bfced01ed3d4797d5fe259b27865, type: 3}
-  - {fileID: 993759577493015896, guid: bafb42e699aa94f44861722a211ab625, type: 3}
+  - {fileID: 7009765959112551066, guid: bafb42e699aa94f44861722a211ab625, type: 3}
   - {fileID: 6762410468412621753, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
   - {fileID: 2995720519265560594, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
   NetworkPlayerManager: {fileID: 5986224602182991777, guid: 2efd8bab0c58ad2468d6ab017f244f5b, type: 3}
@@ -16177,6 +16177,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: 
         m_MethodName: UI_StartClient
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1189570552}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

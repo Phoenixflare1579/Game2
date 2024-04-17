@@ -250,7 +250,8 @@ public class PlayerInfo : Info
     {
         if (IsLocalPlayer)
         {
-            AudioListener.volume = vslider.value/100;
+            AudioListener.volume = vslider.value/100f;
+            
         }
     }
 }
