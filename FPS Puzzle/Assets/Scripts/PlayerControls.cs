@@ -128,7 +128,7 @@ public class PlayerControls : NetworkComponent
                     Quaternion Brot = QuaternionFromString(args[1]);
 
                     GameObject Bullet = MyCore.NetCreateObject(0, MyId.Owner, forward, Brot);
-                    Bullet.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 140);
+                    Bullet.GetComponent<Rigidbody>().AddForce(Bullet.transform.forward * 140);
                     
                     SendUpdate("Fire", string.Empty);
                 }
@@ -328,7 +328,7 @@ public class PlayerControls : NetworkComponent
                 }
                 else
                 {
-                    SendCommand("Fire", (rb.transform.forward + rb.transform.position).ToString() + "|" + rb.transform.rotation.ToString());
+                    SendCommand("Fire", (Camera.main.transform.forward + Camera.main.transform.position).ToString() + "|" + Camera.main.transform.rotation.ToString());
                 }
             }
             
