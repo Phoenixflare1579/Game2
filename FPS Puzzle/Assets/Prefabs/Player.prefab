@@ -4206,12 +4206,14 @@ MonoBehaviour:
   jump: 1
   equipped: {fileID: 0}
   isWeapon: 0
+  attack: 0
   equipslot: {fileID: 2340671791970877964}
   animator: {fileID: 0}
   PauseMenu: {fileID: 2821651159094908287}
   clips:
   - {fileID: 427161889360783382}
   - {fileID: 4222246288355408262}
+  head: {fileID: 8699389802450874287}
   xQuat: {x: 0, y: 0, z: 0, w: 0}
   yQuat: {x: 0, y: 0, z: 0, w: 0}
   sensitivity: 2

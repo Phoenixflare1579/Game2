@@ -225,7 +225,7 @@ public class PlayerInfo : Info
     }
     public IEnumerator Timer()
     {
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(3f);
         if (IsServer) 
         {
             HP = MaxHP;
