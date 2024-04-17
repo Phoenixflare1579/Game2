@@ -31,15 +31,9 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void LANConnect()
-    {
-        //Load Lan Scene;
-        SceneManager.LoadScene(2);
-    }
-
     public void TestSceneLoad()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
 
     public void QuitMe()
