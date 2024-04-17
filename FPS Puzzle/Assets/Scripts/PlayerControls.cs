@@ -394,20 +394,18 @@ public class PlayerControls : NetworkComponent
     {
         e.transform.SetParent(null);
         equipped = null;
-        if (e.name.Contains("cube"))
+        if (IsClient)
         {
-            if (IsClient)
-            {
-                animator.SetBool("Cube", false);
-            }
+            animator.SetBool("Cube", false);
         }
+
         e.GetComponent<Rigidbody>().useGravity = true;
 
         e.GetComponent<Rigidbody>().velocity = rb.velocity.normalized * 5;
 
         e.GetComponent<Rigidbody>().transform.position += rb.transform.forward.normalized * 2f;
-        e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 15.5f, ForceMode.Impulse);
-        e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 20f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().AddForce(rb.transform.up * 6f, ForceMode.Impulse);
+        e.GetComponent<Rigidbody>().AddForce(rb.transform.forward * 10f, ForceMode.Impulse);
 
         e.GetComponent<Collider>().enabled = true;
     }
@@ -496,9 +494,13 @@ public class PlayerControls : NetworkComponent
             {
                 animator.SetFloat("SpeedH", rb.velocity.x + rb.velocity.z);
             }
-            if (rb.velocity.y != animator.GetFloat("SpeedV"))
+            if ((rb.velocity.y >= 5f && animator.GetFloat("SpeedV") < 5f) || (rb.velocity.y <5f && animator.GetFloat("SpeedV")>=5f))
             {
                 animator.SetFloat("SpeedV", rb.velocity.y);
+            }
+            if (animator.GetBool("Crouch") != crouch)
+            {
+                animator.SetBool("Crouch", crouch);
             }
             if (attack)
             {
@@ -533,7 +535,7 @@ public class PlayerControls : NetworkComponent
             }
             else
             {
-                offset = new Vector3(0, 1f, 0);
+                offset = new Vector3(0, 1.2f, 0);
             }
             rotation.x += Input.GetAxis(xAxis) * sensitivity;
             rotation.y += Input.GetAxis(yAxis) * sensitivity;
