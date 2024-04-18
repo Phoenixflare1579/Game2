@@ -34,11 +34,11 @@ public class MovingEnemyNavmesh : NetworkComponent
                 if (DeadZone)
                 {
                     tag = "Enemy";
-                    GetComponent<Animator>().SetTrigger("Cube");
+                    GetComponent<Animator>().SetBool("Cube", true);
                     if (target != null)
                     {
                         myAgent.SetDestination(target.transform.position);
-                        myAgent.speed = 12f;
+                        myAgent.speed = 15f;
                     }
                 }
                 else if (Vector3.Distance(myAgent.transform.position, myAgent.destination) <= 2f)

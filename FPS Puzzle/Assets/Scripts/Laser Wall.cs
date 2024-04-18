@@ -25,5 +25,13 @@ public class LaserWall : MonoBehaviour
             this.GetComponent<Animator>().SetTrigger("Close");
             open = false;
         }
+        if(open)
+        {
+            this.GetComponent<Collider>().enabled = false;
+        }
+        else
+        {
+            this.GetComponent<Collider>().enabled = true;
+        }
     }
 }

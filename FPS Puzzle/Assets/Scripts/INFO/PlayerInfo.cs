@@ -156,19 +156,17 @@ public class PlayerInfo : Info
                 {
                     Dead = true;
                     SendUpdate("HP", HP.ToString());
-                    GetComponent<Rigidbody>().transform.position = Respawn.transform.position + new Vector3(0, 3, 0);
                 }
                 if (IsClient)
                 {
                     Dead = true;
                     transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().enabled = false;
-                    GetComponent<Rigidbody>().transform.position = Respawn.transform.position + new Vector3(0, 3, 0);
                 }
                 if (IsLocalPlayer)
                 {
                     Dead = true;
                     DeathCount++;
-                    GetComponent<PlayerInput>().enabled = false;
+                    GetComponent<PlayerInput>().DeactivateInput();
                 }
                 respawn = true;
                 foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
@@ -230,6 +228,7 @@ public class PlayerInfo : Info
         {
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
+            GetComponent<Rigidbody>().position = Respawn.transform.position + new Vector3(0, 5f, 0);
         }
         if (IsClient)
         {
@@ -237,7 +236,7 @@ public class PlayerInfo : Info
         }
         if (IsLocalPlayer)
         {
-            GetComponent<PlayerInput>().enabled = true;
+            GetComponent<PlayerInput>().ActivateInput();
         }
         Dead = false;
     }

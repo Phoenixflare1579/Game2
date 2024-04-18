@@ -55,7 +55,7 @@ public class TimeManagement : NetworkComponent
                         MyCore.NotifyGameStart();
                         foreach (GameObject p in players)
                         {
-                            p.transform.position = Level1.transform.position + new Vector3(0, 3f, 0);
+                            p.GetComponent<Rigidbody>().position = Level1.transform.position + new Vector3(0,5f,0);
                         }
                     }
                 }
