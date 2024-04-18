@@ -7,13 +7,12 @@ using UnityEngine.EventSystems;
 public class NetworkRigidbody : NetworkComponent
 {
     public float threshhold = 0.1f;
-    public float ethreshhold = 3f;
+    public float ethreshhold = 5f;
     public Vector3 LastPosition;
     public Vector3 LastRotation;
     public Vector3 LastVelocity;
     public Vector3 LastAngVelocity;
     Rigidbody rb;
-    public bool useAdapt = false;
     public Vector3 adaptVelocity;
     public bool equipped;
 
@@ -42,11 +41,7 @@ public class NetworkRigidbody : NetworkComponent
         {
             if (IsClient)
             {
-                LastVelocity = NetworkCore.Vector3FromString(value);
-                if (useAdapt)
-                {
-                    LastAngVelocity = adaptVelocity;
-                }
+                LastVelocity = NetworkCore.Vector3FromString(value) + adaptVelocity;
             }
         }
         if (flag == "AVel")
@@ -61,7 +56,7 @@ public class NetworkRigidbody : NetworkComponent
             if (IsClient)
             {
                 LastRotation = NetworkCore.Vector3FromString(value);
-                if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold && useAdapt)
+                if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold)
                 {
                     rb.rotation = Quaternion.Euler(LastRotation);
                 }
