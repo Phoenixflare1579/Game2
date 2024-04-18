@@ -12,7 +12,7 @@ public class DeadZone : MonoBehaviour
         }
         if (other.gameObject.tag == "Android")
         {
-            other.GetComponent<PlayerInfo>().DeadZone = true;
+            other.GetComponent<MovingEnemyNavmesh>().DeadZone = true;
         }
     }
     private void OnTriggerExit(Collider other)

@@ -152,6 +152,7 @@ public class PlayerInfo : Info
             }
             if (HP <= 0 && !Dead)
             {
+                
                 if (IsServer)
                 {
                     Dead = true;
@@ -161,6 +162,10 @@ public class PlayerInfo : Info
                 {
                     Dead = true;
                     transform.GetChild(3).GetComponent<SkinnedMeshRenderer>().enabled = false;
+                    if (GetComponent<PlayerControls>().equipped != null)
+                    {
+                        GetComponent<PlayerControls>().SendCommand("Drop", string.Empty);
+                    }
                 }
                 if (IsLocalPlayer)
                 {
@@ -170,7 +175,7 @@ public class PlayerInfo : Info
                 }
                 respawn = true;
                 foreach(GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                    if (p.GetComponent<PlayerInfo>().DeadZone)
+                    if (p.GetComponent<PlayerInfo>().DeadZone && p != this.gameObject)
                     {
                         respawn = false;
                     }            
@@ -226,9 +231,9 @@ public class PlayerInfo : Info
         yield return new WaitForSecondsRealtime(3f);
         if (IsServer) 
         {
+            GetComponent<Rigidbody>().position = Respawn.transform.position + new Vector3(0, 5f, 0);
             HP = MaxHP;
             SendUpdate("HP", HP.ToString());
-            GetComponent<Rigidbody>().position = Respawn.transform.position + new Vector3(0, 5f, 0);
         }
         if (IsClient)
         {

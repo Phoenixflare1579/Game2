@@ -119,11 +119,7 @@ public class PlayerControls : NetworkComponent
             {
                 if (equipped.name.Contains("gun"))
                 {
-                    Debug.Log(value);
-
                     string[] args = value.Split('|');
-                    Debug.Log(args[0]);
-                    Debug.Log(args[1]);
                     Vector3 forward = NetworkCore.Vector3FromString(args[0]);
                     Quaternion Brot = QuaternionFromString(args[1]);
 
@@ -137,18 +133,13 @@ public class PlayerControls : NetworkComponent
                     if (value != string.Empty)
                     {
                         string[] args = value.Split(',');
-                        if (args[0] == "Pr")
-                        {
-                            MyCore.NetObjs[int.Parse(args[1])].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                            StartCoroutine(Reflect(int.Parse(args[1]), NetworkCore.Vector3FromString(args[2])));
-                        }
-                        else if (args[0] == "E")
+                        if (args[0] == "E")
                         {
                             GameObject temp = MyCore.NetObjs[int.Parse(args[1])].gameObject;
                             temp.GetComponent<EnemyInfo>().HP -= 1;
                             temp.GetComponent<EnemyInfo>().SendUpdate("HP", temp.GetComponent<EnemyInfo>().HP.ToString());
                         }
-                        else if (args[0] == "Pl")
+                        else if (args[0] == "P")
                         {
                             GameObject temp = MyCore.NetObjs[int.Parse(args[1])].gameObject;
                             temp.GetComponent<PlayerInfo>().HP -= 1;
@@ -308,19 +299,14 @@ public class PlayerControls : NetworkComponent
                 {
                     foreach (RaycastHit h in hit)
                     {
-                        if(h.transform.gameObject.tag == "Projectile")
-                        {
-                            SendCommand("Fire", "Pr" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString() + "," + ray.direction);
-                            break;
-                        }
-                        else if (h.transform.gameObject.tag == "Android" || h.transform.gameObject.tag == "Enemy") 
+                        if (h.transform.gameObject.tag == "Android" || h.transform.gameObject.tag == "Enemy") 
                         {
                             SendCommand("Fire", "E" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
                             break;
                         }
                         else if (h.transform.gameObject.tag == "Player")
                         {
-                            SendCommand("Fire", "Pl" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
+                            SendCommand("Fire", "P" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
                             break;
                         }
                     }

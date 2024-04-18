@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NETWORK_ENGINE;
 
-public class Target : MonoBehaviour
+public class Target : NetworkComponent
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +19,24 @@ public class Target : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Projectile")
+        if (collision.gameObject.tag == "Projectile" && IsServer)
         {
-            Destroy(this.gameObject);
+            MyCore.NetDestroyObject(NetId);
         }
+    }
+
+    public override IEnumerator SlowUpdate()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+    }
+
+    public override void HandleMessage(string flag, string value)
+    {
+
+    }
+
+    public override void NetworkedStart()
+    {
+
     }
 }
