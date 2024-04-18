@@ -23,6 +23,8 @@ public class RobotTurret : NetworkComponent
     {
         while (IsConnected)
         {
+            if (GameObject.FindGameObjectsWithTag("Player").Length >= 3)
+            { 
             if (!open)
             {
                 GetComponent<Collider>().enabled = false;
@@ -41,10 +43,11 @@ public class RobotTurret : NetworkComponent
                         GameObject bullet = MyCore.NetCreateObject(0, this.Owner, this.transform.position - (this.transform.up * 2f), Quaternion.identity);
                         bullet.GetComponent<Rigidbody>().AddForce(this.transform.position - (this.transform.up) * 140f);
                         shots++;
-                        
+
                     }
                 }
                 yield return new WaitForSecondsRealtime(0.1f);
+            }
             }
             yield return new WaitForSecondsRealtime(0.1f);
         }

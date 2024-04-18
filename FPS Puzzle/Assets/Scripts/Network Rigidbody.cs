@@ -13,6 +13,7 @@ public class NetworkRigidbody : NetworkComponent
     public Vector3 LastVelocity;
     public Vector3 LastAngVelocity;
     Rigidbody rb;
+    public bool useAdapt = false;
     public Vector3 adaptVelocity;
     public bool equipped;
 
@@ -41,7 +42,11 @@ public class NetworkRigidbody : NetworkComponent
         {
             if (IsClient)
             {
-                LastVelocity = NetworkCore.Vector3FromString(value) + adaptVelocity;
+                LastVelocity = NetworkCore.Vector3FromString(value);
+                if (useAdapt)
+                {
+                    LastAngVelocity = adaptVelocity;
+                }
             }
         }
         if (flag == "AVel")
@@ -56,7 +61,7 @@ public class NetworkRigidbody : NetworkComponent
             if (IsClient)
             {
                 LastRotation = NetworkCore.Vector3FromString(value);
-                if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold)
+                if ((LastRotation - rb.rotation.eulerAngles).magnitude > ethreshhold && useAdapt)
                 {
                     rb.rotation = Quaternion.Euler(LastRotation);
                 }
