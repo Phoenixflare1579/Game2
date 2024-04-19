@@ -439,7 +439,7 @@ public class PlayerControls : NetworkComponent
             {
                 animator.SetFloat("SpeedH", rb.velocity.x + rb.velocity.z);
             }
-            if ((rb.velocity.y >= 5f && animator.GetFloat("SpeedV") < 5f) || (rb.velocity.y <5f && animator.GetFloat("SpeedV")>=5f))
+            if ((Math.Abs(rb.velocity.y) >= 3f && animator.GetFloat("SpeedV") < 3f) || (Math.Abs(rb.velocity.y) <3f && animator.GetFloat("SpeedV")>=3f))
             {
                 animator.SetFloat("SpeedV", rb.velocity.y);
             }
