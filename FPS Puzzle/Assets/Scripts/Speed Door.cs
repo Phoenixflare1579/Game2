@@ -14,25 +14,16 @@ public class SpeedDoor : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player" && Time.timeScale >= 1f)
+        if (other.gameObject.tag == "Player" && Time.timeScale >= 0.8f)
         {
-            if (!open)
-            {
-                open = true;
-                this.gameObject.GetComponent<Animator>().SetTrigger(type);
-                GetComponent<MeshCollider>().enabled = false;
-                audioc.Play();
-            }
+             this.gameObject.GetComponent<Animator>().SetTrigger(type);
+             audioc.Play();
         }
         else
         {
-            if (open)
-            {
-                open = false;
-                this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
-                GetComponent<MeshCollider>().enabled = true;
-                audioc.Play();
-            }
+             open = false;
+             this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+             audioc.Play();
         }
     }
 }

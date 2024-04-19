@@ -2874,10 +2874,10 @@ MonoBehaviour:
   DeathCount: 0
   End: 0
   endcard:
-  - {fileID: 1669979647020981166, guid: 9f5fc694aaa22a548970e7943c98d3d8, type: 3}
-  - {fileID: 4041084621696437443, guid: 9f5fc694aaa22a548970e7943c98d3d8, type: 3}
-  - {fileID: 4927458351834955081, guid: 9f5fc694aaa22a548970e7943c98d3d8, type: 3}
-  - {fileID: 876465866203083646, guid: 9f5fc694aaa22a548970e7943c98d3d8, type: 3}
+  - {fileID: 6144530516271964480}
+  - {fileID: 606139805359329850}
+  - {fileID: 4843414505165432372}
+  - {fileID: 3830665772912117782}
   PName: Test
   PColor: 0
   canvas: {fileID: 164091618362436880}
