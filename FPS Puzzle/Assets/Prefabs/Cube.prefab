@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3971421244903049184}
   - component: {fileID: 5323454216062285633}
   - component: {fileID: 5815388264179477477}
-  - component: {fileID: 2925427109116103727}
   - component: {fileID: 2588630303909729917}
   - component: {fileID: 7874509624403292293}
+  - component: {fileID: 2694418210661460766}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Equippable
@@ -35,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &3971421244903049184
 MeshFilter:
@@ -116,28 +116,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!64 &2925427109116103727
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2953666262558479450}
-  m_Material: {fileID: 13400000, guid: 2be099eb0d793eb46abe10ec9201aa4c, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: bafa3958d8c0fac42952dd1be77e8f7e, type: 3}
 --- !u!114 &2588630303909729917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,3 +160,24 @@ MonoBehaviour:
   useAdapt: 0
   adaptVelocity: {x: 0, y: 0, z: 0}
   equipped: 0
+--- !u!65 &2694418210661460766
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2953666262558479450}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6666667, y: 2.6666675, z: 2.6666675}
+  m_Center: {x: 0, y: 0, z: 0}

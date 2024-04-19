@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NETWORK_ENGINE;
 
-public class Target : NetworkComponent
+public class Target : MonoBehaviour
 {
     public bool hit = false;
     // Start is called before the first frame update
@@ -22,46 +22,8 @@ public class Target : NetworkComponent
         if (collision.gameObject.tag == "Projectile")
         {
             hit = true;
-            if (IsServer)
-            {
-                SendUpdate("A", hit.ToString());
-            }
+            GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<MeshCollider>().enabled = false;
         }
-    }
-
-    public override IEnumerator SlowUpdate()
-    {
-        while (IsConnected)
-        {
-            if (IsServer)
-            {
-                if (IsDirty)
-                {
-                    SendUpdate("A", hit.ToString());
-                    IsDirty = false;
-                }
-            }
-            yield return new WaitForSecondsRealtime(0.1f);
-        }
-    }
-
-    public override void HandleMessage(string flag, string value)
-    {
-        if(flag == "A") 
-        {
-            if (IsClient)
-            {
-                hit = bool.Parse(value);
-                if (hit)
-                {
-                    GetComponent<MeshRenderer>().enabled = false;
-                }
-            }
-        }
-    }
-
-    public override void NetworkedStart()
-    {
-
     }
 }

@@ -12,7 +12,7 @@ public class PlayerControls : NetworkComponent
 {
     Vector2 LastInput;
     public float threshhold = 0.1f;
-    public float ethreshhold = 12f;
+    public float ethreshhold = 5f;
     public Vector3 LastPosition;
     public Vector3 LastRotation;
     public Vector3 LastVelocity;
