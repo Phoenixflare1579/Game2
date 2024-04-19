@@ -94,17 +94,17 @@ public class LobbyManager2 : NetworkCore
     public IEnumerator SlowAgentStart()
     {
 
-        Debug.Log("Attempting to connect to public IP.");
+        
         IP = publicIPAddress;
         yield return StartCoroutine(StartClient());
         if (!IsConnected)
         {
-            Debug.Log("Attempting to connect to private IP.");
+
             IP = privateIPAddress;
             yield return StartCoroutine(StartClient());
             if (!IsConnected)
             {
-                Debug.Log("Attempting to connec to local host.");
+
                 IP = "127.0.0.1";
                 yield return StartCoroutine(StartClient());
                 if (!IsConnected)

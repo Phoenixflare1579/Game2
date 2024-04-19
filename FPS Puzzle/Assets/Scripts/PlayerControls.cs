@@ -128,26 +128,6 @@ public class PlayerControls : NetworkComponent
                     
                     SendUpdate("Fire", string.Empty);
                 }
-                else if (equipped.name.Contains("Sword"))
-                {
-                    if (value != string.Empty)
-                    {
-                        string[] args = value.Split(',');
-                        if (args[0] == "E")
-                        {
-                            GameObject temp = MyCore.NetObjs[int.Parse(args[1])].gameObject;
-                            temp.GetComponent<EnemyInfo>().HP -= 1;
-                            temp.GetComponent<EnemyInfo>().SendUpdate("HP", temp.GetComponent<EnemyInfo>().HP.ToString());
-                        }
-                        else if (args[0] == "P")
-                        {
-                            GameObject temp = MyCore.NetObjs[int.Parse(args[1])].gameObject;
-                            temp.GetComponent<PlayerInfo>().HP -= 1;
-                            temp.GetComponent<PlayerInfo>().SendUpdate("HP", temp.GetComponent<PlayerInfo>().HP.ToString());
-                        }
-                    }
-                    SendUpdate("Fire", string.Empty);
-                }
             }
             if(IsClient)
             {
@@ -295,29 +275,8 @@ public class PlayerControls : NetworkComponent
         {
             if (IsLocalPlayer)
             {
-                if(equipped.name.Contains("Sword"))
-                {
-                    foreach (RaycastHit h in hit)
-                    {
-                        if (h.transform.gameObject.tag == "Android" || h.transform.gameObject.tag == "Enemy") 
-                        {
-                            SendCommand("Fire", "E" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
-                            break;
-                        }
-                        else if (h.transform.gameObject.tag == "Player")
-                        {
-                            SendCommand("Fire", "P" + "," + h.transform.gameObject.GetComponent<NetworkID>().NetId.ToString());
-                            break;
-                        }
-                    }
-                    SendCommand("Fire", string.Empty);
-                }
-                else
-                {
                     SendCommand("Fire", (Camera.main.transform.forward + Camera.main.transform.position).ToString() + "|" + Camera.main.transform.rotation.ToString());
-                }
-            }
-            
+            } 
         }
     }
     public void Grab(InputAction.CallbackContext c)
@@ -347,7 +306,7 @@ public class PlayerControls : NetworkComponent
 
         equipped = e;
         e.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        if (equipped.name.Contains("gun") || equipped.name.Contains("Sword"))
+        if (equipped.name.Contains("gun"))
         {
             if (IsClient)
             {
@@ -476,7 +435,7 @@ public class PlayerControls : NetworkComponent
         {
             rb.velocity = LastVelocity;
             rb.transform.localRotation = xQuat;
-            if (rb.velocity.x + rb.velocity.z != animator.GetFloat("SpeedH"))
+            if ((rb.velocity.x + rb.velocity.z < 10f && animator.GetFloat("SpeedH") > 10f)||((rb.velocity.x + rb.velocity.z > 10f && animator.GetFloat("SpeedH") < 10f)))
             {
                 animator.SetFloat("SpeedH", rb.velocity.x + rb.velocity.z);
             }
@@ -490,12 +449,7 @@ public class PlayerControls : NetworkComponent
             }
             if (attack)
             {
-                if (equipped.name.Contains("Sword"))
-                {
-                    animator.SetTrigger("Slash");
-                    clips[0].Play();
-                }
-                else if (equipped.name.Contains("gun"))
+                if (equipped.name.Contains("gun"))
                 {
                     animator.SetTrigger("Shoot");
                 }

@@ -24,10 +24,15 @@ public class OpenDoor : MonoBehaviour
     {
         if (lockable)
         {
-            if (lockbreaker == null)
+            if (lockbreaker.GetComponent<Target>() != null)
             {
-                open = true;
-                this.gameObject.GetComponent<Animator>().SetTrigger(type);
+                if ((locked && lockbreaker.GetComponent<Target>().hit))
+                {
+                    open = true;
+                    this.gameObject.GetComponent<Animator>().SetTrigger(type);
+                    audioc.Play();
+                    locked = false;
+                }
             }
             else if (lockbreaker.GetComponent<PressurePlate>() != null)
             {

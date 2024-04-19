@@ -5,7 +5,7 @@ using NETWORK_ENGINE;
 
 public class Target : NetworkComponent
 {
-
+    public bool hit = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,18 +21,40 @@ public class Target : NetworkComponent
     {
         if (collision.gameObject.tag == "Projectile" && IsServer)
         {
-            MyCore.NetDestroyObject(NetId);
+            hit = true;
+            SendUpdate("A", hit.ToString());
         }
     }
 
     public override IEnumerator SlowUpdate()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        while (IsConnected)
+        {
+            if (IsServer)
+            {
+                if (IsDirty)
+                {
+                    SendUpdate("A", hit.ToString());
+                    IsDirty = false;
+                }
+            }
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
     }
 
     public override void HandleMessage(string flag, string value)
     {
-
+        if(flag == "A") 
+        {
+            if (IsClient)
+            {
+                hit = bool.Parse(value);
+                if (hit)
+                {
+                    GetComponent<MeshRenderer>().enabled = false;
+                }
+            }
+        }
     }
 
     public override void NetworkedStart()

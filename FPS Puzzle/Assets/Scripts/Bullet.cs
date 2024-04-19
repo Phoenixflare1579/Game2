@@ -45,7 +45,7 @@ public class Bullet : NetworkComponent
     }
     public IEnumerator TTD()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(35f);
         MyCore.NetDestroyObject(MyId.NetId);
     }
 }

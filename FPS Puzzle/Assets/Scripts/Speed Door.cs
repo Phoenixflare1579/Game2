@@ -20,6 +20,7 @@ public class SpeedDoor : MonoBehaviour
             {
                 open = true;
                 this.gameObject.GetComponent<Animator>().SetTrigger(type);
+                GetComponent<MeshCollider>().enabled = false;
                 audioc.Play();
             }
         }
@@ -29,6 +30,7 @@ public class SpeedDoor : MonoBehaviour
             {
                 open = false;
                 this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
+                GetComponent<MeshCollider>().enabled = true;
                 audioc.Play();
             }
         }

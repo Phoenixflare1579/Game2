@@ -59,7 +59,7 @@ public class TimeManagement : NetworkComponent
                         }
                     }
                 }
-                else if (Start)//Setting time for all the players once everyone has readied up
+                else if (Start)
                 {
                     temp = players[0].gameObject.GetComponent<Rigidbody>().velocity.magnitude;
                     foreach (GameObject p in players)
@@ -72,24 +72,28 @@ public class TimeManagement : NetworkComponent
                             }
                         }
                     }
-                    if (temp > 1f)
+                    if (temp / 10.0f != Time.timeScale)
                     {
-                        if (temp <= 500.0f)
+                        if (temp > 1f)
                         {
-                            Time.timeScale = temp / 10.0f;
+                            if (temp <= 500.0f)
+                            {
+                                Time.timeScale = temp / 10.0f;
+                            }
+                            else
+                            {
+                                Time.timeScale = 500.0f / 10.0f;
+                            }
                         }
                         else
                         {
-                            Time.timeScale = 500.0f / 10.0f;
+                            temp = 1;
+                            Time.timeScale = temp / 10.0f;
                         }
-                    }
-                    else
-                    {
-                        temp = 1;
-                        Time.timeScale = temp / 10.0f;
+                        SendUpdate("Time", Time.timeScale.ToString());
                     }
                 }
-                SendUpdate("Time", Time.timeScale.ToString());//Sending time to the client
+               //Sending time to the client
                 if (IsDirty)
                 {
                     SendUpdate("Time", Time.timeScale.ToString());
