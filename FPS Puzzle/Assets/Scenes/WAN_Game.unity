@@ -1532,7 +1532,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 378318156}
   m_Direction: 2
   m_Value: -0.000000115868254
-  m_Size: 0.34847948
+  m_Size: 0.3500199
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20633,7 +20633,6 @@ MonoBehaviour:
   - {fileID: 6762410468412621753, guid: db478495c5bdfc447a74c7654d4f3fe5, type: 3}
   - {fileID: 7009765959112551066, guid: bafb42e699aa94f44861722a211ab625, type: 3}
   - {fileID: 2995720519265560594, guid: 8ee3b6c1f84ae9a40a6f977e259e87ca, type: 3}
-  - {fileID: 5421451667445902944, guid: c0ad0ce1b443dd945b5f8c994b317d76, type: 3}
   NetworkPlayerManager: {fileID: 5986224602182991777, guid: 2efd8bab0c58ad2468d6ab017f244f5b, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &2124650040
@@ -20685,7 +20684,7 @@ MonoBehaviour:
   SpawnPrefab: []
   NetworkPlayerManager: {fileID: 7124888953299117985, guid: aa91568026d4b66408ee390ed8c99ee3, type: 3}
   DefaultReturnScene: 0
-  publicIPAddress: 127.0.0.1
+  publicIPAddress: 23.128.112.72
   privateIPAddress: 127.0.0.1
   portMininimum: 9001
   portMaxinimum: 10000
