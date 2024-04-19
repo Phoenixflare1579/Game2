@@ -69,10 +69,10 @@ public class MovingEnemyNavmesh : NetworkComponent
         {
             if (GameObject.FindGameObjectWithTag("Player") != null)
             {
-                float distance = 100f;
+                float distance = 10f;
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    if (Vector3.Distance(this.transform.position, p.transform.position) < distance)
+                    if (Vector3.Distance(this.transform.position, p.transform.position) < distance && p.GetComponent<PlayerInfo>().DeadZone)
                     {
                         distance = Vector3.Distance(this.transform.position, p.transform.position);
                         target = p;

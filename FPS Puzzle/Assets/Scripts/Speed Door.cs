@@ -14,12 +14,13 @@ public class SpeedDoor : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player" && Time.timeScale >= 0.8f)
+        if (other.gameObject.tag == "Player" && Time.timeScale >= 0.8f && !open)
         {
+             open = true;
              this.gameObject.GetComponent<Animator>().SetTrigger(type);
              audioc.Play();
         }
-        else
+        else if (other.gameObject.tag == "Player" && Time.timeScale < 0.8f && open)
         {
              open = false;
              this.gameObject.GetComponent<Animator>().SetTrigger(type + " Close");
