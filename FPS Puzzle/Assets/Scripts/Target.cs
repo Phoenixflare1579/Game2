@@ -19,10 +19,13 @@ public class Target : NetworkComponent
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Projectile" && IsServer)
+        if (collision.gameObject.tag == "Projectile")
         {
             hit = true;
-            SendUpdate("A", hit.ToString());
+            if (IsServer)
+            {
+                SendUpdate("A", hit.ToString());
+            }
         }
     }
 
